@@ -10,4 +10,17 @@ use Behat\Behat\Context\Context;
 class PostContext implements Context
 {
 
+    public function __construct()
+    {
+
+    }
+
+    /**
+     * @Given I have :n elements
+     */
+    public function iHaveNElements($n)
+    {
+        
+    }
+
 }
