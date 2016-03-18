@@ -1,0 +1,8 @@
+# @MajoraGenerator({"include_routing": {"target": "../routing.yml"}})
+# @MajoraGenerator({"include_routing": {"route": "majora_vendor_majora_entity_sdk"}})
+# @MajoraGenerator({"include_routing": {"resource": "routing/majora_entity.yml"}})
+# @MajoraGenerator({"include_routing": {"prefix": "/majora_entitys"}})
+
+# generated routes
+auto_majora_vendor_majora_entity_sdk:
+    resource: "@MajoraVendorMajoraNamespaceSdkBundle/Resources/config/routing/auto/auto_majora_entity.yml"

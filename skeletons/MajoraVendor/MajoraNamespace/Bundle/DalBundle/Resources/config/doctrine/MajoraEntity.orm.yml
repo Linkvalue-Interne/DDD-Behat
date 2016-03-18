@@ -1,0 +1,58 @@
+# @MajoraGenerator({"register_doctrine_em": {"target": "/config/config.yml"}})
+# @MajoraGenerator({"register_doctrine_em": {"em": "default"}})
+# @MajoraGenerator({"register_doctrine_em": {"prefix": "MajoraVendor\\MajoraNamespace\\Component\\Entity"}})
+# @MajoraGenerator({"register_doctrine_em": {"bundle": "MajoraVendorMajoraNamespaceDalBundle"}})
+# @MajoraGenerator({"register_doctrine_em": {"alias": "MajoraVendorMajoraNamespace"}})
+
+MajoraVendor\MajoraNamespace\Component\Entity\MajoraEntity:
+    type: entity
+    repositoryClass: MajoraVendor\MajoraNamespace\Component\Repository\Doctrine\MajoraEntityDoctrineRepository
+    table: majora_vendor_majora_namespace_majora_entity
+    actAs:
+        Timestampable: ~
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+
+        # your other MajoraEntity properties here
+
+        createdAt:
+            type: datetime
+            column: created_at
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            column: updated_at
+            gedmo:
+                timestampable:
+                    on: update
+
+    # manyToOne:
+    #     example:
+    #         targetEntity: Example
+    #         inversedBy: majoraEntitys
+    #         joinColumn:
+    #             name: example_id
+    #             referencedColumnName: id
+
+    # oneToMany:
+    #     examples:
+    #         targetEntity: Example
+    #         mappedBy: majoraEntity
+    #         cascade: ['persist', 'remove']
+
+    # manyToMany:
+    #     examples:
+    #         targetEntity: Example
+    #         joinTable:
+    #             name: majora_vendor_majora_namespace_majora_entity_example
+    #             joinColumns:
+    #                 majora_entity_id:
+    #                     referencedColumnName: id
+    #             inverseJoinColumns:
+    #                 example_id:
+    #                     referencedColumnName: id

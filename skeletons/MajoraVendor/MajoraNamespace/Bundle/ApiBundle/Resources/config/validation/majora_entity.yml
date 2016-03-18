@@ -1,0 +1,5 @@
+MajoraVendor\MajoraNamespace\Component\Entity\MajoraEntity:
+    properties: ~
+        # example:
+        #     - NotBlank:
+        #         groups: [creation]

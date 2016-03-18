@@ -1,0 +1,95 @@
+<?xml version="1.0" ?>
+
+<!-- @MajoraGenerator({"force_generation": true}) -->
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <!-- MajoraEntity Api Client -->
+        <service id="majora_vendor.majora_entity.api_client" public="false"
+            class="Majora\Framework\Api\Client\RestApiClient"
+        >
+            <argument type="service" id="majora.http.client" />
+            <argument type="service">
+                <service class="Majora\Framework\Api\Request\RestApiRequestFactory"
+                    parent="majora.http.abstract_request_factory"
+                >
+                    <call method="registerRouteMapping">
+                        <argument type="collection">
+                            <argument key="cget">majora_vendor_api_majora_entity_collection</argument>
+                            <argument key="post">majora_vendor_api_majora_entity_create</argument>
+                            <argument key="get">majora_vendor_api_majora_entity_read</argument>
+                            <argument key="put">majora_vendor_api_majora_entity_update</argument>
+                            <argument key="delete">majora_vendor_api_majora_entity_delete</argument>
+                        </argument>
+                    </call>
+                </service>
+            </argument>
+        </service>
+
+        <!-- MajoraEntity Api Loader -->
+        <service id="majora_vendor.majora_entity.api_loader"
+            class="MajoraVendor\MajoraNamespace\Component\Loader\Api\MajoraEntityApiLoader"
+            parent="majora.loader.abstract" public="false" lazy="true"
+        >
+            <argument type="service" id="majora_vendor.majora_entity.api_client" />
+            <argument type="service" id="majora.serializer" />
+            <tag name="majora.loader"
+                entityClass="MajoraVendor\MajoraNamespace\Component\Entity\MajoraEntity"
+                entityCollection="MajoraVendor\MajoraNamespace\Component\Entity\MajoraEntityCollection"
+            />
+        </service>
+        <service id="majora_vendor.majora_entity.loader" alias="majora_vendor.majora_entity.api_loader" />
+
+        <!-- MajoraEntity abstract api action -->
+        <service id="majora_vendor.majora_entity.abstract_api_action" parent="majora.domain.abstract_api_action" abstract="true"
+            class="MajoraVendor\MajoraNamespace\Component\Action\Api\MajoraEntity\AbstractApiAction"
+        >
+            <call method="setRestApiClient"><argument type="service" id="majora_vendor.majora_entity.api_client" /></call>
+        </service>
+
+        <!-- MajoraEntity Api creation action -->
+        <service id="majora_vendor.majora_entity.api_creation_action"
+            parent="majora_vendor.majora_entity.abstract_api_action" public="false"
+            class="MajoraVendor\MajoraNamespace\Component\Action\Api\MajoraEntity\CreateAction"
+        >
+            <tag name="majora.domain.action" namespace="majora_vendor.majora_entity.api" alias="create" />
+        </service>
+
+        <!-- MajoraEntity Api edition action -->
+        <service id="majora_vendor.majora_entity.api_edition_action"
+            parent="majora_vendor.majora_entity.abstract_api_action" public="false"
+            class="MajoraVendor\MajoraNamespace\Component\Action\Api\MajoraEntity\UpdateAction"
+        >
+            <tag name="majora.domain.action" namespace="majora_vendor.majora_entity.api" alias="update" />
+        </service>
+
+        <!-- MajoraEntity Api deletion action -->
+        <service id="majora_vendor.majora_entity.api_deletion_action"
+            parent="majora_vendor.majora_entity.abstract_api_action" public="false"
+            class="MajoraVendor\MajoraNamespace\Component\Domain\Action\MajoraEntity\Api\DeleteAction"
+        >
+            <tag name="majora.domain.action" namespace="majora_vendor.majora_entity.api" alias="delete" />
+        </service>
+
+        <!-- MajoraEntity Api action factory -->
+        <service id="majora_vendor.majora_entity.api_action_factory" public="false"
+            class="Majora\Framework\Domain\Action\ActionFactory"
+        >
+            <tag name="majora.domain.action_factory" namespace="majora_vendor.majora_entity.api" />
+        </service>
+        <service id="majora_vendor.majora_entity.action_factory" alias="majora_vendor.majora_entity.api_action_factory" />
+
+        <!-- MajoraEntity Domain -->
+        <service id="majora_vendor.majora_entity.domain" public="true"
+            class="MajoraVendor\MajoraNamespace\Component\Domain\Action\MajoraEntityActionDispatcherDomain"
+        >
+            <argument type="service" id="majora_vendor.majora_entity.action_factory" />
+        </service>
+
+    </services>
+
+</container>

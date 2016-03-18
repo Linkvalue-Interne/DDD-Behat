@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+
+<!-- @MajoraGenerator({"force_generation": true}) -->
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <!-- MajoraEntity abstract form -->
+        <service id="majora_vendor.majora_entity.abstract_form" public="false" abstract="true"
+            class="MajoraVendor\MajoraNamespace\Bundle\ApiBundle\Form\MajoraEntity\AbstractType"
+        >
+            <argument type="service" id="majora_vendor.majora_entity.domain" />
+        </service>
+
+        <!-- MajoraEntity creation form -->
+        <service id="majora_vendor.majora_entity.creation_form"
+            class="MajoraVendor\MajoraNamespace\Bundle\ApiBundle\Form\MajoraEntity\CreationType"
+            parent="majora_vendor.majora_entity.abstract_form" public="true"
+        >
+            <tag name="form.type" />
+        </service>
+
+        <!-- MajoraEntity edition form -->
+        <service id="majora_vendor.majora_entity.edition_form"
+            class="MajoraVendor\MajoraNamespace\Bundle\ApiBundle\Form\MajoraEntity\EditionType"
+            parent="majora_vendor.majora_entity.abstract_form" public="true"
+        >
+            <tag name="form.type" />
+        </service>
+
+    </services>
+
+</container>

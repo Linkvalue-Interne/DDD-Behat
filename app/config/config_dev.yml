@@ -32,3 +32,5 @@ monolog:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+majora_generator:
+    skeletons_path: %kernel.root_dir%/../skeletons

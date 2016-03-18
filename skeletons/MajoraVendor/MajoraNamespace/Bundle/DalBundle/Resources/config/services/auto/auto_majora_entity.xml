@@ -1,0 +1,103 @@
+<?xml version="1.0" ?>
+
+<!-- @MajoraGenerator({"force_generation": true}) -->
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <!-- MajoraEntity abstract dal action -->
+        <service id="majora_vendor.majora_entity.abstract_dal_action" parent="majora.domain.abstract_action" abstract="true"
+            class="MajoraVendor\MajoraNamespace\Component\Action\Dal\MajoraEntity\AbstractDalAction"
+        />
+
+        <!-- MajoraEntity Dal creation action -->
+        <service id="majora_vendor.majora_entity.dal_creation_action" public="false"
+            parent="majora_vendor.majora_entity.abstract_dal_action"
+            class="MajoraVendor\MajoraNamespace\Component\Action\Dal\MajoraEntity\CreateAction"
+        >
+            <tag name="majora.domain.action" namespace="majora_vendor.majora_entity.dal" alias="create" />
+        </service>
+
+        <!-- MajoraEntity Dal edition action -->
+        <service id="majora_vendor.majora_entity.dal_edition_action"  public="false"
+            parent="majora_vendor.majora_entity.abstract_dal_action"
+            class="MajoraVendor\MajoraNamespace\Component\Action\Dal\MajoraEntity\UpdateAction"
+        >
+            <tag name="majora.domain.action" namespace="majora_vendor.majora_entity.dal" alias="update" />
+        </service>
+
+        <!-- MajoraEntity Dal deletion action -->
+        <service id="majora_vendor.majora_entity.dal_deletion_action" public="false"
+            parent="majora_vendor.majora_entity.abstract_dal_action"
+            class="MajoraVendor\MajoraNamespace\Component\Action\Dal\MajoraEntity\DeleteAction"
+        >
+            <tag name="majora.domain.action" namespace="majora_vendor.majora_entity.dal" alias="delete" />
+        </service>
+
+        <!-- MajoraEntity Dal action factory -->
+        <service id="majora_vendor.majora_entity.dal_action_factory" public="false"
+            class="Majora\Framework\Domain\Action\ActionFactory"
+        >
+            <tag name="majora.domain.action_factory" namespace="majora_vendor.majora_entity.dal" />
+            <tag name="majora.alias" alias="majora_vendor.majora_entity.action_factory" />
+        </service>
+
+        <!-- MajoraEntity Orm Loader -->
+        <service id="majora_namespace.majora_entity.orm_loader"
+            class="MajoraVendor\MajoraNamespace\Component\Loader\Doctrine\MajoraEntityDoctrineLoader"
+            parent="majora.loader.abstract"
+            public="true" lazy="true"
+        >
+            <tag name="majora.loader"
+                repository="majora_namespace.majora_entity.orm_repository"
+                entityClass="MajoraVendor\MajoraNamespace\Component\Entity\MajoraEntity"
+                entityCollection="MajoraVendor\MajoraNamespace\Component\Entity\MajoraEntityCollection"
+            />
+            <tag name="majora.alias" alias="majora_vendor.majora_entity.loader" />
+        </service>
+
+        <!-- MajoraEntity Orm Repository -->
+        <service id="majora_namespace.majora_entity.orm_repository"
+            class="MajoraVendor\MajoraNamespace\Component\Repository\Doctrine\MajoraEntityDoctrineRepository"
+            parent="majora.doctrine_repository.abstract"
+            public="false"
+        >
+            <factory service="doctrine" method="getRepository" />
+            <argument>MajoraVendorMajoraNamespace:MajoraEntity</argument>
+            <argument>default</argument>
+            <tag name="majora.alias" alias="majora_vendor.majora_entity.repository" />
+        </service>
+
+        <!-- MajoraEntity Graph Loader -->
+        <service id="majora_vendor.majora_entity.graph_loader"
+            class="MajoraVendor\MajoraNamespace\Component\Loader\Graph\MajoraEntityGraphLoader"
+            parent="majora.loader.abstract"
+            public="false" lazy="true"
+        >
+            <tag name="majora.loader"
+                entityClass="Drop\Si\Component\MajoraNamespace\Entity\MajoraEntity"
+                entityCollection="Drop\Si\Component\MajoraNamespace\Entity\MajoraEntityCollection"
+            />
+        </service>
+
+        <!-- MajoraEntity Graph Repository -->
+        <service id="majora_vendor.majora_entity.graph_repository"
+            class="MajoraVendor\MajoraNamespace\Component\Repository\Graph\MajoraEntityGraphRepository"
+            parent="majora.graph_repository.abstract"
+            public="false" lazy="true"
+        />
+
+        <!-- MajoraEntity Persistence Listener -->
+        <service id="majora_vendor.majora_entity.persistence_listener" public="true"
+            class="MajoraVendor\MajoraNamespace\Bundle\DalBundle\Persistence\MajoraEntityPersistenceListener"
+        >
+            <tag name="kernel.event_subscriber" />
+            <argument type="service" id="majora_vendor.majora_entity.repository" />
+        </service>
+
+    </services>
+
+</container>
