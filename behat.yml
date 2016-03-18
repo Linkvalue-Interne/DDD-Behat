@@ -1,0 +1,17 @@
+default:
+    autoload:
+        '': %paths.base%/src
+    extensions:
+        Behat\Symfony2Extension: ~
+        Fidry\AliceBundleExtension\Extension: ~
+    suites:
+        configuration:
+            type: symfony_bundle
+            bundle: AcmeLvApiBundle
+            paths: [ %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features ]
+            contexts:
+                #- Fidry\AliceBundleExtension\Context\Doctrine\AliceORMContext:
+                    #basePath: %paths.base%/src/Acme/Lv/Bundle/ApiBundle/DataFixtures/ORM
+                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostContext:
+                    # guzzle: '@guzzle_client'
+                    # baseUrl: 'http://api.itagyou.dev/app_test.php/configurations/'
