@@ -1,0 +1,6 @@
+# @MajoraGenerator({"include_routing": {"target": "@ApplicationApiAppBundle/Resources/config/routing.yml"}})
+# @MajoraGenerator({"include_routing": {"route": "acme_lv_api"}})
+# @MajoraGenerator({"include_routing": {"resource": "@AcmeLvApiBundle/Resources/config/routing.yml"}})
+
+acme_lv_sdk:
+    resource: "@AcmeLvSdkBundle/Resources/config/routing.yml"

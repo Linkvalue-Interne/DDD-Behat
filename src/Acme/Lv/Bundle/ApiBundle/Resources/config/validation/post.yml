@@ -1,0 +1,5 @@
+Acme\Lv\Component\Entity\Post:
+    properties: ~
+        # example:
+        #     - NotBlank:
+        #         groups: [creation]
