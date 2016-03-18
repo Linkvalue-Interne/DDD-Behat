@@ -2,7 +2,7 @@
 
 namespace MajoraVendor\MajoraNamespace\Bundle\SdkBundle\DependencyInjection;
 
-use Majora\Framework\DependencyInjection\Extension;
+use Majora\Bundle\FrameworkExtraBundle\DependencyInjection\MajoraFrameworkExtraExtension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class MajoraVendorMajoraNamespaceSdkExtension extends Extension
+class MajoraVendorMajoraNamespaceSdkExtension extends MajoraFrameworkExtraExtension
 {
     /**
      * {@inheritdoc}
