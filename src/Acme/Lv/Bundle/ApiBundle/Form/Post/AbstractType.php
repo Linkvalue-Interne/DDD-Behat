@@ -48,5 +48,6 @@ abstract class AbstractType extends BaseAbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add('name');
     }
 }

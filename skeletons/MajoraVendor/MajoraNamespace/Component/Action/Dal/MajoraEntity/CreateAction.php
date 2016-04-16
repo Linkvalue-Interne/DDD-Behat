@@ -5,14 +5,12 @@ namespace MajoraVendor\MajoraNamespace\Component\Action\Dal\MajoraEntity;
 use MajoraVendor\MajoraNamespace\Component\Entity\MajoraEntity;
 use MajoraVendor\MajoraNamespace\Component\Event\MajoraEntityEvent;
 use MajoraVendor\MajoraNamespace\Component\Event\MajoraEntityEvents;
-use Majora\Framework\Domain\Action\DynamicActionTrait;
 
 /**
  * MajoraEntity creation action representation.
  */
 class CreateAction extends AbstractDalAction
 {
-    use DynamicActionTrait;
 
     /**
      * MajoraEntity creation method.

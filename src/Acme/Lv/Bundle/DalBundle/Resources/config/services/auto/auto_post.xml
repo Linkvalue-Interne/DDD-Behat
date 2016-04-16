@@ -78,8 +78,8 @@
             public="false" lazy="true"
         >
             <tag name="majora.loader"
-                entityClass="Drop\Si\Component\Lv\Entity\Post"
-                entityCollection="Drop\Si\Component\Lv\Entity\PostCollection"
+                entityClass="Acme\Lv\Component\Entity\Post"
+                entityCollection="Acme\Lv\Component\Entity\PostCollection"
             />
         </service>
 

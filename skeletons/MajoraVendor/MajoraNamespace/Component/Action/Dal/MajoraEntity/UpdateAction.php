@@ -4,14 +4,12 @@ namespace MajoraVendor\MajoraNamespace\Component\Action\Dal\MajoraEntity;
 
 use MajoraVendor\MajoraNamespace\Component\Event\MajoraEntityEvent;
 use MajoraVendor\MajoraNamespace\Component\Event\MajoraEntityEvents;
-use Majora\Framework\Domain\Action\DynamicActionTrait;
 
 /**
  * MajoraEntity edition action representation.
  */
 class UpdateAction extends AbstractDalAction
 {
-    use DynamicActionTrait;
 
     /**
      * @see ActionInterface::resolve()

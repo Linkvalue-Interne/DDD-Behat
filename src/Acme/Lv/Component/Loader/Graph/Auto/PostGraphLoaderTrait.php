@@ -3,6 +3,7 @@
 namespace Acme\Lv\Component\Loader\Graph\Auto;
 
 use Majora\Framework\Loader\Bridge\Graph\GraphLoaderTrait;
+use Majora\Framework\Loader\LoaderTrait;
 
 /**
  * Post graph loader auto generated trait.
@@ -16,5 +17,5 @@ use Majora\Framework\Loader\Bridge\Graph\GraphLoaderTrait;
  */
 trait PostGraphLoaderTrait
 {
-    use GraphLoaderTrait;
+    use GraphLoaderTrait, LoaderTrait;
 }

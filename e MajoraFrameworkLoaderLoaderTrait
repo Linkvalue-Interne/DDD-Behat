@@ -1,0 +1,1032 @@
+warning: LF will be replaced by CRLF in bin/symfony_requirements.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in var/SymfonyRequirements.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in web/config.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in composer.lock.
+The file will have its original line endings in your working directory.
+[1mdiff --git a/app/AppKernel.php b/app/AppKernel.php[m
+[1mindex 4e19f25..0ebe1c6 100644[m
+[1m--- a/app/AppKernel.php[m
+[1m+++ b/app/AppKernel.php[m
+[36m@@ -14,6 +14,7 @@[m [mclass AppKernel extends Kernel[m
+             new Symfony\Bundle\MonologBundle\MonologBundle(),[m
+             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),[m
+             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),[m
+[32m+[m[32m            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),[m
+             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),[m
+             new Majora\Bundle\FrameworkExtraBundle\MajoraFrameworkExtraBundle($this),[m
+             new Acme\Lv\Bundle\ApiBundle\AcmeLvApiBundle(),[m
+[1mdiff --git a/app/config/config.yml b/app/config/config.yml[m
+[1mindex 3292445..9a67773 100644[m
+[1m--- a/app/config/config.yml[m
+[1m+++ b/app/config/config.yml[m
+[36m@@ -56,8 +56,15 @@[m [mdoctrine:[m
+ [m
+     orm:[m
+         auto_generate_proxy_classes: "%kernel.debug%"[m
+[31m-        naming_strategy: doctrine.orm.naming_strategy.underscore[m
+[31m-        auto_mapping: true[m
+[32m+[m[32m        default_entity_manager: default[m
+[32m+[m[32m        entity_managers:[m
+[32m+[m[32m            default:[m
+[32m+[m[32m                mappings:[m
+[32m+[m[32m                    AcmeLvDalBundle:[m
+[32m+[m[32m                        type: yml[m
+[32m+[m[32m                        dir: Resources/config/doctrine[m
+[32m+[m[32m                        prefix: Acme\Lv\Component\Entity[m
+[32m+[m[32m                        alias: AcmeLv[m
+ [m
+ # Swiftmailer Configuration[m
+ swiftmailer:[m
+[36m@@ -66,3 +73,15 @@[m [mswiftmailer:[m
+     username:  "%mailer_user%"[m
+     password:  "%mailer_password%"[m
+     spool:     { type: memory }[m
+[32m+[m
+[32m+[m[32m# Doctrine behaviors[m
+[32m+[m[32mstof_doctrine_extensions:[m
+[32m+[m[32m    default_locale: %locale%[m
+[32m+[m[32m    orm:[m
+[32m+[m[32m        default:[m
+[32m+[m[32m            timestampable: true[m
+[32m+[m
+[32m+[m[32m# MajoraFrameworkExtraBundle Configuration[m
+[32m+[m[32mmajora_framework_extra:[m
+[32m+[m[32m    json_form_extension:[m
+[32m+[m[32m        enabled: true[m
+[1mdiff --git a/app/config/routing.yml b/app/config/routing.yml[m
+[1mindex 8eadc31..fd22036 100644[m
+[1m--- a/app/config/routing.yml[m
+[1m+++ b/app/config/routing.yml[m
+[36m@@ -1,3 +1,2 @@[m
+ app:[m
+[31m-    resource: "@AppBundle/Controller/"[m
+[31m-    type:     annotation[m
+[32m+[m[32m    resource: "@AcmeLvSdkBundle/Resources/config/routing/auto/auto_post.yml"[m
+\ No newline at end of file[m
+[1mdiff --git a/app/config/services.yml b/app/config/services.yml[m
+[1mindex 5c76fc5..3654b9c 100644[m
+[1m--- a/app/config/services.yml[m
+[1m+++ b/app/config/services.yml[m
+[36m@@ -7,3 +7,6 @@[m [mservices:[m
+ #    service_name:[m
+ #        class: AppBundle\Directory\ClassName[m
+ #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"][m
+[32m+[m[32m    property_accessor:[m
+[32m+[m[32m      class: Symfony\Component\PropertyAccess\PropertyAccessor[m
+[32m+[m[32m      arguments: [true] # enable magic calls[m
+\ No newline at end of file[m
+[1mdiff --git a/composer.json b/composer.json[m
+[1mindex c30e8a1..94a2c46 100644[m
+[1m--- a/composer.json[m
+[1m+++ b/composer.json[m
+[36m@@ -21,7 +21,8 @@[m
+         "sensio/distribution-bundle": "^5.0",[m
+         "sensio/framework-extra-bundle": "^3.0.2",[m
+         "incenteev/composer-parameter-handler": "^2.0",[m
+[31m-        "majora/framework-extra-bundle": "^1.0"[m
+[32m+[m[32m        "stof/doctrine-extensions-bundle": "~1.2",[m
+[32m+[m[32m        "majora/framework-extra-bundle": "dev-master#009352a0694e04ed3b8a30d0fc0b2f81eb67142a"[m
+     },[m
+     "require-dev": {[m
+         "sensio/generator-bundle": "^3.0",[m
+[1mdiff --git a/composer.lock b/composer.lock[m
+[1mindex 1fb1c3e..1bc4eb4 100644[m
+[1m--- a/composer.lock[m
+[1m+++ b/composer.lock[m
+[36m@@ -4,10 +4,50 @@[m
+         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",[m
+         "This file is @generated automatically"[m
+     ],[m
+[31m-    "hash": "c190724344fbef1c441b7f6397bd315d",[m
+[31m-    "content-hash": "3ba39cc97bd932e6776991b8f9f0f028",[m
+[32m+[m[32m    "hash": "c02d405b77e507857521ae632a160e61",[m
+[32m+[m[32m    "content-hash": "2b344a14fc59596d1f0b7a70351076cb",[m
+     "packages": [[m
+         {[m
+[32m+[m[32m            "name": "behat/transliterator",[m
+[32m+[m[32m            "version": "v1.1.0",[m
+[32m+[m[32m            "source": {[m
+[32m+[m[32m                "type": "git",[m
+[32m+[m[32m                "url": "https://github.com/Behat/Transliterator.git",[m
+[32m+[m[32m                "reference": "868e05be3a9f25ba6424c2dd4849567f50715003"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "dist": {[m
+[32m+[m[32m                "type": "zip",[m
+[32m+[m[32m                "url": "https://api.github.com/repos/Behat/Transliterator/zipball/868e05be3a9f25ba6424c2dd4849567f50715003",[m
+[32m+[m[32m                "reference": "868e05be3a9f25ba6424c2dd4849567f50715003",[m
+[32m+[m[32m                "shasum": ""[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "require": {[m
+[32m+[m[32m                "php": ">=5.3.3"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "type": "library",[m
+[32m+[m[32m            "extra": {[m
+[32m+[m[32m                "branch-alias": {[m
+[32m+[m[32m                    "dev-master": "1.1-dev"[m
+[32m+[m[32m                }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "autoload": {[m
+[32m+[m[32m                "psr-0": {[m
+[32m+[m[32m                    "Behat\\Transliterator": "src/"[m
+[32m+[m[32m                }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "notification-url": "https://packagist.org/downloads/",[m
+[32m+[m[32m            "license": [[m
+[32m+[m[32m                "Artistic-1.0"[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "description": "String transliterator",[m
+[32m+[m[32m            "keywords": [[m
+[32m+[m[32m                "i18n",[m
+[32m+[m[32m                "slug",[m
+[32m+[m[32m                "transliterator"[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "time": "2015-09-28 16:26:35"[m
+[32m+[m[32m        },[m
+[32m+[m[32m        {[m
+             "name": "doctrine/annotations",[m
+             "version": "v1.2.7",[m
+             "source": {[m
+[36m@@ -774,6 +814,85 @@[m
+             "time": "2016-01-05 21:34:58"[m
+         },[m
+         {[m
+[32m+[m[32m            "name": "gedmo/doctrine-extensions",[m
+[32m+[m[32m            "version": "v2.4.13",[m
+[32m+[m[32m            "source": {[m
+[32m+[m[32m                "type": "git",[m
+[32m+[m[32m                "url": "https://github.com/Atlantic18/DoctrineExtensions.git",[m
+[32m+[m[32m                "reference": "5f4b6c848f0d6834a434a62a09a0935d147082e1"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "dist": {[m
+[32m+[m[32m                "type": "zip",[m
+[32m+[m[32m                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/5f4b6c848f0d6834a434a62a09a0935d147082e1",[m
+[32m+[m[32m                "reference": "5f4b6c848f0d6834a434a62a09a0935d147082e1",[m
+[32m+[m[32m                "shasum": ""[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "require": {[m
+[32m+[m[32m                "behat/transliterator": "~1.0",[m
+[32m+[m[32m                "doctrine/common": "~2.4",[m
+[32m+[m[32m                "php": ">=5.3.2"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "require-dev": {[m
+[32m+[m[32m                "doctrine/common": ">=2.5.0",[m
+[32m+[m[32m                "doctrine/mongodb-odm": ">=1.0.2",[m
+[32m+[m[32m                "doctrine/orm": ">=2.5.0",[m
+[32m+[m[32m                "phpunit/phpunit": "~4.4",[m
+[32m+[m[32m                "phpunit/phpunit-mock-objects": "~2.3",[m
+[32m+[m[32m                "symfony/yaml": "~2.6"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "suggest": {[m
+[32m+[m[32m                "doctrine/mongodb-odm": "to use the extensions with the MongoDB ODM",[m
+[32m+[m[32m                "doctrine/orm": "to use the extensions with the ORM"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "type": "library",[m
+[32m+[m[32m            "extra": {[m
+[32m+[m[32m                "branch-alias": {[m
+[32m+[m[32m                    "dev-master": "2.4.x-dev"[m
+[32m+[m[32m                }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "autoload": {[m
+[32m+[m[32m                "psr-0": {[m
+[32m+[m[32m                    "Gedmo\\": "lib/"[m
+[32m+[m[32m                }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "notification-url": "https://packagist.org/downloads/",[m
+[32m+[m[32m            "license": [[m
+[32m+[m[32m                "MIT"[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "authors": [[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "name": "David Buchmann",[m
+[32m+[m[32m                    "email": "david@liip.ch"[m
+[32m+[m[32m                },[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "name": "Gediminas Morkevicius",[m
+[32m+[m[32m                    "email": "gediminas.morkevicius@gmail.com"[m
+[32m+[m[32m                },[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "name": "Gustavo Falco",[m
+[32m+[m[32m                    "email": "comfortablynumb84@gmail.com"[m
+[32m+[m[32m                }[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "description": "Doctrine2 behavioral extensions",[m
+[32m+[m[32m            "homepage": "http://gediminasm.org/",[m
+[32m+[m[32m            "keywords": [[m
+[32m+[m[32m                "Blameable",[m
+[32m+[m[32m                "behaviors",[m
+[32m+[m[32m                "doctrine2",[m
+[32m+[m[32m                "extensions",[m
+[32m+[m[32m                "gedmo",[m
+[32m+[m[32m                "loggable",[m
+[32m+[m[32m                "nestedset",[m
+[32m+[m[32m                "sluggable",[m
+[32m+[m[32m                "sortable",[m
+[32m+[m[32m                "timestampable",[m
+[32m+[m[32m                "translatable",[m
+[32m+[m[32m                "tree",[m
+[32m+[m[32m                "uploadable"[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "time": "2016-02-18 15:33:43"[m
+[32m+[m[32m        },[m
+[32m+[m[32m        {[m
+             "name": "incenteev/composer-parameter-handler",[m
+             "version": "v2.1.2",[m
+             "source": {[m
+[36m@@ -876,16 +995,16 @@[m
+         },[m
+         {[m
+             "name": "majora/framework-extra-bundle",[m
+[31m-            "version": "v1.1.2",[m
+[32m+[m[32m            "version": "dev-master",[m
+             "source": {[m
+                 "type": "git",[m
+                 "url": "https://github.com/LinkValue/MajoraFrameworkExtraBundle.git",[m
+[31m-                "reference": "4c11d71512c058f49a87c68a038be49215607691"[m
+[32m+[m[32m                "reference": "009352a0694e04ed3b8a30d0fc0b2f81eb67142a"[m
+             },[m
+             "dist": {[m
+                 "type": "zip",[m
+                 "url": "https://api.github.com/repos/LinkValue/MajoraFrameworkExtraBundle/zipball/4c11d71512c058f49a87c68a038be49215607691",[m
+[31m-                "reference": "4c11d71512c058f49a87c68a038be49215607691",[m
+[32m+[m[32m                "reference": "009352a0694e04ed3b8a30d0fc0b2f81eb67142a",[m
+                 "shasum": ""[m
+             },[m
+             "require": {[m
+[36m@@ -936,20 +1055,20 @@[m
+                 "framework",[m
+                 "symfony"[m
+             ],[m
+[31m-            "time": "2016-03-15 10:00:24"[m
+[32m+[m[32m            "time": "2016-03-01 15:15:40"[m
+         },[m
+         {[m
+             "name": "monolog/monolog",[m
+[31m-            "version": "1.18.1",[m
+[32m+[m[32m            "version": "1.19.0",[m
+             "source": {[m
+                 "type": "git",[m
+                 "url": "https://github.com/Seldaek/monolog.git",[m
+[31m-                "reference": "a5f2734e8c16f3aa21b3da09715d10e15b4d2d45"[m
+[32m+[m[32m                "reference": "5f56ed5212dc509c8dc8caeba2715732abb32dbf"[m
+             },[m
+             "dist": {[m
+                 "type": "zip",[m
+[31m-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/a5f2734e8c16f3aa21b3da09715d10e15b4d2d45",[m
+[31m-                "reference": "a5f2734e8c16f3aa21b3da09715d10e15b4d2d45",[m
+[32m+[m[32m                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/5f56ed5212dc509c8dc8caeba2715732abb32dbf",[m
+[32m+[m[32m                "reference": "5f56ed5212dc509c8dc8caeba2715732abb32dbf",[m
+                 "shasum": ""[m
+             },[m
+             "require": {[m
+[36m@@ -964,13 +1083,13 @@[m
+                 "doctrine/couchdb": "~1.0@dev",[m
+                 "graylog2/gelf-php": "~1.0",[m
+                 "jakub-onderka/php-parallel-lint": "0.9",[m
+[32m+[m[32m                "php-amqplib/php-amqplib": "~2.4",[m
+                 "php-console/php-console": "^3.1.3",[m
+                 "phpunit/phpunit": "~4.5",[m
+                 "phpunit/phpunit-mock-objects": "2.3.0",[m
+                 "raven/raven": "^0.13",[m
+                 "ruflin/elastica": ">=0.90 <3.0",[m
+[31m-                "swiftmailer/swiftmailer": "~5.3",[m
+[31m-                "videlalvaro/php-amqplib": "~2.4"[m
+[32m+[m[32m                "swiftmailer/swiftmailer": "~5.3"[m
+             },[m
+             "suggest": {[m
+                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",[m
+[36m@@ -979,11 +1098,11 @@[m
+                 "ext-mongo": "Allow sending log messages to a MongoDB server",[m
+                 "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",[m
+                 "mongodb/mongodb": "Allow sending log messages to a MongoDB server via PHP Driver",[m
+[32m+[m[32m                "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",[m
+                 "php-console/php-console": "Allow sending log messages to Google Chrome",[m
+                 "raven/raven": "Allow sending log messages to a Sentry server",[m
+                 "rollbar/rollbar": "Allow sending log messages to Rollbar",[m
+[31m-                "ruflin/elastica": "Allow sending log messages to an Elastic Search server",[m
+[31m-                "videlalvaro/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib"[m
+[32m+[m[32m                "ruflin/elastica": "Allow sending log messages to an Elastic Search server"[m
+             },[m
+             "type": "library",[m
+             "extra": {[m
+[36m@@ -1014,20 +1133,20 @@[m
+                 "logging",[m
+                 "psr-3"[m
+             ],[m
+[31m-            "time": "2016-03-13 16:08:35"[m
+[32m+[m[32m            "time": "2016-04-12 18:29:35"[m
+         },[m
+         {[m
+             "name": "paragonie/random_compat",[m
+[31m-            "version": "v1.3.0",[m
+[32m+[m[32m            "version": "v1.4.1",[m
+             "source": {[m
+                 "type": "git",[m
+                 "url": "https://github.com/paragonie/random_compat.git",[m
+[31m-                "reference": "ff76e1a660669bb56ba74ba0583fd8d41417bf39"[m
+[32m+[m[32m                "reference": "c7e26a21ba357863de030f0b9e701c7d04593774"[m
+             },[m
+             "dist": {[m
+                 "type": "zip",[m
+[31m-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/ff76e1a660669bb56ba74ba0583fd8d41417bf39",[m
+[31m-                "reference": "ff76e1a660669bb56ba74ba0583fd8d41417bf39",[m
+[32m+[m[32m                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/c7e26a21ba357863de030f0b9e701c7d04593774",[m
+[32m+[m[32m                "reference": "c7e26a21ba357863de030f0b9e701c7d04593774",[m
+                 "shasum": ""[m
+             },[m
+             "require": {[m
+[36m@@ -1062,7 +1181,7 @@[m
+                 "pseudorandom",[m
+                 "random"[m
+             ],[m
+[31m-            "time": "2016-03-17 16:11:57"[m
+[32m+[m[32m            "time": "2016-03-18 20:34:03"[m
+         },[m
+         {[m
+             "name": "psr/log",[m
+[36m@@ -1156,16 +1275,16 @@[m
+         },[m
+         {[m
+             "name": "sensio/framework-extra-bundle",[m
+[31m-            "version": "v3.0.14",[m
+[32m+[m[32m            "version": "v3.0.16",[m
+             "source": {[m
+                 "type": "git",[m
+                 "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",[m
+[31m-                "reference": "cccf975c565ccd835bddc30a8fea5cdfe3357bf1"[m
+[32m+[m[32m                "reference": "507a15f56fa7699f6cc8c2c7de4080b19ce22546"[m
+             },[m
+             "dist": {[m
+                 "type": "zip",[m
+[31m-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/cccf975c565ccd835bddc30a8fea5cdfe3357bf1",[m
+[31m-                "reference": "cccf975c565ccd835bddc30a8fea5cdfe3357bf1",[m
+[32m+[m[32m                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/507a15f56fa7699f6cc8c2c7de4080b19ce22546",[m
+[32m+[m[32m                "reference": "507a15f56fa7699f6cc8c2c7de4080b19ce22546",[m
+                 "shasum": ""[m
+             },[m
+             "require": {[m
+[36m@@ -1214,7 +1333,7 @@[m
+                 "annotations",[m
+                 "controllers"[m
+             ],[m
+[31m-            "time": "2016-03-01 10:50:07"[m
+[32m+[m[32m            "time": "2016-03-25 17:08:27"[m
+         },[m
+         {[m
+             "name": "sensiolabs/security-checker",[m
+[36m@@ -1261,6 +1380,67 @@[m
+             "time": "2015-11-07 08:07:40"[m
+         },[m
+         {[m
+[32m+[m[32m            "name": "stof/doctrine-extensions-bundle",[m
+[32m+[m[32m            "version": "v1.2.2",[m
+[32m+[m[32m            "source": {[m
+[32m+[m[32m                "type": "git",[m
+[32m+[m[32m                "url": "https://github.com/stof/StofDoctrineExtensionsBundle.git",[m
+[32m+[m[32m                "reference": "4e7499d25dc5d0862da09fa8e336164948a29a25"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "dist": {[m
+[32m+[m[32m                "type": "zip",[m
+[32m+[m[32m                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/4e7499d25dc5d0862da09fa8e336164948a29a25",[m
+[32m+[m[32m                "reference": "4e7499d25dc5d0862da09fa8e336164948a29a25",[m
+[32m+[m[32m                "shasum": ""[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "require": {[m
+[32m+[m[32m                "gedmo/doctrine-extensions": "^2.3.1",[m
+[32m+[m[32m                "php": ">=5.3.2",[m
+[32m+[m[32m                "symfony/framework-bundle": "~2.1|~3.0"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "suggest": {[m
+[32m+[m[32m                "doctrine/doctrine-bundle": "to use the ORM extensions",[m
+[32m+[m[32m                "doctrine/mongodb-odm-bundle": "to use the MongoDB ODM extensions"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "type": "symfony-bundle",[m
+[32m+[m[32m            "extra": {[m
+[32m+[m[32m                "branch-alias": {[m
+[32m+[m[32m                    "dev-master": "1.2.x-dev"[m
+[32m+[m[32m                }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "autoload": {[m
+[32m+[m[32m                "psr-4": {[m
+[32m+[m[32m                    "Stof\\DoctrineExtensionsBundle\\": ""[m
+[32m+[m[32m                }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "notification-url": "https://packagist.org/downloads/",[m
+[32m+[m[32m            "license": [[m
+[32m+[m[32m                "MIT"[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "authors": [[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "name": "Christophe Coevoet",[m
+[32m+[m[32m                    "email": "stof@notk.org"[m
+[32m+[m[32m                }[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "description": "Integration of the gedmo/doctrine-extensions with Symfony2",[m
+[32m+[m[32m            "homepage": "https://github.com/stof/StofDoctrineExtensionsBundle",[m
+[32m+[m[32m            "keywords": [[m
+[32m+[m[32m                "behaviors",[m
+[32m+[m[32m                "doctrine2",[m
+[32m+[m[32m                "extensions",[m
+[32m+[m[32m                "gedmo",[m
+[32m+[m[32m                "loggable",[m
+[32m+[m[32m                "nestedset",[m
+[32m+[m[32m                "sluggable",[m
+[32m+[m[32m                "sortable",[m
+[32m+[m[32m                "timestampable",[m
+[32m+[m[32m                "translatable",[m
+[32m+[m[32m                "tree"[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "time": "2016-01-26 23:58:32"[m
+[32m+[m[32m        },[m
+[32m+[m[32m        {[m
+             "name": "swiftmailer/swiftmailer",[m
+             "version": "v5.4.1",[m
+             "source": {[m
+[36m@@ -1315,20 +1495,20 @@[m
+         },[m
+         {[m
+             "name": "symfony/monolog-bundle",[m
+[31m-            "version": "v2.10.0",[m
+[32m+[m[32m            "version": "2.11.1",[m
+             "source": {[m
+                 "type": "git",[m
+                 "url": "https://github.com/symfony/monolog-bundle.git",[m
+[31m-                "reference": "82fd8f36e2cccbe94faf237403c48052d4d4b77e"[m
+[32m+[m[32m                "reference": "e7caf4936c7be82bc6d68df87f1d23a0d5bf6e00"[m
+             },[m
+             "dist": {[m
+                 "type": "zip",[m
+[31m-                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/82fd8f36e2cccbe94faf237403c48052d4d4b77e",[m
+[31m-                "reference": "82fd8f36e2cccbe94faf237403c48052d4d4b77e",[m
+[32m+[m[32m                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/e7caf4936c7be82bc6d68df87f1d23a0d5bf6e00",[m
+[32m+[m[32m                "reference": "e7caf4936c7be82bc6d68df87f1d23a0d5bf6e00",[m
+                 "shasum": ""[m
+             },[m
+             "require": {[m
+[31m-                "monolog/monolog": "~1.12",[m
+[32m+[m[32m                "monolog/monolog": "~1.18",[m
+                 "php": ">=5.3.2",[m
+                 "symfony/config": "~2.3|~3.0",[m
+                 "symfony/dependency-injection": "~2.3|~3.0",[m
+[36m@@ -1343,7 +1523,7 @@[m
+             "type": "symfony-bundle",[m
+             "extra": {[m
+                 "branch-alias": {[m
+[31m-                    "dev-master": "2.9.x-dev"[m
+[32m+[m[32m                    "dev-master": "2.x-dev"[m
+                 }[m
+             },[m
+             "autoload": {[m
+[36m@@ -1371,7 +1551,7 @@[m
+                 "log",[m
+                 "logging"[m
+             ],[m
+[31m-            "time": "2016-03-13 15:55:56"[m
+[32m+[m[32m            "time": "2016-04-13 16:21:01"[m
+         },[m
+         {[m
+             "name": "symfony/polyfill-intl-icu",[m
+[36m@@ -1716,16 +1896,16 @@[m
+         },[m
+         {[m
+             "name": "symfony/symfony",[m
+[31m-            "version": "v3.0.3",[m
+[32m+[m[32m            "version": "v3.0.4",[m
+             "source": {[m
+                 "type": "git",[m
+                 "url": "https://github.com/symfony/symfony.git",[m
+[31m-                "reference": "09ae53562ce8b7842206efa217ec81442975f055"[m
+[32m+[m[32m                "reference": "4e17cb2ecb3fd637097ebeb871fc0e2cbdd5e7ff"[m
+             },[m
+             "dist": {[m
+                 "type": "zip",[m
+[31m-                "url": "https://api.github.com/repos/symfony/symfony/zipball/09ae53562ce8b7842206efa217ec81442975f055",[m
+[31m-                "reference": "09ae53562ce8b7842206efa217ec81442975f055",[m
+[32m+[m[32m                "url": "https://api.github.com/repos/symfony/symfony/zipball/4e17cb2ecb3fd637097ebeb871fc0e2cbdd5e7ff",[m
+[32m+[m[32m                "reference": "4e17cb2ecb3fd637097ebeb871fc0e2cbdd5e7ff",[m
+                 "shasum": ""[m
+             },[m
+             "require": {[m
+[36m@@ -1808,10 +1988,7 @@[m
+             },[m
+             "autoload": {[m
+                 "psr-4": {[m
+[31m-                    "Symfony\\Bridge\\Doctrine\\": "src/Symfony/Bridge/Doctrine/",[m
+[31m-                    "Symfony\\Bridge\\Monolog\\": "src/Symfony/Bridge/Monolog/",[m
+[31m-                    "Symfony\\Bridge\\ProxyManager\\": "src/Symfony/Bridge/ProxyManager/",[m
+[31m-                    "Symfony\\Bridge\\Twig\\": "src/Symfony/Bridge/Twig/",[m
+[32m+[m[32m                    "Symfony\\Bridge\\": "src/Symfony/Bridge/",[m
+                     "Symfony\\Bundle\\": "src/Symfony/Bundle/",[m
+                     "Symfony\\Component\\": "src/Symfony/Component/"[m
+                 },[m
+[36m@@ -1841,7 +2018,7 @@[m
+             "keywords": [[m
+                 "framework"[m
+             ],[m
+[31m-            "time": "2016-02-28 21:33:29"[m
+[32m+[m[32m            "time": "2016-03-30 10:41:14"[m
+         },[m
+         {[m
+             "name": "twig/twig",[m
+[36m@@ -1912,12 +2089,12 @@[m
+             "source": {[m
+                 "type": "git",[m
+                 "url": "https://github.com/Behat/Behat.git",[m
+[31m-                "reference": "fb3241979bd080ac17f157244e9d6fc84a22bf9d"[m
+[32m+[m[32m                "reference": "56657835a16fa1fcfbd801612c7b8f95ebd7a328"[m
+             },[m
+             "dist": {[m
+                 "type": "zip",[m
+[31m-                "url": "https://api.github.com/repos/Behat/Behat/zipball/fb3241979bd080ac17f157244e9d6fc84a22bf9d",[m
+[31m-                "reference": "fb3241979bd080ac17f157244e9d6fc84a22bf9d",[m
+[32m+[m[32m                "url": "https://api.github.com/repos/Behat/Behat/zipball/56657835a16fa1fcfbd801612c7b8f95ebd7a328",[m
+[32m+[m[32m                "reference": "56657835a16fa1fcfbd801612c7b8f95ebd7a328",[m
+                 "shasum": ""[m
+             },[m
+             "require": {[m
+[36m@@ -1925,13 +2102,13 @@[m
+                 "behat/transliterator": "~1.0",[m
+                 "ext-mbstring": "*",[m
+                 "php": ">=5.3.3",[m
+[31m-                "symfony/class-loader": "~2.1|~3.0",[m
+[31m-                "symfony/config": "~2.3|~3.0",[m
+[31m-                "symfony/console": "~2.1|~3.0",[m
+[31m-                "symfony/dependency-injection": "~2.1|~3.0",[m
+[31m-                "symfony/event-dispatcher": "~2.1|~3.0",[m
+[31m-                "symfony/translation": "~2.3|~3.0",[m
+[31m-                "symfony/yaml": "~2.1|~3.0"[m
+[32m+[m[32m                "symfony/class-loader": "~2.1||~3.0",[m
+[32m+[m[32m                "symfony/config": "~2.3||~3.0",[m
+[32m+[m[32m                "symfony/console": "~2.1||~3.0",[m
+[32m+[m[32m                "symfony/dependency-injection": "~2.1||~3.0",[m
+[32m+[m[32m                "symfony/event-dispatcher": "~2.1||~3.0",[m
+[32m+[m[32m                "symfony/translation": "~2.3||~3.0",[m
+[32m+[m[32m                "symfony/yaml": "~2.1||~3.0"[m
+             },[m
+             "require-dev": {[m
+                 "phpunit/phpunit": "~4.5",[m
+[36m@@ -1984,7 +2161,7 @@[m
+                 "symfony",[m
+                 "testing"[m
+             ],[m
+[31m-            "time": "2016-03-06 17:47:41"[m
+[32m+[m[32m            "time": "2016-03-31 09:30:46"[m
+         },[m
+         {[m
+             "name": "behat/gherkin",[m
+[36m@@ -2105,46 +2282,6 @@[m
+             "time": "2016-02-07 12:20:29"[m
+         },[m
+         {[m
+[31m-            "name": "behat/transliterator",[m
+[31m-            "version": "v1.1.0",[m
+[31m-            "source": {[m
+[31m-                "type": "git",[m
+[31m-                "url": "https://github.com/Behat/Transliterator.git",[m
+[31m-                "reference": "868e05be3a9f25ba6424c2dd4849567f50715003"[m
+[31m-            },[m
+[31m-            "dist": {[m
+[31m-                "type": "zip",[m
+[31m-                "url": "https://api.github.com/repos/Behat/Transliterator/zipball/868e05be3a9f25ba6424c2dd4849567f50715003",[m
+[31m-                "reference": "868e05be3a9f25ba6424c2dd4849567f50715003",[m
+[31m-                "shasum": ""[m
+[31m-            },[m
+[31m-            "require": {[m
+[31m-                "php": ">=5.3.3"[m
+[31m-            },[m
+[31m-            "type": "library",[m
+[31m-            "extra": {[m
+[31m-                "branch-alias": {[m
+[31m-                    "dev-master": "1.1-dev"[m
+[31m-                }[m
+[31m-            },[m
+[31m-            "autoload": {[m
+[31m-                "psr-0": {[m
+[31m-                    "Behat\\Transliterator": "src/"[m
+[31m-                }[m
+[31m-            },[m
+[31m-            "notification-url": "https://packagist.org/downloads/",[m
+[31m-            "license": [[m
+[31m-                "Artistic-1.0"[m
+[31m-            ],[m
+[31m-            "description": "String transliterator",[m
+[31m-            "keywords": [[m
+[31m-                "i18n",[m
+[31m-                "slug",[m
+[31m-                "transliterator"[m
+[31m-            ],[m
+[31m-            "time": "2015-09-28 16:26:35"[m
+[31m-        },[m
+[31m-        {[m
+             "name": "fzaninotto/faker",[m
+             "version": "v1.5.0",[m
+             "source": {[m
+[36m@@ -2198,16 +2335,16 @@[m
+         },[m
+         {[m
+             "name": "hautelook/alice-bundle",[m
+[31m-            "version": "v1.2.1",[m
+[32m+[m[32m            "version": "v1.2.2",[m
+             "source": {[m
+                 "type": "git",[m
+                 "url": "https://github.com/hautelook/AliceBundle.git",[m
+[31m-                "reference": "96f0c473675a9b8d0cb834edeea2ea7a3a1f5d82"[m
+[32m+[m[32m                "reference": "a7b9da1f4fe4cb92ab18e5934399bc67ac182e6e"[m
+             },[m
+             "dist": {[m
+                 "type": "zip",[m
+[31m-                "url": "https://api.github.com/repos/hautelook/AliceBundle/zipball/96f0c473675a9b8d0cb834edeea2ea7a3a1f5d82",[m
+[31m-                "reference": "96f0c473675a9b8d0cb834edeea2ea7a3a1f5d82",[m
+[32m+[m[32m                "url": "https://api.github.com/repos/hautelook/AliceBundle/zipball/a7b9da1f4fe4cb92ab18e5934399bc67ac182e6e",[m
+[32m+[m[32m                "reference": "a7b9da1f4fe4cb92ab18e5934399bc67ac182e6e",[m
+                 "shasum": ""[m
+             },[m
+             "require": {[m
+[36m@@ -2216,7 +2353,7 @@[m
+                 "symfony/finder": "^2.7|~3.0"[m
+             },[m
+             "require-dev": {[m
+[31m-                "doctrine/doctrine-bundle": "~1.2",[m
+[32m+[m[32m                "doctrine/doctrine-bundle": "dev-sharding-erb as 1.2.x-dev",[m
+                 "doctrine/doctrine-fixtures-bundle": "~2.2",[m
+                 "doctrine/mongodb-odm": "^1.0",[m
+                 "doctrine/mongodb-odm-bundle": "^3.0",[m
+[36m@@ -2224,6 +2361,7 @@[m
+                 "doctrine/phpcr-bundle": "^1.3",[m
+                 "doctrine/phpcr-odm": "^1.2",[m
+                 "jackalope/jackalope-doctrine-dbal": "^1.2",[m
+[32m+[m[32m                "phpunit/phpunit": "~4.8",[m
+                 "sllh/php-cs-fixer-styleci-bridge": "~1.0",[m
+                 "symfony/console": "~2.3|~3.0",[m
+                 "symfony/framework-bundle": "~2.3|~3.0",[m
+[36m@@ -2276,7 +2414,7 @@[m
+                 "orm",[m
+                 "symfony"[m
+             ],[m
+[31m-            "time": "2016-03-10 15:06:40"[m
+[32m+[m[32m            "time": "2016-03-21 21:09:09"[m
+         },[m
+         {[m
+             "name": "majora/generator-bundle",[m
+[36m@@ -2442,20 +2580,20 @@[m
+         },[m
+         {[m
+             "name": "symfony/phpunit-bridge",[m
+[31m-            "version": "v3.0.3",[m
+[32m+[m[32m            "version": "v3.0.4",[m
+             "source": {[m
+                 "type": "git",[m
+                 "url": "https://github.com/symfony/phpunit-bridge.git",[m
+[31m-                "reference": "4580ae86cde5497d38fc971192cd2c37e546eb4f"[m
+[32m+[m[32m                "reference": "b097218e4ab7724e7ec0c420e96dfd70518c2354"[m
+             },[m
+             "dist": {[m
+                 "type": "zip",[m
+[31m-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/4580ae86cde5497d38fc971192cd2c37e546eb4f",[m
+[31m-                "reference": "4580ae86cde5497d38fc971192cd2c37e546eb4f",[m
+[32m+[m[32m                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/b097218e4ab7724e7ec0c420e96dfd70518c2354",[m
+[32m+[m[32m                "reference": "b097218e4ab7724e7ec0c420e96dfd70518c2354",[m
+                 "shasum": ""[m
+             },[m
+             "require": {[m
+[31m-                "php": ">=5.5.9"[m
+[32m+[m[32m                "php": ">=5.3.3"[m
+             },[m
+             "suggest": {[m
+                 "symfony/debug": "For tracking deprecated interfaces usages at runtime with DebugClassLoader"[m
+[36m@@ -2493,7 +2631,7 @@[m
+             ],[m
+             "description": "Symfony PHPUnit Bridge",[m
+             "homepage": "https://symfony.com",[m
+[31m-            "time": "2016-01-21 09:38:31"[m
+[32m+[m[32m            "time": "2016-03-23 13:46:08"[m
+         },[m
+         {[m
+             "name": "theofidry/alice-bundle-extension",[m
+[36m@@ -2562,6 +2700,7 @@[m
+     "aliases": [],[m
+     "minimum-stability": "stable",[m
+     "stability-flags": {[m
+[32m+[m[32m        "majora/framework-extra-bundle": 20,[m
+         "majora/generator-bundle": 20,[m
+         "behat/behat": 20,[m
+         "behat/symfony2-extension": 20[m
+[1mdiff --git a/skeletons/MajoraVendor/MajoraNamespace/Bundle/DalBundle/Resources/config/services/auto/auto_majora_entity.xml b/skeletons/MajoraVendor/MajoraNamespace/Bundle/DalBundle/Resources/config/services/auto/auto_majora_entity.xml[m
+[1mindex fee420b..256be6c 100644[m
+[1m--- a/skeletons/MajoraVendor/MajoraNamespace/Bundle/DalBundle/Resources/config/services/auto/auto_majora_entity.xml[m
+[1m+++ b/skeletons/MajoraVendor/MajoraNamespace/Bundle/DalBundle/Resources/config/services/auto/auto_majora_entity.xml[m
+[36m@@ -78,8 +78,8 @@[m
+             public="false" lazy="true"[m
+         >[m
+             <tag name="majora.loader"[m
+[31m-                entityClass="Drop\Si\Component\MajoraNamespace\Entity\MajoraEntity"[m
+[31m-                entityCollection="Drop\Si\Component\MajoraNamespace\Entity\MajoraEntityCollection"[m
+[32m+[m[32m                entityClass="MajoraVendor\MajoraNamespace\ComponentEntity\MajoraEntity"[m
+[32m+[m[32m                entityCollection="MajoraVendor\MajoraNamespace\Component\Entity\MajoraEntityCollection"[m
+             />[m
+         </service>[m
+ [m
+[1mdiff --git a/skeletons/MajoraVendor/MajoraNamespace/Component/Action/Dal/MajoraEntity/CreateAction.php b/skeletons/MajoraVendor/MajoraNamespace/Component/Action/Dal/MajoraEntity/CreateAction.php[m
+[1mindex 36ad2c4..021a267 100644[m
+[1m--- a/skeletons/MajoraVendor/MajoraNamespace/Component/Action/Dal/MajoraEntity/CreateAction.php[m
+[1m+++ b/skeletons/MajoraVendor/MajoraNamespace/Component/Action/Dal/MajoraEntity/CreateAction.php[m
+[36m@@ -5,14 +5,12 @@[m [mnamespace MajoraVendor\MajoraNamespace\Component\Action\Dal\MajoraEntity;[m
+ use MajoraVendor\MajoraNamespace\Component\Entity\MajoraEntity;[m
+ use MajoraVendor\MajoraNamespace\Component\Event\MajoraEntityEvent;[m
+ use MajoraVendor\MajoraNamespace\Component\Event\MajoraEntityEvents;[m
+[31m-use Majora\Framework\Domain\Action\DynamicActionTrait;[m
+ [m
+ /**[m
+  * MajoraEntity creation action representation.[m
+  */[m
+ class CreateAction extends AbstractDalAction[m
+ {[m
+[31m-    use DynamicActionTrait;[m
+ [m
+     /**[m
+      * MajoraEntity creation method.[m
+[1mdiff --git a/skeletons/MajoraVendor/MajoraNamespace/Component/Action/Dal/MajoraEntity/DeleteAction.php b/skeletons/MajoraVendor/MajoraNamespace/Component/Action/Dal/MajoraEntity/DeleteAction.php[m
+[1mindex 9e593d7..2809d3e 100644[m
+[1m--- a/skeletons/MajoraVendor/MajoraNamespace/Component/Action/Dal/MajoraEntity/DeleteAction.php[m
+[1m+++ b/skeletons/MajoraVendor/MajoraNamespace/Component/Action/Dal/MajoraEntity/DeleteAction.php[m
+[36m@@ -4,15 +4,12 @@[m [mnamespace MajoraVendor\MajoraNamespace\Component\Action\Dal\MajoraEntity;[m
+ [m
+ use MajoraVendor\MajoraNamespace\Component\Event\MajoraEntityEvent;[m
+ use MajoraVendor\MajoraNamespace\Component\Event\MajoraEntityEvents;[m
+[31m-use Majora\Framework\Domain\Action\DynamicActionTrait;[m
+ [m
+ /**[m
+  * MajoraEntity deletion action representation.[m
+  */[m
+ class DeleteAction extends AbstractDalAction[m
+ {[m
+[31m-    use DynamicActionTrait;[m
+[31m-[m
+     /**[m
+      * @see ActionInterface::resolve()[m
+      */[m
+[1mdiff --git a/skeletons/MajoraVendor/MajoraNamespace/Component/Action/Dal/MajoraEntity/UpdateAction.php b/skeletons/MajoraVendor/MajoraNamespace/Component/Action/Dal/MajoraEntity/UpdateAction.php[m
+[1mindex 09c639a..3c8fda1 100644[m
+[1m--- a/skeletons/MajoraVendor/MajoraNamespace/Component/Action/Dal/MajoraEntity/UpdateAction.php[m
+[1m+++ b/skeletons/MajoraVendor/MajoraNamespace/Component/Action/Dal/MajoraEntity/UpdateAction.php[m
+[36m@@ -4,14 +4,12 @@[m [mnamespace MajoraVendor\MajoraNamespace\Component\Action\Dal\MajoraEntity;[m
+ [m
+ use MajoraVendor\MajoraNamespace\Component\Event\MajoraEntityEvent;[m
+ use MajoraVendor\MajoraNamespace\Component\Event\MajoraEntityEvents;[m
+[31m-use Majora\Framework\Domain\Action\DynamicActionTrait;[m
+ [m
+ /**[m
+  * MajoraEntity edition action representation.[m
+  */[m
+ class UpdateAction extends AbstractDalAction[m
+ {[m
+[31m-    use DynamicActionTrait;[m
+ [m
+     /**[m
+      * @see ActionInterface::resolve()[m
+[1mdiff --git a/src/Acme/Lv/Bundle/ApiBundle/Controller/Auto/PostApiControllerTrait.php b/src/Acme/Lv/Bundle/ApiBundle/Controller/Auto/PostApiControllerTrait.php[m
+[1mindex 7471255..5a35177 100644[m
+[1m--- a/src/Acme/Lv/Bundle/ApiBundle/Controller/Auto/PostApiControllerTrait.php[m
+[1m+++ b/src/Acme/Lv/Bundle/ApiBundle/Controller/Auto/PostApiControllerTrait.php[m
+[36m@@ -113,7 +113,7 @@[m [mtrait PostApiControllerTrait[m
+                 )[m
+             )[m
+         );[m
+[31m-[m
+[32m+[m[32m        dump($form);[m
+         // resolve use case[m
+         $form->getData()->resolve();[m
+ [m
+[1mdiff --git a/src/Acme/Lv/Bundle/ApiBundle/Form/Post/AbstractType.php b/src/Acme/Lv/Bundle/ApiBundle/Form/Post/AbstractType.php[m
+[1mindex 95ff3eb..4bad7a5 100644[m
+[1m--- a/src/Acme/Lv/Bundle/ApiBundle/Form/Post/AbstractType.php[m
+[1m+++ b/src/Acme/Lv/Bundle/ApiBundle/Form/Post/AbstractType.php[m
+[36m@@ -6,6 +6,8 @@[m [muse Acme\Lv\Component\Domain\Action\PostActionDispatcherDomain;[m
+ use Symfony\Component\Form\AbstractType as BaseAbstractType;[m
+ use Symfony\Component\Form\FormBuilderInterface;[m
+ use Symfony\Component\OptionsResolver\OptionsResolver;[m
+[32m+[m[32muse Symfony\Component\Form\Extension\Core\Type\TextType;[m
+[32m+[m[32muse Symfony\Component\Validator\Constraints\NotBlank;[m
+ [m
+ /**[m
+  * Abstract form type for Post entity.[m
+[36m@@ -48,5 +50,6 @@[m [mabstract class AbstractType extends BaseAbstractType[m
+      */[m
+     public function buildForm(FormBuilderInterface $builder, array $options)[m
+     {[m
+[32m+[m[32m        $builder->add('name');[m
+     }[m
+ }[m
+[1mdiff --git a/src/Acme/Lv/Bundle/ApiBundle/Resources/config/services.xml b/src/Acme/Lv/Bundle/ApiBundle/Resources/config/services.xml[m
+[1mindex eaceadc..a5c64f3 100644[m
+[1m--- a/src/Acme/Lv/Bundle/ApiBundle/Resources/config/services.xml[m
+[1m+++ b/src/Acme/Lv/Bundle/ApiBundle/Resources/config/services.xml[m
+[36m@@ -8,6 +8,9 @@[m
+ [m
+     </imports>[m
+ -->[m
+[32m+[m[32m    <imports>[m
+[32m+[m[32m        <import resource="services/post.xml" />[m
+[32m+[m[32m    </imports>[m
+ <!--[m
+     <services>[m
+ [m
+[1mdiff --git a/src/Acme/Lv/Bundle/DalBundle/Resources/config/doctrine/Post.orm.yml b/src/Acme/Lv/Bundle/DalBundle/Resources/config/doctrine/Post.orm.yml[m
+[1mindex dedadde..2c86b77 100644[m
+[1m--- a/src/Acme/Lv/Bundle/DalBundle/Resources/config/doctrine/Post.orm.yml[m
+[1m+++ b/src/Acme/Lv/Bundle/DalBundle/Resources/config/doctrine/Post.orm.yml[m
+[36m@@ -18,6 +18,10 @@[m [mAcme\Lv\Component\Entity\Post:[m
+ [m
+         # your other Post properties here[m
+ [m
+[32m+[m[32m        name:[m
+[32m+[m[32m            type: string[m
+[32m+[m[32m            column: name[m
+[32m+[m
+         createdAt:[m
+             type: datetime[m
+             column: created_at[m
+[1mdiff --git a/src/Acme/Lv/Bundle/DalBundle/Resources/config/services.xml b/src/Acme/Lv/Bundle/DalBundle/Resources/config/services.xml[m
+[1mindex eaceadc..a5c64f3 100644[m
+[1m--- a/src/Acme/Lv/Bundle/DalBundle/Resources/config/services.xml[m
+[1m+++ b/src/Acme/Lv/Bundle/DalBundle/Resources/config/services.xml[m
+[36m@@ -8,6 +8,9 @@[m
+ [m
+     </imports>[m
+ -->[m
+[32m+[m[32m    <imports>[m
+[32m+[m[32m        <import resource="services/post.xml" />[m
+[32m+[m[32m    </imports>[m
+ <!--[m
+     <services>[m
+ [m
+[1mdiff --git a/src/Acme/Lv/Bundle/DalBundle/Resources/config/services/auto/auto_post.xml b/src/Acme/Lv/Bundle/DalBundle/Resources/config/services/auto/auto_post.xml[m
+[1mindex 81e1474..2f130b6 100644[m
+[1m--- a/src/Acme/Lv/Bundle/DalBundle/Resources/config/services/auto/auto_post.xml[m
+[1m+++ b/src/Acme/Lv/Bundle/DalBundle/Resources/config/services/auto/auto_post.xml[m
+[36m@@ -78,8 +78,8 @@[m
+             public="false" lazy="true"[m
+         >[m
+             <tag name="majora.loader"[m
+[31m-                entityClass="Drop\Si\Component\Lv\Entity\Post"[m
+[31m-                entityCollection="Drop\Si\Component\Lv\Entity\PostCollection"[m
+[32m+[m[32m                entityClass="Acme\Lv\Component\Entity\Post"[m
+[32m+[m[32m                entityCollection="Acme\Lv\Component\Entity\PostCollection"[m
+             />[m
+         </service>[m
+ [m
+[1mdiff --git a/src/Acme/Lv/Bundle/SdkBundle/Resources/config/services.xml b/src/Acme/Lv/Bundle/SdkBundle/Resources/config/services.xml[m
+[1mindex eaceadc..a5c64f3 100644[m
+[1m--- a/src/Acme/Lv/Bundle/SdkBundle/Resources/config/services.xml[m
+[1m+++ b/src/Acme/Lv/Bundle/SdkBundle/Resources/config/services.xml[m
+[36m@@ -8,6 +8,9 @@[m
+ [m
+     </imports>[m
+ -->[m
+[32m+[m[32m    <imports>[m
+[32m+[m[32m        <import resource="services/post.xml" />[m
+[32m+[m[32m    </imports>[m
+ <!--[m
+     <services>[m
+ [m
+[1mdiff --git a/src/Acme/Lv/Component/Action/Dal/Post/CreateAction.php b/src/Acme/Lv/Component/Action/Dal/Post/CreateAction.php[m
+[1mindex ee5e3b6..198d2b7 100644[m
+[1m--- a/src/Acme/Lv/Component/Action/Dal/Post/CreateAction.php[m
+[1m+++ b/src/Acme/Lv/Component/Action/Dal/Post/CreateAction.php[m
+[36m@@ -5,14 +5,12 @@[m [mnamespace Acme\Lv\Component\Action\Dal\Post;[m
+ use Acme\Lv\Component\Entity\Post;[m
+ use Acme\Lv\Component\Event\PostEvent;[m
+ use Acme\Lv\Component\Event\PostEvents;[m
+[31m-use Majora\Framework\Domain\Action\DynamicActionTrait;[m
+ [m
+ /**[m
+  * Post creation action representation.[m
+  */[m
+ class CreateAction extends AbstractDalAction[m
+ {[m
+[31m-    use DynamicActionTrait;[m
+ [m
+     /**[m
+      * Post creation method.[m
+[1mdiff --git a/src/Acme/Lv/Component/Action/Dal/Post/DeleteAction.php b/src/Acme/Lv/Component/Action/Dal/Post/DeleteAction.php[m
+[1mindex ff85bbc..6cb832f 100644[m
+[1m--- a/src/Acme/Lv/Component/Action/Dal/Post/DeleteAction.php[m
+[1m+++ b/src/Acme/Lv/Component/Action/Dal/Post/DeleteAction.php[m
+[36m@@ -4,15 +4,12 @@[m [mnamespace Acme\Lv\Component\Action\Dal\Post;[m
+ [m
+ use Acme\Lv\Component\Event\PostEvent;[m
+ use Acme\Lv\Component\Event\PostEvents;[m
+[31m-use Majora\Framework\Domain\Action\DynamicActionTrait;[m
+ [m
+ /**[m
+  * Post deletion action representation.[m
+  */[m
+ class DeleteAction extends AbstractDalAction[m
+ {[m
+[31m-    use DynamicActionTrait;[m
+[31m-[m
+     /**[m
+      * @see ActionInterface::resolve()[m
+      */[m
+[1mdiff --git a/src/Acme/Lv/Component/Action/Dal/Post/UpdateAction.php b/src/Acme/Lv/Component/Action/Dal/Post/UpdateAction.php[m
+[1mindex db30be7..6a96763 100644[m
+[1m--- a/src/Acme/Lv/Component/Action/Dal/Post/UpdateAction.php[m
+[1m+++ b/src/Acme/Lv/Component/Action/Dal/Post/UpdateAction.php[m
+[36m@@ -4,20 +4,19 @@[m [mnamespace Acme\Lv\Component\Action\Dal\Post;[m
+ [m
+ use Acme\Lv\Component\Event\PostEvent;[m
+ use Acme\Lv\Component\Event\PostEvents;[m
+[31m-use Majora\Framework\Domain\Action\DynamicActionTrait;[m
+ [m
+ /**[m
+  * Post edition action representation.[m
+  */[m
+ class UpdateAction extends AbstractDalAction[m
+ {[m
+[31m-    use DynamicActionTrait;[m
+ [m
+     /**[m
+      * @see ActionInterface::resolve()[m
+      */[m
+     public function resolve()[m
+     {[m
+[32m+[m[32m        dump($this);[m
+         $this->post->deserialize($this->serialize());[m
+ [m
+         $this->assertEntityIsValid($this->post, array('Post', 'edition'));[m
+[1mdiff --git a/src/Acme/Lv/Component/Entity/Post.php b/src/Acme/Lv/Component/Entity/Post.php[m
+[1mindex a6054be..bd9ecde 100644[m
+[1m--- a/src/Acme/Lv/Component/Entity/Post.php[m
+[1m+++ b/src/Acme/Lv/Component/Entity/Post.php[m
+[36m@@ -20,13 +20,18 @@[m [mclass Post implements CollectionableInterface[m
+     protected $id;[m
+ [m
+     /**[m
+[32m+[m[32m     * @var string[m
+[32m+[m[32m     */[m
+[32m+[m[32m    private $name;[m
+[32m+[m
+[32m+[m[32m    /**[m
+      * @see ScopableInterface::getScopes()[m
+      */[m
+     public static function getScopes()[m
+     {[m
+         return array([m
+             'id' => 'id',[m
+[31m-            'default' => array('id'),[m
+[32m+[m[32m            'default' => array('id', 'name', 'createdAt', 'updatedAt'),[m
+         );[m
+     }[m
+ [m
+[36m@@ -54,6 +59,30 @@[m [mclass Post implements CollectionableInterface[m
+         return $this;[m
+     }[m
+ [m
+[32m+[m[32m    /**[m
+[32m+[m[32m     * Returns Post name.[m
+[32m+[m[32m     *[m
+[32m+[m[32m     * @return int[m
+[32m+[m[32m     */[m
+[32m+[m[32m    public function getName()[m
+[32m+[m[32m    {[m
+[32m+[m[32m        return $this->name;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    /**[m
+[32m+[m[32m     * Define Post name.[m
+[32m+[m[32m     *[m
+[32m+[m[32m     * @param int $name[m
+[32m+[m[32m     *[m
+[32m+[m[32m     * @return self[m
+[32m+[m[32m     */[m
+[32m+[m[32m    public function setName($name)[m
+[32m+[m[32m    {[m
+[32m+[m[32m        $this->name = $name;[m
+[32m+[m
+[32m+[m[32m        return $this;[m
+[32m+[m[32m    }[m
+[32m+[m
+     // *************************************************[m
+     //[m
+     // Class auto generated by MajoraGeneratorBundle[m
+[1mdiff --git a/src/Acme/Lv/Component/Loader/Graph/Auto/PostGraphLoaderTrait.php b/src/Acme/Lv/Component/Loader/Graph/Auto/PostGraphLoaderTrait.php[m
+[1mindex 9000011..16edce4 100644[m
+[1m--- a/src/Acme/Lv/Component/Loader/Graph/Auto/PostGraphLoaderTrait.php[m
+[1m+++ b/src/Acme/Lv/Component/Loader/Graph/Auto/PostGraphLoaderTrait.php[m
+[36m@@ -3,6 +3,7 @@[m
+ namespace Acme\Lv\Component\Loader\Graph\Auto;[m
+ [m
+ use Majora\Framework\Loader\Bridge\Graph\GraphLoaderTrait;[m
+[32m+[m[32muse Majora\Framework\Loader\LoaderTrait;[m
+ [m
+ /**[m
+  * Post graph loader auto generated trait.[m
+[36m@@ -16,5 +17,5 @@[m [muse Majora\Framework\Loader\Bridge\Graph\GraphLoaderTrait;[m
+  */[m
+ trait PostGraphLoaderTrait[m
+ {[m
+[31m-    use GraphLoaderTrait;[m
+[32m+[m[32m    use GraphLoaderTrait, LoaderTrait;[m
+ }[m

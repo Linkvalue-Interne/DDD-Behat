@@ -3,6 +3,7 @@
 namespace MajoraVendor\MajoraNamespace\Component\Loader\Graph\Auto;
 
 use Majora\Framework\Loader\Bridge\Graph\GraphLoaderTrait;
+use Majora\Framework\Loader\LoaderTrait;
 
 /**
  * MajoraEntity graph loader auto generated trait.
@@ -16,5 +17,5 @@ use Majora\Framework\Loader\Bridge\Graph\GraphLoaderTrait;
  */
 trait MajoraEntityGraphLoaderTrait
 {
-    use GraphLoaderTrait;
+    use GraphLoaderTrait, LoaderTrait;
 }

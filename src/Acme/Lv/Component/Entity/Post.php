@@ -20,13 +20,18 @@ class Post implements CollectionableInterface
     protected $id;
 
     /**
+     * @var string
+     */
+    private $name;
+
+    /**
      * @see ScopableInterface::getScopes()
      */
     public static function getScopes()
     {
         return array(
             'id' => 'id',
-            'default' => array('id'),
+            'default' => array('id', 'name', 'createdAt', 'updatedAt'),
         );
     }
 
@@ -50,6 +55,30 @@ class Post implements CollectionableInterface
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Returns Post name.
+     *
+     * @return int
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Define Post name.
+     *
+     * @param int $name
+     *
+     * @return self
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
 
         return $this;
     }

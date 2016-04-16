@@ -56,8 +56,15 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
+        default_entity_manager: default
+        entity_managers:
+            default:
+                mappings:
+                    AcmeLvDalBundle:
+                        type: yml
+                        dir: Resources/config/doctrine
+                        prefix: Acme\Lv\Component\Entity
+                        alias: AcmeLv
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -66,3 +73,15 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+# Doctrine behaviors
+stof_doctrine_extensions:
+    default_locale: %locale%
+    orm:
+        default:
+            timestampable: true
+
+# MajoraFrameworkExtraBundle Configuration
+majora_framework_extra:
+    json_form_extension:
+        enabled: true

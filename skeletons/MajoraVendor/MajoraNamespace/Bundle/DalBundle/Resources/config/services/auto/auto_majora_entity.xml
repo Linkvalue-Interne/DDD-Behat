@@ -78,8 +78,8 @@
             public="false" lazy="true"
         >
             <tag name="majora.loader"
-                entityClass="Drop\Si\Component\MajoraNamespace\Entity\MajoraEntity"
-                entityCollection="Drop\Si\Component\MajoraNamespace\Entity\MajoraEntityCollection"
+                entityClass="MajoraVendor\MajoraNamespace\ComponentEntity\MajoraEntity"
+                entityCollection="MajoraVendor\MajoraNamespace\Component\Entity\MajoraEntityCollection"
             />
         </service>
 

@@ -18,6 +18,10 @@ Acme\Lv\Component\Entity\Post:
 
         # your other Post properties here
 
+        name:
+            type: string
+            column: name
+
         createdAt:
             type: datetime
             column: created_at
