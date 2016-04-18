@@ -18,24 +18,30 @@ trait PostActionDispatcherDomainTrait
     /**
      * @see PostDomainInterface::create()
      */
-    public function create()
+    public function create(...$arguments)
     {
-        return $this->resolve('create');
+        return $this->getAction('create', null, ...$arguments)
+            ->resolve()
+        ;
     }
 
     /**
      * @see PostDomainInterface::edit()
      */
-    public function edit(Post $post)
+    public function edit(Post $post,  ...$arguments)
     {
-        return $this->resolve('edit', $post);
+        return $this->getAction('edit', $post, ...$arguments)
+            ->resolve()
+        ;
     }
 
     /**
      * @see PostDomainInterface::delete()
      */
-    public function delete(Post $post)
+    public function delete(Post $post,  ...$arguments)
     {
-        return $this->resolve('delete', $post);
+        return $this->getAction('delete', $post, ...$arguments)
+            ->resolve()
+        ;
     }
 }

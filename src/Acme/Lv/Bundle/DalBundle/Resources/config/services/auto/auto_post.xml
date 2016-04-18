@@ -51,6 +51,7 @@
             parent="majora.loader.abstract"
             public="true" lazy="true"
         >
+            <argument type="service" id="lv.post.orm_repository" />
             <tag name="majora.loader"
                 repository="lv.post.orm_repository"
                 entityClass="Acme\Lv\Component\Entity\Post"

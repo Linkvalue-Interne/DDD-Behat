@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c02d405b77e507857521ae632a160e61",
-    "content-hash": "2b344a14fc59596d1f0b7a70351076cb",
+    "hash": "8941b26508f4daecb7af8a83f8937020",
+    "content-hash": "7aa030f08c0c9d2b44713eb121b555c1",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -999,12 +999,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/LinkValue/MajoraFrameworkExtraBundle.git",
-                "reference": "009352a0694e04ed3b8a30d0fc0b2f81eb67142a"
+                "reference": "4c11d71512c058f49a87c68a038be49215607691"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/LinkValue/MajoraFrameworkExtraBundle/zipball/4c11d71512c058f49a87c68a038be49215607691",
-                "reference": "009352a0694e04ed3b8a30d0fc0b2f81eb67142a",
+                "reference": "4c11d71512c058f49a87c68a038be49215607691",
                 "shasum": ""
             },
             "require": {
@@ -1055,7 +1055,7 @@
                 "framework",
                 "symfony"
             ],
-            "time": "2016-03-01 15:15:40"
+            "time": "2016-03-15 10:00:24"
         },
         {
             "name": "monolog/monolog",

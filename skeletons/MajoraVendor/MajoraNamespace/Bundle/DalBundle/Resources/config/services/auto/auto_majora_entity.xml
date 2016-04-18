@@ -51,6 +51,7 @@
             parent="majora.loader.abstract"
             public="true" lazy="true"
         >
+            <argument type="service" id="majora_namespace.majora_entity.orm_repository" />
             <tag name="majora.loader"
                 repository="majora_namespace.majora_entity.orm_repository"
                 entityClass="MajoraVendor\MajoraNamespace\Component\Entity\MajoraEntity"

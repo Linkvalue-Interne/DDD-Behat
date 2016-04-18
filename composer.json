@@ -22,7 +22,7 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
         "stof/doctrine-extensions-bundle": "~1.2",
-        "majora/framework-extra-bundle": "dev-master#009352a0694e04ed3b8a30d0fc0b2f81eb67142a"
+        "majora/framework-extra-bundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

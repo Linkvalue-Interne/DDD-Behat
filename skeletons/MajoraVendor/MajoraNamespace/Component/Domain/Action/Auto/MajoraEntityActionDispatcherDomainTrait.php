@@ -18,24 +18,28 @@ trait MajoraEntityActionDispatcherDomainTrait
     /**
      * @see MajoraEntityDomainInterface::create()
      */
-    public function create()
+    public function create(...$arguments)
     {
-        return $this->resolve('create');
+        return $this->getAction('create', null, ...$arguments)
+            ->resolve()
+        ;
     }
-
     /**
      * @see MajoraEntityDomainInterface::edit()
      */
-    public function edit(MajoraEntity $majoraEntity)
+    public function edit(MajoraEntity $majoraEntity, ...$arguments)
     {
-        return $this->resolve('edit', $majoraEntity);
+        return $this->getAction('edit', $majoraEntity, ...$arguments)
+            ->resolve()
+        ;
     }
-
     /**
      * @see MajoraEntityDomainInterface::delete()
      */
-    public function delete(MajoraEntity $majoraEntity)
+    public function delete(MajoraEntity $majoraEntity, ...$arguments)
     {
-        return $this->resolve('delete', $majoraEntity);
+        return $this->getAction('delete', $majoraEntity, ...$arguments)
+            ->resolve()
+        ;
     }
 }

@@ -4,12 +4,15 @@ namespace MajoraVendor\MajoraNamespace\Component\Action\Dal\MajoraEntity;
 
 use MajoraVendor\MajoraNamespace\Component\Event\MajoraEntityEvent;
 use MajoraVendor\MajoraNamespace\Component\Event\MajoraEntityEvents;
+use Majora\Framework\Domain\Action\DynamicActionTrait;
 
 /**
  * MajoraEntity deletion action representation.
  */
 class DeleteAction extends AbstractDalAction
 {
+    use DynamicActionTrait;
+
     /**
      * @see ActionInterface::resolve()
      */
