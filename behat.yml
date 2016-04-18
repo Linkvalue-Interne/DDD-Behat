@@ -40,3 +40,10 @@ default:
                 - Acme\Lv\Bundle\ApiBundle\Features\Context\PostDomainContext:
                     domain: '@acme.post.api_domain'
                     loader: '@acme.post.api_loader'
+                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostRouterContext:
+                    router: '@router'
+                    host: 'localhost'
+                    scheme: 'http'
+                    baseUrl: '/web/app.php'
+                    port: '9001'
+
