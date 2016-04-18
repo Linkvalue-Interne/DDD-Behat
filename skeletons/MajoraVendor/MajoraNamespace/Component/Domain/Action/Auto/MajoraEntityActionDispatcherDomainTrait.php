@@ -25,11 +25,11 @@ trait MajoraEntityActionDispatcherDomainTrait
         ;
     }
     /**
-     * @see MajoraEntityDomainInterface::edit()
+     * @see MajoraEntityDomainInterface::update()
      */
-    public function edit(MajoraEntity $majoraEntity, ...$arguments)
+    public function update(MajoraEntity $majoraEntity, ...$arguments)
     {
-        return $this->getAction('edit', $majoraEntity, ...$arguments)
+        return $this->getAction('update', $majoraEntity, ...$arguments)
             ->resolve()
         ;
     }

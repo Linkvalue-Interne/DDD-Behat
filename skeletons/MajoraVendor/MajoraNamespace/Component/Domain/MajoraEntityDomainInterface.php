@@ -23,7 +23,7 @@ interface MajoraEntityDomainInterface
      *
      * @return UpdateMajoraEntityAction
      */
-    public function edit(MajoraEntity $majoraEntity);
+    public function update(MajoraEntity $majoraEntity);
 
     /**
      * Create and returns an action for delete a MajoraEntity.

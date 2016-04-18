@@ -23,7 +23,7 @@ interface PostDomainInterface
      *
      * @return UpdatePostAction
      */
-    public function edit(Post $post);
+    public function update(Post $post);
 
     /**
      * Create and returns an action for delete a Post.

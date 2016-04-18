@@ -11,7 +11,7 @@ use Majora\Framework\Domain\ActionDispatcherDomain;
  * Auto generated methods :
  *
  * @method create()
- * @method edit(Post $post)
+ * @method update(Post $post)
  * @method delete(Post $post)
  */
 class PostActionDispatcherDomain extends ActionDispatcherDomain

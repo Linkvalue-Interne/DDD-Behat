@@ -26,11 +26,11 @@ trait PostActionDispatcherDomainTrait
     }
 
     /**
-     * @see PostDomainInterface::edit()
+     * @see PostDomainInterface::update()
      */
-    public function edit(Post $post,  ...$arguments)
+    public function update(Post $post,  ...$arguments)
     {
-        return $this->getAction('edit', $post, ...$arguments)
+        return $this->getAction('update', $post, ...$arguments)
             ->resolve()
         ;
     }

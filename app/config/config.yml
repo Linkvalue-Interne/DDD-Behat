@@ -85,3 +85,5 @@ stof_doctrine_extensions:
 majora_framework_extra:
     json_form_extension:
         enabled: true
+    agnostic_url_generator:
+        enabled: true

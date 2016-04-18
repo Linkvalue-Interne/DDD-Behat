@@ -11,7 +11,7 @@ use Majora\Framework\Domain\ActionDispatcherDomain;
  * Auto generated methods :
  *
  * @method create()
- * @method edit(MajoraEntity $majoraEntity)
+ * @method update(MajoraEntity $majoraEntity)
  * @method delete(MajoraEntity $majoraEntity)
  */
 class MajoraEntityActionDispatcherDomain extends ActionDispatcherDomain

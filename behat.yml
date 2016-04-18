@@ -3,15 +3,40 @@ default:
         '': %paths.base%/src
     extensions:
         Behat\Symfony2Extension: ~
-        Fidry\AliceBundleExtension\Extension: ~
+        Behat\MinkExtension:
+            default_session: 'symfony2'
+            sessions:
+                symfony2:
+                    symfony2: ~
     suites:
-        configuration:
+        post_api_controller:
             type: symfony_bundle
             bundle: AcmeLvApiBundle
             paths: [ %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features ]
             contexts:
-                #- Fidry\AliceBundleExtension\Context\Doctrine\AliceORMContext:
-                    #basePath: %paths.base%/src/Acme/Lv/Bundle/ApiBundle/DataFixtures/ORM
                 - Acme\Lv\Bundle\ApiBundle\Features\Context\PostContext:
-                    # guzzle: '@guzzle_client'
-                    # baseUrl: 'http://api.itagyou.dev/app_test.php/configurations/'
+                    repository: '@acme.post.repository'
+                    loader: '@acme.post.loader'
+                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostApiContext:
+        post_dal_domain:
+            type: symfony_bundle
+            bundle: AcmeLvDalBundle
+            paths: [ %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features ]
+            contexts:
+                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostContext:
+                    repository: '@acme.post.repository'
+                    loader: '@acme.post.loader'
+                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostDomainContext:
+                    domain: '@acme.post.domain'
+                    loader: '@acme.post.loader'
+        post_api_domain:
+            type: symfony_bundle
+            bundle: AcmeLvDalBundle
+            paths: [ %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features ]
+            contexts:
+                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostContext:
+                    repository: '@acme.post.repository'
+                    loader: '@acme.post.loader'
+                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostDomainContext:
+                    domain: '@acme.post.api_domain'
+                    loader: '@acme.post.api_loader'

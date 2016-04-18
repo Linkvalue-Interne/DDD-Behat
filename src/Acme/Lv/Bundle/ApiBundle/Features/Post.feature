@@ -4,17 +4,54 @@ Feature: Post Crud.
     As an admin user
     I need to be able to create, update, delete and retrieve posts.
 
-    Scenario:
-        Given I have 10 elements
-        When I create an element
-        Then I should have 11 elements.
+    Background: Fixtures
+    Given I have theses posts:
+    | key    | name   |
+    | post_1 | Gérard |
+    | post_2 | Michel |
+    | post_3 | André  |
 
-    Scenario:
-        Given I have 10 elements
-        When I delete an element
-        Then I should have 9 elements
+    Scenario: Read
+    Given I get the post list
+    Then I should see theses posts:
+    | name   |
+    | Gérard |
+    | Michel |
+    | André  |
 
-    Scenario:
-        Given I have 10 elements
-        When I retrieve all elements
-        Then I should see 10 elements
+    Scenario: Create
+    Given I create theses posts:
+    | name  |
+    | Clark |
+    And I get the post list
+    Then I should see theses posts:
+    | name   |
+    | Gérard |
+    | Michel |
+    | André  |
+    | Clark  |
+
+    Scenario: Update
+    Given I update the "post_2" post with theses values:
+    | name  |
+    | Bruce |
+    And I get the post list
+    Then I should see theses posts:
+    | name   |
+    | Gérard |
+    | Bruce  |
+    | André  |
+    And I should not see theses posts:
+    | name    |
+    | Michel  |
+
+    Scenario: Delete
+    Given I delete the "post_2" post
+    And I get the post list
+    Then I should see theses posts:
+    | name   |
+    | Gérard |
+    | André  |
+    And I should not see theses posts:
+    | name    |
+    | Michel  |

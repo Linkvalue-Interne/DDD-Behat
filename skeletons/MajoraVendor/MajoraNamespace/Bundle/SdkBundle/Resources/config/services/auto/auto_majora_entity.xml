@@ -33,7 +33,7 @@
         <!-- MajoraEntity Api Loader -->
         <service id="majora_vendor.majora_entity.api_loader"
             class="MajoraVendor\MajoraNamespace\Component\Loader\Api\MajoraEntityApiLoader"
-            parent="majora.loader.abstract" public="false" lazy="true"
+            parent="majora.loader.abstract" public="true" lazy="true"
         >
             <argument type="service" id="majora_vendor.majora_entity.api_client" />
             <argument type="service" id="majora.serializer" />
@@ -70,7 +70,7 @@
         <!-- MajoraEntity Api deletion action -->
         <service id="majora_vendor.majora_entity.api_deletion_action"
             parent="majora_vendor.majora_entity.abstract_api_action" public="false"
-            class="MajoraVendor\MajoraNamespace\Component\Domain\Action\MajoraEntity\Api\DeleteAction"
+            class="MajoraVendor\MajoraNamespace\Component\Api\Action\MajoraEntity\DeleteAction"
         >
             <tag name="majora.domain.action" namespace="majora_vendor.majora_entity.api" alias="delete" />
         </service>
@@ -88,6 +88,13 @@
             class="MajoraVendor\MajoraNamespace\Component\Domain\Action\MajoraEntityActionDispatcherDomain"
         >
             <argument type="service" id="majora_vendor.majora_entity.action_factory" />
+        </service>
+
+        <!-- MajoraEntity Api Domain -->
+        <service id="majora_vendor.majora_entity.api_domain" public="true"
+            class="MajoraVendor\MajoraNamespace\Component\Domain\Action\MajoraEntityActionDispatcherDomain"
+        >
+            <argument type="service" id="majora_vendor.majora_entity.api_action_factory" />
         </service>
 
     </services>
