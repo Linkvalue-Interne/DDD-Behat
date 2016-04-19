@@ -67,7 +67,7 @@ class PostDomainContext implements Context
         foreach ($posts as $post){
             if (!$this->postList->search(['name' => $post->getName()])->count()) {
                 $postName = $post->getName();
-                throw new \Exception("The post $postName was not found.");
+                throw new \Exception(sprintf("The post %s was not found.", $postName));
             }
         }
     }
@@ -81,7 +81,7 @@ class PostDomainContext implements Context
         foreach ($posts as $post){
             if ($this->postList->search(['name' => $post->getName()])->count()) {
                 $postName = $post->getName();
-                throw new \Exception("The post $postName was found.");
+                throw new \Exception(sprintf("The post %s was found.", $postName));
             }
         }
     }
@@ -105,7 +105,7 @@ class PostDomainContext implements Context
         $oldPost = $this->postContext->getPosts()->get($key);
 
         if (!$oldPost) {
-            throw new \Exception("The post \"$key\" was not found.");
+            throw new \Exception(sprintf("The post %s was not found.", $key));
         }
 
         foreach ($posts as $post) {
@@ -121,10 +121,9 @@ class PostDomainContext implements Context
         $oldPost = $this->postContext->getPosts()->get($key);
 
         if (!$oldPost) {
-            throw new \Exception("The post \"$key\" was not found.");
+            throw new \Exception(sprintf("The post %s was not found.", $key));
         }
 
         $this->domain->delete($oldPost);
-        
     }
 }

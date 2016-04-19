@@ -3,11 +3,6 @@ default:
         '': %paths.base%/src
     extensions:
         Behat\Symfony2Extension: ~
-        Behat\MinkExtension:
-            default_session: 'symfony2'
-            sessions:
-                symfony2:
-                    symfony2: ~
     suites:
         post_api_controller:
             type: symfony_bundle
@@ -18,6 +13,13 @@ default:
                     repository: '@acme.post.repository'
                     loader: '@acme.post.loader'
                 - Acme\Lv\Bundle\ApiBundle\Features\Context\PostApiContext:
+                    router: '@router'
+                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostRouterContext:
+                    router: '@router'
+                    host: 'localhost'
+                    scheme: 'http'
+                    baseUrl: '/web/app.php'
+                    port: '9001'
         post_dal_domain:
             type: symfony_bundle
             bundle: AcmeLvDalBundle

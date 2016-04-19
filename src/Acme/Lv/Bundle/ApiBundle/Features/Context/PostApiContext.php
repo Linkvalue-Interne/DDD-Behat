@@ -5,30 +5,35 @@ namespace Acme\Lv\Bundle\ApiBundle\Features\Context;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\Response;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Client;
+use Acme\Lv\Component\Entity\PostCollection;
 
 /**
  * Defines application features from the specific context.
  */
 class PostApiContext implements Context
 {
-	/**
-	 * @var PostContext
-	 */
-	protected $postContext;
+    /**
+     * @var PostContext
+     */
+    protected $postContext;
 
-	/**
-	 * @var Client
-	 */
-	protected $client;
+    /**
+     * @var ClientInterface
+     */
+    protected $client;
 
-	/**
-	 * @var Router
-	 */
-	protected $router;
+    /**
+     * @var UrlGeneratorInterface
+     */
+    protected $router;
 
-    public function __construct($client, $router)
+    public function __construct(UrlGeneratorInterface $router)
     {
-        $this->client = $client;
+        $this->client = new Client();
         $this->router = $router;
     }
 
@@ -42,7 +47,7 @@ class PostApiContext implements Context
         $environment = $scope->getEnvironment();
 
         $this->postContext = $environment
-        				->getContext('Acme\Lv\Bundle\ApiBundle\Features\Context\PostContext');
+                        ->getContext('Acme\Lv\Bundle\ApiBundle\Features\Context\PostContext');
     }
 
     /**
@@ -50,8 +55,29 @@ class PostApiContext implements Context
      */
     public function iGetThePostList()
     {
-    	// $client->get($router->get...);
-        $this->postList = $this->loader->retrieveAll();
+        $response = $this->client->request(
+            'GET',
+            $this->router->generate(
+                'acme_api_post_collection',
+                [],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            ),
+            []
+        );
+
+        if ($response->getStatusCode() != Response::HTTP_OK) {
+            throw new \Exception(
+                sprintf(
+                    "Wrong status code : %s given, %s expected",
+                    $response->getStatusCode(),
+                    Response::HTTP_OK
+                )
+            );
+        }
+
+        $data = json_decode($response->getBody()->getContents());
+        $this->postList = new PostCollection();
+        $this->postList->denormalize($data);
     }
 
     /**
@@ -89,8 +115,25 @@ class PostApiContext implements Context
     public function iCreateThisPost(PostCollection $posts)
     {
         foreach ($posts as $post) {
-        	// $this->client->post($router->...)
-            // $this->domain->create($post->serialize());
+            $response = $this->client->request(
+                'POST',
+                $this->router->generate(
+                    'acme_api_post_create',
+                    [],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
+                ['form_params' => $post->serialize()]
+            );
+
+            if ($response->getStatusCode() != Response::HTTP_CREATED) {
+                throw new \Exception(
+                    sprintf(
+                        "Wrong status code : %s given, %s expected",
+                        $response->getStatusCode(),
+                        Response::HTTP_CREATED
+                    )
+                );
+            }
         }
     }
 
@@ -106,8 +149,25 @@ class PostApiContext implements Context
         }
 
         foreach ($posts as $post) {
-        	// $this->client->put($router->...)
-            // $this->domain->update($oldPost, $post->serialize());
+            $response = $this->client->request(
+                'PUT',
+                $this->router->generate(
+                    'acme_api_post_update',
+                    ['id' => $oldPost->getId()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
+                ['form_params' => $post->serialize()]
+            );
+
+            if ($response->getStatusCode() != Response::HTTP_NO_CONTENT) {
+                throw new \Exception(
+                    sprintf(
+                        "Wrong status code : %s given, %s expected",
+                        $response->getStatusCode(),
+                        Response::HTTP_NO_CONTENT
+                    )
+                );
+            }
         }
     }
 
@@ -122,8 +182,24 @@ class PostApiContext implements Context
             throw new \Exception("The post \"$key\" was not found.");
         }
 
-        // $this->client->delete($router->...)
-        // $this->domain->delete($oldPost);
-        
+        $response = $this->client->request(
+            'DELETE',
+            $this->router->generate(
+                'acme_api_post_delete',
+                ['id' => $oldPost->getId()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            ),
+            []
+        );
+
+        if ($response->getStatusCode() != Response::HTTP_NO_CONTENT) {
+            throw new \Exception(
+                sprintf(
+                    "Wrong status code : %s given, %s expected",
+                    $response->getStatusCode(),
+                    Response::HTTP_NO_CONTENT
+                )
+            );
+        }
     }
 }
