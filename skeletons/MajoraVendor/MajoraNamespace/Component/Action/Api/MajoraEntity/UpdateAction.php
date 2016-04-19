@@ -3,6 +3,7 @@
 namespace MajoraVendor\MajoraNamespace\Component\Action\Api\MajoraEntity;
 
 use Majora\Framework\Domain\Action\DynamicActionTrait;
+use MajoraVendor\MajoraNamespace\Component\Entity\MajoraEntity;
 
 /**
  * MajoraEntity edition action representation.
@@ -19,19 +20,29 @@ class UpdateAction extends AbstractApiAction
     use DynamicActionTrait;
 
     /**
+     * @see ScopableInterface::getScopes()
+     */
+    public static function getScopes()
+    {
+        return MajoraEntity::getScopes();
+    }
+
+    /**
      * @see ActionInterface::resolve()
      */
     public function resolve()
     {
-        // Generic MajoraEntity hydration from this action magic accessors
-        $this->majoraEntity->deserialize(
-            $actionData = $this->serialize()
+        // Api put call
+        $response = $this->getRestApiClient()->put(
+            array('id' => $this->majoraEntity->getId()),
+            $this->serialize()
         );
 
-        // Api put call
-        $this->getRestApiClient()->put(
-            array('id' => $this->majoraEntity->getId()),
-            $actionData
+        // Generic MajoraEntity hydration from this action magic accessors
+        $this->majoraEntity = $this->getSerializer()->deserialize(
+            (string) $this->getSerializer()->serialize($this, 'json'),
+            MajoraEntity::class,
+            'json'
         );
     }
 }

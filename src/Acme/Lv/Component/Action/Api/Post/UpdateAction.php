@@ -3,6 +3,7 @@
 namespace Acme\Lv\Component\Action\Api\Post;
 
 use Majora\Framework\Domain\Action\DynamicActionTrait;
+use Acme\Lv\Component\Entity\Post;
 
 /**
  * Post edition action representation.
@@ -19,19 +20,30 @@ class UpdateAction extends AbstractApiAction
     use DynamicActionTrait;
 
     /**
+     * @see ScopableInterface::getScopes()
+     */
+    public static function getScopes()
+    {
+        return Post::getScopes();
+    }
+
+    /**
      * @see ActionInterface::resolve()
      */
     public function resolve()
     {
-        // Generic Post hydration from this action magic accessors
-        $this->post->deserialize(
-            $actionData = $this->serialize()
+        // Api put call
+        $response = $this->getRestApiClient()->put(
+            array('id' => $this->post->getId()),
+            $this->serialize()
         );
 
-        // Api put call
-        $this->getRestApiClient()->put(
-            array('id' => $this->post->getId()),
-            $actionData
+        // Generic Post hydration from this action magic accessors
+        $this->post = $this->getSerializer()->deserialize(
+            (string) $this->getSerializer()->serialize($this, 'json'),
+            Post::class,
+            'json'
         );
     }
+
 }
