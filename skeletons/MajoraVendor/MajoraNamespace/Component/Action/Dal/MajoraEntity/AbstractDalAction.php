@@ -12,5 +12,5 @@ use Majora\Framework\Domain\Action\Dal\DalActionTrait;
  */
 abstract class AbstractDalAction extends AbstractMajoraEntityAction
 {
-	use DalActionTrait;
+    use DalActionTrait;
 }

@@ -18,7 +18,7 @@ class PostRouterContext implements Context
         $context->setHost($host);
         $context->setScheme($scheme);
         $context->setBaseUrl($baseUrl);
-        $setPortMethodName = 'set' . ucfirst($scheme) . 'Port';
+        $setPortMethodName = 'set'.ucfirst($scheme).'Port';
         $context->$setPortMethodName($port);
     }
 }

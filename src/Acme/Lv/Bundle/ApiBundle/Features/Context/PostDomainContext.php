@@ -3,7 +3,6 @@
 namespace Acme\Lv\Bundle\ApiBundle\Features\Context;
 
 use Behat\Behat\Context\Context;
-use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Acme\Lv\Component\Entity\PostCollection;
 use Acme\Lv\Component\Domain\PostDomainInterface;
@@ -14,15 +13,15 @@ use Acme\Lv\Component\Loader\PostLoaderInterface;
  */
 class PostDomainContext implements Context
 {
-	/**
-	 * @var PostContext
-	 */
-	protected $postContext;
+    /**
+     * @var PostContext
+     */
+    protected $postContext;
 
-	/**
-	 * @var PostDomainInterface
-	 */
-	protected $domain;
+    /**
+     * @var PostDomainInterface
+     */
+    protected $domain;
 
     /**
      * @var PostLoaderInterface
@@ -47,7 +46,7 @@ class PostDomainContext implements Context
         $environment = $scope->getEnvironment();
 
         $this->postContext = $environment
-        				->getContext('Acme\Lv\Bundle\ApiBundle\Features\Context\PostContext');
+                        ->getContext('Acme\Lv\Bundle\ApiBundle\Features\Context\PostContext');
     }
 
     /**
@@ -64,10 +63,10 @@ class PostDomainContext implements Context
      */
     public function iShouldSeeThesesPosts(PostCollection $posts)
     {
-        foreach ($posts as $post){
+        foreach ($posts as $post) {
             if (!$this->postList->search(['name' => $post->getName()])->count()) {
                 $postName = $post->getName();
-                throw new \Exception(sprintf("The post %s was not found.", $postName));
+                throw new \Exception(sprintf('The post %s was not found.', $postName));
             }
         }
     }
@@ -78,10 +77,10 @@ class PostDomainContext implements Context
      */
     public function iShouldNotSeeThesesPosts(PostCollection $posts)
     {
-        foreach ($posts as $post){
+        foreach ($posts as $post) {
             if ($this->postList->search(['name' => $post->getName()])->count()) {
                 $postName = $post->getName();
-                throw new \Exception(sprintf("The post %s was found.", $postName));
+                throw new \Exception(sprintf('The post %s was found.', $postName));
             }
         }
     }
@@ -105,7 +104,7 @@ class PostDomainContext implements Context
         $oldPost = $this->postContext->getPosts()->get($key);
 
         if (!$oldPost) {
-            throw new \Exception(sprintf("The post %s was not found.", $key));
+            throw new \Exception(sprintf('The post %s was not found.', $key));
         }
 
         foreach ($posts as $post) {
@@ -121,7 +120,7 @@ class PostDomainContext implements Context
         $oldPost = $this->postContext->getPosts()->get($key);
 
         if (!$oldPost) {
-            throw new \Exception(sprintf("The post %s was not found.", $key));
+            throw new \Exception(sprintf('The post %s was not found.', $key));
         }
 
         $this->domain->delete($oldPost);

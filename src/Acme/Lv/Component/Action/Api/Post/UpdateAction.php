@@ -45,5 +45,4 @@ class UpdateAction extends AbstractApiAction
             'json'
         );
     }
-
 }

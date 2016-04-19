@@ -9,5 +9,4 @@ use Behat\Behat\Context\Context;
  */
 class MajoraEntityContext implements Context
 {
-
 }

@@ -65,7 +65,7 @@ class PostContext implements Context
     {
         // Flush posts table.
         $oldPosts = $this->loader->retrieveAll();
-        foreach ($oldPosts as $oldPost){
+        foreach ($oldPosts as $oldPost) {
             $this->repository->remove($oldPost);
         }
 
@@ -99,5 +99,4 @@ class PostContext implements Context
     {
         return $this->posts;
     }
-
 }

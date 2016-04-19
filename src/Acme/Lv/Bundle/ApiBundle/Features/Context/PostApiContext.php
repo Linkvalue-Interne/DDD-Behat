@@ -3,7 +3,6 @@
 namespace Acme\Lv\Bundle\ApiBundle\Features\Context;
 
 use Behat\Behat\Context\Context;
-use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -68,7 +67,7 @@ class PostApiContext implements Context
         if ($response->getStatusCode() != Response::HTTP_OK) {
             throw new \Exception(
                 sprintf(
-                    "Wrong status code : %s given, %s expected",
+                    'Wrong status code : %s given, %s expected',
                     $response->getStatusCode(),
                     Response::HTTP_OK
                 )
@@ -86,7 +85,7 @@ class PostApiContext implements Context
      */
     public function iShouldSeeThesesPosts(PostCollection $posts)
     {
-        foreach ($posts as $post){
+        foreach ($posts as $post) {
             if (!$this->postList->search(['name' => $post->getName()])->count()) {
                 $postName = $post->getName();
                 throw new \Exception("The post $postName was not found.");
@@ -100,7 +99,7 @@ class PostApiContext implements Context
      */
     public function iShouldNotSeeThesesPosts(PostCollection $posts)
     {
-        foreach ($posts as $post){
+        foreach ($posts as $post) {
             if ($this->postList->search(['name' => $post->getName()])->count()) {
                 $postName = $post->getName();
                 throw new \Exception("The post $postName was found.");
@@ -128,7 +127,7 @@ class PostApiContext implements Context
             if ($response->getStatusCode() != Response::HTTP_CREATED) {
                 throw new \Exception(
                     sprintf(
-                        "Wrong status code : %s given, %s expected",
+                        'Wrong status code : %s given, %s expected',
                         $response->getStatusCode(),
                         Response::HTTP_CREATED
                     )
@@ -162,7 +161,7 @@ class PostApiContext implements Context
             if ($response->getStatusCode() != Response::HTTP_NO_CONTENT) {
                 throw new \Exception(
                     sprintf(
-                        "Wrong status code : %s given, %s expected",
+                        'Wrong status code : %s given, %s expected',
                         $response->getStatusCode(),
                         Response::HTTP_NO_CONTENT
                     )
@@ -195,7 +194,7 @@ class PostApiContext implements Context
         if ($response->getStatusCode() != Response::HTTP_NO_CONTENT) {
             throw new \Exception(
                 sprintf(
-                    "Wrong status code : %s given, %s expected",
+                    'Wrong status code : %s given, %s expected',
                     $response->getStatusCode(),
                     Response::HTTP_NO_CONTENT
                 )
