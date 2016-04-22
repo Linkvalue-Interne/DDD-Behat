@@ -1,0 +1,58 @@
+# @MajoraGenerator({"register_doctrine_em": {"target": "/config/config.yml"}})
+# @MajoraGenerator({"register_doctrine_em": {"em": "default"}})
+# @MajoraGenerator({"register_doctrine_em": {"prefix": "Sir1\\Partner3\\Component\\Entity"}})
+# @MajoraGenerator({"register_doctrine_em": {"bundle": "Sir1Partner3DalBundle"}})
+# @MajoraGenerator({"register_doctrine_em": {"alias": "Sir1Partner3"}})
+
+Sir1\Partner3\Component\Entity\Person2:
+    type: entity
+    repositoryClass: Sir1\Partner3\Component\Repository\Doctrine\Person2DoctrineRepository
+    table: sir1_partner3_person2
+    actAs:
+        Timestampable: ~
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+
+        # your other Person2 properties here
+
+        createdAt:
+            type: datetime
+            column: created_at
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            column: updated_at
+            gedmo:
+                timestampable:
+                    on: update
+
+    # manyToOne:
+    #     example:
+    #         targetEntity: Example
+    #         inversedBy: person2s
+    #         joinColumn:
+    #             name: example_id
+    #             referencedColumnName: id
+
+    # oneToMany:
+    #     examples:
+    #         targetEntity: Example
+    #         mappedBy: person2
+    #         cascade: ['persist', 'remove']
+
+    # manyToMany:
+    #     examples:
+    #         targetEntity: Example
+    #         joinTable:
+    #             name: sir1_partner3_person2_example
+    #             joinColumns:
+    #                 person2_id:
+    #                     referencedColumnName: id
+    #             inverseJoinColumns:
+    #                 example_id:
+    #                     referencedColumnName: id

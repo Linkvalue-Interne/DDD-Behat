@@ -1,44 +1,20 @@
+imports:
+    - app/config/parameters.yml
+
 default:
     autoload:
         '': %paths.base%/src
     extensions:
         Behat\Symfony2Extension: ~
     suites:
-        api_controller:
-            type: symfony_bundle
-            bundle: AcmeLvApiBundle
-            paths: [ %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features ]
-            contexts:
-                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostApiControllerContext:
-                    em: '@doctrine.orm.entity_manager'
-                    router: '@router'
-                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostRouterContext:
-                    router: '@router'
-                    host: 'localhost'
-                    scheme: 'http'
-                    baseUrl: '/web/app.php'
-                    port: '9001'
         dal_domain:
             type: symfony_bundle
-            bundle: AcmeLvDalBundle
-            paths: [ %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features ]
+            bundle: Sir1Partner3DalBundle
+            paths:
+                #- %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features
+                - %paths.base%/src/Sir1/Partner3/Bundle/ApiBundle/Features
             contexts:
-                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostDalDomainContext:
-                    domain: '@acme.post.domain'
-                    loader: '@acme.post.loader'
+                - Sir1\Partner3\Bundle\ApiBundle\Features\Context\Person2Context:
+                    domain: '@sir1.person2.domain'
+                    loader: '@sir1.person2.loader'
                     em: '@doctrine.orm.entity_manager'
-        api_domain:
-            type: symfony_bundle
-            bundle: AcmeLvDalBundle
-            paths: [ %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features ]
-            contexts:
-                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostApiDomainContext:
-                    em: '@doctrine.orm.entity_manager'
-                    domain: '@acme.post.api_domain'
-                    loader: '@acme.post.api_loader'
-                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostRouterContext:
-                    router: '@router'
-                    host: 'localhost'
-                    scheme: 'http'
-                    baseUrl: '/web/app.php'
-                    port: '9001'

@@ -1,2 +1,4 @@
 app:
     resource: "@AcmeLvSdkBundle/Resources/config/routing/auto/auto_post.yml"
+persons:
+   resource: "@SirPartnerSdkBundle/Resources/config/routing.yml"

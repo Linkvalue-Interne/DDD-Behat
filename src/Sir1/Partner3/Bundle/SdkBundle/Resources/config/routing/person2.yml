@@ -1,0 +1,8 @@
+# @MajoraGenerator({"include_routing": {"target": "../routing.yml"}})
+# @MajoraGenerator({"include_routing": {"route": "sir1_person2_sdk"}})
+# @MajoraGenerator({"include_routing": {"resource": "routing/person2.yml"}})
+# @MajoraGenerator({"include_routing": {"prefix": "/person2s"}})
+
+# generated routes
+auto_sir1_person2_sdk:
+    resource: "@Sir1Partner3SdkBundle/Resources/config/routing/auto/auto_person2.yml"
