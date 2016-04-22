@@ -70,7 +70,7 @@
         <!-- MajoraEntity Api deletion action -->
         <service id="majora_vendor.majora_entity.api_deletion_action"
             parent="majora_vendor.majora_entity.abstract_api_action" public="false"
-            class="MajoraVendor\MajoraNamespace\Component\Api\Action\MajoraEntity\DeleteAction"
+            class="MajoraVendor\MajoraNamespace\Component\Action\Api\MajoraEntity\DeleteAction"
         >
             <tag name="majora.domain.action" namespace="majora_vendor.majora_entity.api" alias="delete" />
         </service>

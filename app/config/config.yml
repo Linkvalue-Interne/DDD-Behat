@@ -60,6 +60,12 @@ doctrine:
         entity_managers:
             default:
                 mappings:
+                    SirPartnerDalBundle:
+                        type: yml
+                        dir: Resources/config/doctrine
+                        prefix: Sir\Partner\Component\Entity
+                        alias: SirPartner
+                        
                     AcmeLvDalBundle:
                         type: yml
                         dir: Resources/config/doctrine

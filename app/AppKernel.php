@@ -20,6 +20,9 @@ class AppKernel extends Kernel
             new Acme\Lv\Bundle\ApiBundle\AcmeLvApiBundle(),
             new Acme\Lv\Bundle\DalBundle\AcmeLvDalBundle(),
             new Acme\Lv\Bundle\SdkBundle\AcmeLvSdkBundle(),
+            new Sir\Partner\Bundle\ApiBundle\SirPartnerApiBundle(),
+            new Sir\Partner\Bundle\DalBundle\SirPartnerDalBundle(),
+            new Sir\Partner\Bundle\SdkBundle\SirPartnerSdkBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
