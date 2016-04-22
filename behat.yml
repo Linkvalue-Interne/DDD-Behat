@@ -10,8 +10,7 @@ default:
             paths: [ %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features ]
             contexts:
                 - Acme\Lv\Bundle\ApiBundle\Features\Context\PostContext:
-                    repository: '@acme.post.repository'
-                    loader: '@acme.post.loader'
+                    em: '@doctrine.orm.entity_manager'
                 - Acme\Lv\Bundle\ApiBundle\Features\Context\PostApiContext:
                     router: '@router'
                 - Acme\Lv\Bundle\ApiBundle\Features\Context\PostRouterContext:
@@ -26,8 +25,7 @@ default:
             paths: [ %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features ]
             contexts:
                 - Acme\Lv\Bundle\ApiBundle\Features\Context\PostContext:
-                    repository: '@acme.post.repository'
-                    loader: '@acme.post.loader'
+                    em: '@doctrine.orm.entity_manager'
                 - Acme\Lv\Bundle\ApiBundle\Features\Context\PostDomainContext:
                     domain: '@acme.post.domain'
                     loader: '@acme.post.loader'
@@ -37,8 +35,7 @@ default:
             paths: [ %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features ]
             contexts:
                 - Acme\Lv\Bundle\ApiBundle\Features\Context\PostContext:
-                    repository: '@acme.post.repository'
-                    loader: '@acme.post.loader'
+                    em: '@doctrine.orm.entity_manager'
                 - Acme\Lv\Bundle\ApiBundle\Features\Context\PostDomainContext:
                     domain: '@acme.post.api_domain'
                     loader: '@acme.post.api_loader'
@@ -48,4 +45,3 @@ default:
                     scheme: 'http'
                     baseUrl: '/web/app.php'
                     port: '9001'
-
