@@ -3,6 +3,7 @@
 namespace Acme\Lv\Bundle\ApiBundle\Features\Context;
 
 use Behat\Gherkin\Node\TableNode;
+use Behat\Behat\Context\Context;
 use Acme\Lv\Component\Entity\Post;
 use Acme\Lv\Component\Entity\PostCollection;
 use Acme\Lv\Component\Domain\PostDomainInterface;
@@ -12,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 /**
  * Defines application features from the specific context.
  */
-class PostDalDomainContext extends MajoraEntityDalContext
+class PostDalDomainContext implements Context
 {
     /**
      * @var PostDomainInterface
@@ -29,16 +30,39 @@ class PostDalDomainContext extends MajoraEntityDalContext
      */
     protected $posts;
 
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $em;
+
     public function __construct(
         PostDomainInterface $domain,
         PostLoaderInterface $loader,
         EntityManagerInterface $em)
     {
-        parent::__construct($em);
-
         $this->domain = $domain;
         $this->loader = $loader;
+        $this->em = $em;
+
         $this->posts = new PostCollection();
+    }
+
+    /**
+     * @BeforeScenario
+     */
+    public function BeforeScenario()
+    {
+        $this->em->getConnection();
+        $this->em->beginTransaction();
+    }
+
+    /**
+     * @AfterScenario
+     */
+    public function AfterScenario()
+    {
+        $this->em->rollback();
+        $this->em->close();
     }
 
     /**

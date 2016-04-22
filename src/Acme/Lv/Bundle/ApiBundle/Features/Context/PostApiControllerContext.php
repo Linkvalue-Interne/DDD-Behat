@@ -2,6 +2,7 @@
 
 namespace Acme\Lv\Bundle\ApiBundle\Features\Context;
 
+use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 /**
  * Defines application features from the specific context.
  */
-class PostApiControllerContext extends MajoraEntityContext
+class PostApiControllerContext implements Context
 {
 
     /**
@@ -33,13 +34,17 @@ class PostApiControllerContext extends MajoraEntityContext
      */
     protected $posts;
 
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $em;
+
     public function __construct(
         UrlGeneratorInterface $router,
         EntityManagerInterface $em)
     {
-        parent::__construct($em);
-
         $this->router = $router;
+        $this->em = $em;
 
         $this->client = new Client();
         $this->posts = new PostCollection();

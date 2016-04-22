@@ -2,6 +2,7 @@
 
 namespace Acme\Lv\Bundle\ApiBundle\Features\Context;
 
+use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Acme\Lv\Component\Entity\Post;
 use Acme\Lv\Component\Entity\PostCollection;
@@ -12,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 /**
  * Defines application features from the specific context.
  */
-class PostApiDomainContext extends MajoraEntityContext
+class PostApiDomainContext implements Context
 {
     /**
      * @var PostDomainInterface
@@ -29,15 +30,19 @@ class PostApiDomainContext extends MajoraEntityContext
      */
     protected $posts;
 
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $em;
+
     public function __construct(
         PostDomainInterface $domain,
         PostLoaderInterface $loader,
         EntityManagerInterface $em)
     {
-        parent::__construct($em);
-
         $this->domain = $domain;
         $this->loader = $loader;
+        $this->em = $em;
 
         $this->posts = new PostCollection();
     }
