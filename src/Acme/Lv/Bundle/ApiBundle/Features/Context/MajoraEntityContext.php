@@ -22,29 +22,11 @@ abstract class MajoraEntityContext implements Context
      */
     public static function initDabatabase()
     {
-        exec('php app/console --env=test doctrine:schema:drop --force');
-        exec('php app/console --env=test doctrine:schema:create');
+        exec('php bin/console --env=test doctrine:schema:drop --force');
+        exec('php bin/console --env=test doctrine:schema:create');
         // No use of fixtures, loaded in background.
-        // exec('php app/console --env=test doctrine:fixtures:load --no-interaction');
+        // exec('php bin/console --env=test doctrine:fixtures:load --no-interaction');
         echo 'Bdd initialized';
-    }
-
-    /**
-     * @BeforeScenario
-     */
-    public function BeforeScenario()
-    {
-        $this->em->getConnection();
-        $this->em->beginTransaction();
-    }
-
-    /**
-     * @AfterScenario
-     */
-    public function AfterScenario()
-    {
-        $this->em->rollback();
-        $this->em->close();
     }
 
 }

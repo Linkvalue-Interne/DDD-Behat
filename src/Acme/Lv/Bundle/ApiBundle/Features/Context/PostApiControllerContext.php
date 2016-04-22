@@ -2,23 +2,26 @@
 
 namespace Acme\Lv\Bundle\ApiBundle\Features\Context;
 
-use Behat\Behat\Context\Context;
-use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Gherkin\Node\TableNode;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Client;
+use Acme\Lv\Component\Entity\Post;
 use Acme\Lv\Component\Entity\PostCollection;
+use Acme\Lv\Bundle\ApiBundle\Features\Context\MajoraEntityApiContext;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Defines application features from the specific context.
  */
-class PostApiContext implements Context
+class PostApiControllerContext extends MajoraEntityContext
 {
+
     /**
-     * @var PostContext
-     */
-    protected $postContext;
+    * @var UrlGeneratorInterface
+    */
+    protected $router;
 
     /**
      * @var ClientInterface
@@ -26,27 +29,64 @@ class PostApiContext implements Context
     protected $client;
 
     /**
-     * @var UrlGeneratorInterface
+     * @var PostCollection
      */
-    protected $router;
+    protected $posts;
 
-    public function __construct(UrlGeneratorInterface $router)
+    public function __construct(
+        UrlGeneratorInterface $router,
+        EntityManagerInterface $em)
     {
-        $this->client = new Client();
+        parent::__construct($em);
+
         $this->router = $router;
+
+        $this->client = new Client();
+        $this->posts = new PostCollection();
     }
 
     /**
-     * Get Fixtures post from main context.
-     *
-     * @BeforeScenario
+     * @AfterScenario
      */
-    public function gatherContexts(BeforeScenarioScope $scope)
+    public function removePosts()
     {
-        $environment = $scope->getEnvironment();
+        foreach ($this->posts as $post) {
+            $this->em->remove($post);
+        }
+        $this->em->flush();
+    }
 
-        $this->postContext = $environment
-                        ->getContext('Acme\Lv\Bundle\ApiBundle\Features\Context\PostContext');
+    /**
+     * @Given I have theses posts:
+     */
+    public function iHaveThesesPosts(PostCollection $posts)
+    {
+        // Fill posts table.
+        foreach ($posts as $post) {
+            $this->em->persist($post);
+        }
+        $this->em->flush();
+        $this->posts = $posts;
+    }
+
+    /**
+     * @Transform table:key,name
+     * @Transform table:name
+     */
+    public function castPostsTable(TableNode $postsTable)
+    {
+        $posts = new PostCollection();
+        foreach ($postsTable->getHash() as $postHash) {
+            $post = new Post();
+            $post->setName($postHash['name']);
+            if (isset($postHash['key'])) {
+                $posts->set($postHash['key'], $post);
+                continue;
+            }
+            $posts->add($post);
+        }
+
+        return $posts;
     }
 
     /**
@@ -133,6 +173,12 @@ class PostApiContext implements Context
                     )
                 );
             }
+
+            // Parse the answer and add the created post to the postlist so we can delete it after the scenario.
+            $data = (array) json_decode($response->getBody()->getContents());
+            $post->denormalize($data);
+            $post = $this->em->getReference('Acme\Lv\Component\Entity\Post', $post->getId());
+            $this->posts->add($post);
         }
     }
 
@@ -141,7 +187,7 @@ class PostApiContext implements Context
      */
     public function iUpdateTheKeyPost($key, PostCollection $posts)
     {
-        $oldPost = $this->postContext->getPosts()->get($key);
+        $oldPost = $this->posts->get($key);
 
         if (!$oldPost) {
             throw new \Exception("The post \"$key\" was not found.");
@@ -175,7 +221,7 @@ class PostApiContext implements Context
      */
     public function iDeleteTheKeyPost($key)
     {
-        $oldPost = $this->postContext->getPosts()->get($key);
+        $oldPost = $this->posts->get($key);
 
         if (!$oldPost) {
             throw new \Exception("The post \"$key\" was not found.");

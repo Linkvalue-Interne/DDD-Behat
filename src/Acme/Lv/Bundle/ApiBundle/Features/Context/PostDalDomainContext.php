@@ -2,22 +2,18 @@
 
 namespace Acme\Lv\Bundle\ApiBundle\Features\Context;
 
-use Behat\Behat\Context\Context;
-use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Gherkin\Node\TableNode;
+use Acme\Lv\Component\Entity\Post;
 use Acme\Lv\Component\Entity\PostCollection;
 use Acme\Lv\Component\Domain\PostDomainInterface;
 use Acme\Lv\Component\Loader\PostLoaderInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Defines application features from the specific context.
  */
-class PostDomainContext implements Context
+class PostDalDomainContext extends MajoraEntityDalContext
 {
-    /**
-     * @var PostContext
-     */
-    protected $postContext;
-
     /**
      * @var PostDomainInterface
      */
@@ -28,25 +24,54 @@ class PostDomainContext implements Context
      */
     protected $loader;
 
+    /**
+     * @var PostCollection
+     */
+    protected $posts;
+
     public function __construct(
         PostDomainInterface $domain,
-        PostLoaderInterface $loader)
+        PostLoaderInterface $loader,
+        EntityManagerInterface $em)
     {
+        parent::__construct($em);
+
         $this->domain = $domain;
         $this->loader = $loader;
+        $this->posts = new PostCollection();
     }
 
     /**
-     * Get Fixtures post from main context.
-     *
-     * @BeforeScenario
+     * @Given I have theses posts:
      */
-    public function gatherContexts(BeforeScenarioScope $scope)
+    public function iHaveThesesPosts(PostCollection $posts)
     {
-        $environment = $scope->getEnvironment();
+        // Fill posts table.
+        foreach ($posts as $post) {
+            $this->em->persist($post);
+        }
+        $this->em->flush();
+        $this->posts = $posts;
+    }
 
-        $this->postContext = $environment
-                        ->getContext('Acme\Lv\Bundle\ApiBundle\Features\Context\PostContext');
+    /**
+     * @Transform table:key,name
+     * @Transform table:name
+     */
+    public function castPostsTable(TableNode $postsTable)
+    {
+        $posts = new PostCollection();
+        foreach ($postsTable->getHash() as $postHash) {
+            $post = new Post();
+            $post->setName($postHash['name']);
+            if (isset($postHash['key'])) {
+                $posts->set($postHash['key'], $post);
+                continue;
+            }
+            $posts->add($post);
+        }
+
+        return $posts;
     }
 
     /**
@@ -101,7 +126,7 @@ class PostDomainContext implements Context
      */
     public function iUpdateTheKeyPost($key, PostCollection $posts)
     {
-        $oldPost = $this->postContext->getPosts()->get($key);
+        $oldPost = $this->posts->get($key);
 
         if (!$oldPost) {
             throw new \Exception(sprintf('The post %s was not found.', $key));
@@ -117,7 +142,7 @@ class PostDomainContext implements Context
      */
     public function iDeleteTheKeyPost($key)
     {
-        $oldPost = $this->postContext->getPosts()->get($key);
+        $oldPost = $this->posts->get($key);
 
         if (!$oldPost) {
             throw new \Exception(sprintf('The post %s was not found.', $key));

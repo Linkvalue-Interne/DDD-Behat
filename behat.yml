@@ -4,14 +4,13 @@ default:
     extensions:
         Behat\Symfony2Extension: ~
     suites:
-        post_api_controller:
+        api_controller:
             type: symfony_bundle
             bundle: AcmeLvApiBundle
             paths: [ %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features ]
             contexts:
-                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostContext:
+                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostApiControllerContext:
                     em: '@doctrine.orm.entity_manager'
-                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostApiContext:
                     router: '@router'
                 - Acme\Lv\Bundle\ApiBundle\Features\Context\PostRouterContext:
                     router: '@router'
@@ -19,24 +18,22 @@ default:
                     scheme: 'http'
                     baseUrl: '/web/app.php'
                     port: '9001'
-        post_dal_domain:
+        dal_domain:
             type: symfony_bundle
             bundle: AcmeLvDalBundle
             paths: [ %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features ]
             contexts:
-                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostContext:
-                    em: '@doctrine.orm.entity_manager'
-                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostDomainContext:
+                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostDalDomainContext:
                     domain: '@acme.post.domain'
                     loader: '@acme.post.loader'
-        post_api_domain:
+                    em: '@doctrine.orm.entity_manager'
+        api_domain:
             type: symfony_bundle
             bundle: AcmeLvDalBundle
             paths: [ %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features ]
             contexts:
-                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostContext:
+                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostApiDomainContext:
                     em: '@doctrine.orm.entity_manager'
-                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostDomainContext:
                     domain: '@acme.post.api_domain'
                     loader: '@acme.post.api_loader'
                 - Acme\Lv\Bundle\ApiBundle\Features\Context\PostRouterContext:
