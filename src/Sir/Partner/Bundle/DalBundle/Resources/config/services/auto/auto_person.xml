@@ -79,7 +79,7 @@
             public="false" lazy="true"
         >
             <tag name="majora.loader"
-                entityClass="Sir\Partner\ComponentEntity\Person"
+                entityClass="Sir\Partner\Component\Entity\Person"
                 entityCollection="Sir\Partner\Component\Entity\PersonCollection"
             />
         </service>
