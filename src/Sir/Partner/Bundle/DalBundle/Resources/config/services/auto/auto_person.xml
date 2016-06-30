@@ -1,0 +1,104 @@
+<?xml version="1.0" ?>
+
+<!-- @MajoraGenerator({"force_generation": true}) -->
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <!-- Person abstract dal action -->
+        <service id="sir.person.abstract_dal_action" parent="majora.domain.abstract_action" abstract="true"
+            class="Sir\Partner\Component\Action\Dal\Person\AbstractDalAction"
+        />
+
+        <!-- Person Dal creation action -->
+        <service id="sir.person.dal_creation_action" public="false"
+            parent="sir.person.abstract_dal_action"
+            class="Sir\Partner\Component\Action\Dal\Person\CreateAction"
+        >
+            <tag name="majora.domain.action" namespace="sir.person.dal" alias="create" />
+        </service>
+
+        <!-- Person Dal edition action -->
+        <service id="sir.person.dal_edition_action"  public="false"
+            parent="sir.person.abstract_dal_action"
+            class="Sir\Partner\Component\Action\Dal\Person\UpdateAction"
+        >
+            <tag name="majora.domain.action" namespace="sir.person.dal" alias="update" />
+        </service>
+
+        <!-- Person Dal deletion action -->
+        <service id="sir.person.dal_deletion_action" public="false"
+            parent="sir.person.abstract_dal_action"
+            class="Sir\Partner\Component\Action\Dal\Person\DeleteAction"
+        >
+            <tag name="majora.domain.action" namespace="sir.person.dal" alias="delete" />
+        </service>
+
+        <!-- Person Dal action factory -->
+        <service id="sir.person.dal_action_factory" public="false"
+            class="Majora\Framework\Domain\Action\ActionFactory"
+        >
+            <tag name="majora.domain.action_factory" namespace="sir.person.dal" />
+            <tag name="majora.alias" alias="sir.person.action_factory" />
+        </service>
+
+        <!-- Person Orm Loader -->
+        <service id="partner.person.orm_loader"
+            class="Sir\Partner\Component\Loader\Doctrine\PersonDoctrineLoader"
+            parent="majora.loader.abstract"
+            public="true" lazy="true"
+        >
+            <argument type="service" id="partner.person.orm_repository" />
+            <tag name="majora.loader"
+                repository="partner.person.orm_repository"
+                entityClass="Sir\Partner\Component\Entity\Person"
+                entityCollection="Sir\Partner\Component\Entity\PersonCollection"
+            />
+            <tag name="majora.alias" alias="sir.person.loader" />
+        </service>
+
+        <!-- Person Orm Repository -->
+        <service id="partner.person.orm_repository"
+            class="Sir\Partner\Component\Repository\Doctrine\PersonDoctrineRepository"
+            parent="majora.doctrine_repository.abstract"
+            public="false"
+        >
+            <factory service="doctrine" method="getRepository" />
+            <argument>SirPartner:Person</argument>
+            <argument>default</argument>
+            <tag name="majora.alias" alias="sir.person.repository" />
+        </service>
+
+        <!-- Person Graph Loader -->
+        <service id="sir.person.graph_loader"
+            class="Sir\Partner\Component\Loader\Graph\PersonGraphLoader"
+            parent="majora.loader.abstract"
+            public="false" lazy="true"
+        >
+            <tag name="majora.loader"
+                entityClass="Sir\Partner\ComponentEntity\Person"
+                entityCollection="Sir\Partner\Component\Entity\PersonCollection"
+            />
+        </service>
+
+        <!-- Person Graph Repository -->
+        <service id="sir.person.graph_repository"
+            class="Sir\Partner\Component\Repository\Graph\PersonGraphRepository"
+            parent="majora.graph_repository.abstract"
+            public="false" lazy="true"
+        />
+
+        <!-- Person Persistence Listener -->
+        <service id="sir.person.persistence_listener" public="true"
+            class="Sir\Partner\Bundle\DalBundle\Persistence\PersonPersistenceListener"
+        >
+            <tag name="kernel.event_subscriber" />
+            <argument type="service" id="sir.person.repository" />
+        </service>
+
+    </services>
+
+</container>

@@ -1,0 +1,4 @@
+
+sir_person_sdk:
+    resource: "routing/person.yml"
+    prefix: /persons

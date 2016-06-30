@@ -1,0 +1,102 @@
+<?xml version="1.0" ?>
+
+<!-- @MajoraGenerator({"force_generation": true}) -->
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <!-- Person Api Client -->
+        <service id="sir.person.api_client" public="false"
+            class="Majora\Framework\Api\Client\RestApiClient"
+        >
+            <argument type="service" id="majora.http.client" />
+            <argument type="service">
+                <service class="Majora\Framework\Api\Request\RestApiRequestFactory"
+                    parent="majora.http.abstract_request_factory"
+                >
+                    <call method="registerRouteMapping">
+                        <argument type="collection">
+                            <argument key="cget">sir_api_person_collection</argument>
+                            <argument key="post">sir_api_person_create</argument>
+                            <argument key="get">sir_api_person_read</argument>
+                            <argument key="put">sir_api_person_update</argument>
+                            <argument key="delete">sir_api_person_delete</argument>
+                        </argument>
+                    </call>
+                </service>
+            </argument>
+        </service>
+
+        <!-- Person Api Loader -->
+        <service id="sir.person.api_loader"
+            class="Sir\Partner\Component\Loader\Api\PersonApiLoader"
+            parent="majora.loader.abstract" public="true" lazy="true"
+        >
+            <argument type="service" id="sir.person.api_client" />
+            <argument type="service" id="majora.serializer" />
+            <tag name="majora.loader"
+                entityClass="Sir\Partner\Component\Entity\Person"
+                entityCollection="Sir\Partner\Component\Entity\PersonCollection"
+            />
+        </service>
+        <service id="sir.person.loader" alias="sir.person.api_loader" />
+
+        <!-- Person abstract api action -->
+        <service id="sir.person.abstract_api_action" parent="majora.domain.abstract_api_action" abstract="true"
+            class="Sir\Partner\Component\Action\Api\Person\AbstractApiAction"
+        >
+            <call method="setRestApiClient"><argument type="service" id="sir.person.api_client" /></call>
+        </service>
+
+        <!-- Person Api creation action -->
+        <service id="sir.person.api_creation_action"
+            parent="sir.person.abstract_api_action" public="false"
+            class="Sir\Partner\Component\Action\Api\Person\CreateAction"
+        >
+            <tag name="majora.domain.action" namespace="sir.person.api" alias="create" />
+        </service>
+
+        <!-- Person Api edition action -->
+        <service id="sir.person.api_edition_action"
+            parent="sir.person.abstract_api_action" public="false"
+            class="Sir\Partner\Component\Action\Api\Person\UpdateAction"
+        >
+            <tag name="majora.domain.action" namespace="sir.person.api" alias="update" />
+        </service>
+
+        <!-- Person Api deletion action -->
+        <service id="sir.person.api_deletion_action"
+            parent="sir.person.abstract_api_action" public="false"
+            class="Sir\Partner\Component\Api\Action\Person\DeleteAction"
+        >
+            <tag name="majora.domain.action" namespace="sir.person.api" alias="delete" />
+        </service>
+
+        <!-- Person Api action factory -->
+        <service id="sir.person.api_action_factory" public="false"
+            class="Majora\Framework\Domain\Action\ActionFactory"
+        >
+            <tag name="majora.domain.action_factory" namespace="sir.person.api" />
+        </service>
+        <service id="sir.person.action_factory" alias="sir.person.api_action_factory" />
+
+        <!-- Person Domain -->
+        <service id="sir.person.domain" public="true"
+            class="Sir\Partner\Component\Domain\Action\PersonActionDispatcherDomain"
+        >
+            <argument type="service" id="sir.person.action_factory" />
+        </service>
+
+        <!-- Person Api Domain -->
+        <service id="sir.person.api_domain" public="true"
+            class="Sir\Partner\Component\Domain\Action\PersonActionDispatcherDomain"
+        >
+            <argument type="service" id="sir.person.api_action_factory" />
+        </service>
+
+    </services>
+
+</container>
