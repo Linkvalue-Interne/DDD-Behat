@@ -6,27 +6,27 @@ Feature: MajoraEntity Crud.
     I need to be able to create, update, delete and retrieve majora_entity.
 
     Background: Fixtures
-        Given I have theses majora_entity:
-            | key             | id |
+        Given I have theses majora_entitys:
+            | majora_entity_key             | majora_entity_id |
             | majora_entity_1 | 1  |
             | majora_entity_2 | 2  |
             | majora_entity_3 | 3  |
 
     Scenario: Read
         Given I get the majora_entity list
-        Then I should see theses majora_entity:
-            | id |
+        Then I should see theses majora_entitys:
+            | majora_entity_id |
             | 1  |
             | 2  |
             | 3  |
 
     Scenario: Create
-        Given I create theses majora_entity:
-            | id |
+        Given I create theses majora_entitys:
+            | majora_entity_id |
             | 4  |
         And I get the majora_entity list
-        Then I should see theses majora_entity:
-            | id |
+        Then I should see theses majora_entitys:
+            | majora_entity_id |
             | 1  |
             | 2  |
             | 3  |
@@ -37,22 +37,22 @@ Feature: MajoraEntity Crud.
             | id |
             | 4  |
         And I get the majora_entity list
-        Then I should see theses majora_entity:
+        Then I should see theses majora_entitys:
             | id |
             | 1  |
             | 4  |
             | 3  |
-        And I should not see theses majora_entity:
+        And I should not see theses majora_entitys:
             | id |
             | 2  |
 
     Scenario: Delete
         Given I delete the "majora_entity_2" majora_entity
         And I get the majora_entity list
-        Then I should see theses majora_entity:
+        Then I should see theses majora_entitys:
             | id |
             | 1  |
             | 3  |
-        And I should not see theses majora_entity:
+        And I should not see theses majora_entitys:
             | id |
             | 2  |

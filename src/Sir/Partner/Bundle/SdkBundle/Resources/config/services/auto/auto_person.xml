@@ -70,7 +70,7 @@
         <!-- Person Api deletion action -->
         <service id="sir.person.api_deletion_action"
             parent="sir.person.abstract_api_action" public="false"
-            class="Sir\Partner\Component\Api\Action\Person\DeleteAction"
+            class="Sir\Partner\Component\Action\Api\Person\DeleteAction"
         >
             <tag name="majora.domain.action" namespace="sir.person.api" alias="delete" />
         </service>
