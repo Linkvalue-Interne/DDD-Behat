@@ -7,7 +7,7 @@ Feature: MajoraEntity Crud.
 
     Background: Fixtures
         Given I have theses majora_entitys:
-            | majora_entity_key             | majora_entity_id |
+            | majora_entity_key | majora_entity_id |
             | majora_entity_1 | 1  |
             | majora_entity_2 | 2  |
             | majora_entity_3 | 3  |
@@ -34,25 +34,25 @@ Feature: MajoraEntity Crud.
 
     Scenario: Update
         Given I update the "majora_entity_2" majora_entity with theses values:
-            | id |
+            | majora_entity_id |
             | 4  |
         And I get the majora_entity list
         Then I should see theses majora_entitys:
-            | id |
+            | majora_entity_id |
             | 1  |
             | 4  |
             | 3  |
         And I should not see theses majora_entitys:
-            | id |
+            | majora_entity_id |
             | 2  |
 
     Scenario: Delete
         Given I delete the "majora_entity_2" majora_entity
         And I get the majora_entity list
         Then I should see theses majora_entitys:
-            | id |
+            | majora_entity_id |
             | 1  |
             | 3  |
         And I should not see theses majora_entitys:
-            | id |
+            | majora_entity_id |
             | 2  |

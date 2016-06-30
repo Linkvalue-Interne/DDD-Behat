@@ -79,17 +79,17 @@ class PersonDalDomainContext implements Context
     }
 
     /**
-     * @Transform table:key,name
-     * @Transform table:name
+     * @Transform table:person_key,person_id
+     * @Transform table:person_id
      */
     public function castPersonsTable(TableNode $personsTable)
     {
         $persons = new PersonCollection();
         foreach ($personsTable->getHash() as $personHash) {
             $person = new Person();
-            $person->setName($personHash['name']);
-            if (isset($personHash['key'])) {
-                $persons->set($personHash['key'], $person);
+            $person->setId($personHash['person_id']);
+            if (isset($personHash['person_key'])) {
+                $persons->set($personHash['person_key'], $person);
                 continue;
             }
             $persons->add($person);
@@ -113,9 +113,9 @@ class PersonDalDomainContext implements Context
     public function iShouldSeeThesesPersons(PersonCollection $persons)
     {
         foreach ($persons as $person) {
-            if (!$this->personList->search(['name' => $person->getName()])->count()) {
-                $personName = $person->getName();
-                throw new \Exception(sprintf('The person %s was not found.', $personName));
+            if (!$this->personList->search(['id' => $person->getId()])->count()) {
+                $personId = $person->getId();
+                throw new \Exception(sprintf('The person %s was not found.', $personId));
             }
         }
     }
@@ -127,9 +127,9 @@ class PersonDalDomainContext implements Context
     public function iShouldNotSeeThesesPersons(PersonCollection $persons)
     {
         foreach ($persons as $person) {
-            if ($this->personList->search(['name' => $person->getName()])->count()) {
-                $personName = $person->getName();
-                throw new \Exception(sprintf('The person %s was found.', $personName));
+            if ($this->personList->search(['id' => $person->getId()])->count()) {
+                $personId = $person->getId();
+                throw new \Exception(sprintf('The person %s was found.', $personId));
             }
         }
     }

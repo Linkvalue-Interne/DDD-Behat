@@ -7,7 +7,7 @@ Feature: Person Crud.
 
     Background: Fixtures
         Given I have theses persons:
-            | key             | id |
+            | person_key | person_id |
             | person_1 | 1  |
             | person_2 | 2  |
             | person_3 | 3  |
@@ -15,18 +15,18 @@ Feature: Person Crud.
     Scenario: Read
         Given I get the person list
         Then I should see theses persons:
-            | id |
+            | person_id |
             | 1  |
             | 2  |
             | 3  |
 
     Scenario: Create
         Given I create theses persons:
-            | id |
+            | person_id |
             | 4  |
         And I get the person list
         Then I should see theses persons:
-            | id |
+            | person_id |
             | 1  |
             | 2  |
             | 3  |
@@ -34,25 +34,25 @@ Feature: Person Crud.
 
     Scenario: Update
         Given I update the "person_2" person with theses values:
-            | id |
+            | person_id |
             | 4  |
         And I get the person list
         Then I should see theses persons:
-            | id |
+            | person_id |
             | 1  |
             | 4  |
             | 3  |
         And I should not see theses persons:
-            | id |
+            | person_id |
             | 2  |
 
     Scenario: Delete
         Given I delete the "person_2" person
         And I get the person list
         Then I should see theses persons:
-            | id |
+            | person_id |
             | 1  |
             | 3  |
         And I should not see theses persons:
-            | id |
+            | person_id |
             | 2  |

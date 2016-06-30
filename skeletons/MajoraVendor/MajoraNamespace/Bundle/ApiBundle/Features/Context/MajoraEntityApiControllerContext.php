@@ -75,17 +75,17 @@ class MajoraEntityApiControllerContext implements Context
     }
 
     /**
-     * @Transform table:key,name
-     * @Transform table:name
+     * @Transform table:majora_entity_key, majora_entity_id
+     * @Transform table:majora_entity_id
      */
     public function castMajoraEntitysTable(TableNode $majora_entitysTable)
     {
         $majora_entitys = new MajoraEntityCollection();
         foreach ($majora_entitysTable->getHash() as $majora_entityHash) {
             $majora_entity = new MajoraEntity();
-            $majora_entity->setName($majora_entityHash['name']);
-            if (isset($majora_entityHash['key'])) {
-                $majora_entitys->set($majora_entityHash['key'], $majora_entity);
+            $majora_entity->setId($majora_entityHash['majora_entity_id']);
+            if (isset($majora_entityHash['majora_entity_key'])) {
+                $majora_entitys->set($majora_entityHash['majora_entity_key'], $majora_entity);
                 continue;
             }
             $majora_entitys->add($majora_entity);
@@ -131,9 +131,9 @@ class MajoraEntityApiControllerContext implements Context
     public function iShouldSeeThesesMajoraEntitys(MajoraEntityCollection $majora_entitys)
     {
         foreach ($majora_entitys as $majora_entity) {
-            if (!$this->majora_entityList->search(['name' => $majora_entity->getName()])->count()) {
-                $majora_entityName = $majora_entity->getName();
-                throw new \Exception("The majora_entity $majora_entityName was not found.");
+            if (!$this->majora_entityList->search(['id' => $majora_entity->getId()])->count()) {
+                $majora_entityId = $majora_entity->getId();
+                throw new \Exception("The majora_entity $majora_entityId was not found.");
             }
         }
     }
@@ -145,9 +145,9 @@ class MajoraEntityApiControllerContext implements Context
     public function iShouldNotSeeThesesMajoraEntitys(MajoraEntityCollection $majora_entitys)
     {
         foreach ($majora_entitys as $majora_entity) {
-            if ($this->majora_entityList->search(['name' => $majora_entity->getName()])->count()) {
-                $majora_entityName = $majora_entity->getName();
-                throw new \Exception("The majora_entity $majora_entityName was found.");
+            if ($this->majora_entityList->search(['id' => $majora_entity->getId()])->count()) {
+                $majora_entityId = $majora_entity->getId();
+                throw new \Exception("The majora_entity $majora_entityId was found.");
             }
         }
     }

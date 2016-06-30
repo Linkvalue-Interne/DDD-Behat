@@ -75,17 +75,17 @@ class PersonApiControllerContext implements Context
     }
 
     /**
-     * @Transform table:key,name
-     * @Transform table:name
+     * @Transform table:person_key, person_id
+     * @Transform table:person_id
      */
     public function castPersonsTable(TableNode $personsTable)
     {
         $persons = new PersonCollection();
         foreach ($personsTable->getHash() as $personHash) {
             $person = new Person();
-            $person->setName($personHash['name']);
-            if (isset($personHash['key'])) {
-                $persons->set($personHash['key'], $person);
+            $person->setId($personHash['person_id']);
+            if (isset($personHash['person_key'])) {
+                $persons->set($personHash['person_key'], $person);
                 continue;
             }
             $persons->add($person);
@@ -131,9 +131,9 @@ class PersonApiControllerContext implements Context
     public function iShouldSeeThesesPersons(PersonCollection $persons)
     {
         foreach ($persons as $person) {
-            if (!$this->personList->search(['name' => $person->getName()])->count()) {
-                $personName = $person->getName();
-                throw new \Exception("The person $personName was not found.");
+            if (!$this->personList->search(['id' => $person->getId()])->count()) {
+                $personId = $person->getId();
+                throw new \Exception("The person $personId was not found.");
             }
         }
     }
@@ -145,9 +145,9 @@ class PersonApiControllerContext implements Context
     public function iShouldNotSeeThesesPersons(PersonCollection $persons)
     {
         foreach ($persons as $person) {
-            if ($this->personList->search(['name' => $person->getName()])->count()) {
-                $personName = $person->getName();
-                throw new \Exception("The person $personName was found.");
+            if ($this->personList->search(['id' => $person->getId()])->count()) {
+                $personId = $person->getId();
+                throw new \Exception("The person $personId was found.");
             }
         }
     }
