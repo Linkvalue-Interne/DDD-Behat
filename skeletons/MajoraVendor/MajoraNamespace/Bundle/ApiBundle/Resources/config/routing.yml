@@ -1,6 +1,2 @@
-# @MajoraGenerator({"include_routing": {"target": "@MajoraVendorMajoraNamespaceApiBundle/Resources/config/routing.yml"}})
-# @MajoraGenerator({"include_routing": {"route": "majora_vendor_majora_namespace_api"}})
-# @MajoraGenerator({"include_routing": {"resource": "@MajoraVendorMajoraNamespaceApiBundle/Resources/config/routing.yml"}})
-
 majora_vendor_majora_namespace_sdk:
     resource: "@MajoraVendorMajoraNamespaceSdkBundle/Resources/config/routing.yml"
