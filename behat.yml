@@ -7,25 +7,6 @@ default:
     extensions:
         Behat\Symfony2Extension: ~
     suites:
-        api_controller:
-            type: symfony_bundle
-            bundle: AcmeLvApiBundle
-            paths:
-                #- %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features
-                - %paths.base%/src/Sir/Partner/Bundle/ApiBundle/Features
-            contexts:
-                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostApiControllerContext:
-                    em: '@doctrine.orm.entity_manager'
-                    router: '@router'
-                - Sir\Partner\Bundle\ApiBundle\Features\Context\PersonApiControllerContext:
-                    em: '@doctrine.orm.entity_manager'
-                    router: '@router'
-                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostRouterContext:
-                    router: '@router'
-                    host: 'localhost'
-                    scheme: 'http'
-                    baseUrl: '/web/app.php'
-                    port: '9001'
         dal_domain:
             type: symfony_bundle
             bundle: AcmeLvDalBundle
@@ -33,32 +14,7 @@ default:
                 #- %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features
                 - %paths.base%/src/Sir/Partner/Bundle/ApiBundle/Features
             contexts:
-                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostDalDomainContext:
-                    domain: '@acme.post.domain'
-                    loader: '@acme.post.loader'
-                    em: '@doctrine.orm.entity_manager'
                 - Sir\Partner\Bundle\ApiBundle\Features\Context\PersonDalDomainContext:
                     domain: '@sir.person.domain'
                     loader: '@sir.person.loader'
                     em: '@doctrine.orm.entity_manager'
-        api_domain:
-            type: symfony_bundle
-            bundle: AcmeLvDalBundle
-            paths:
-                #- %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features
-                - %paths.base%/src/Sir/Partner/Bundle/ApiBundle/Features
-            contexts:
-                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostApiDomainContext:
-                    em: '@doctrine.orm.entity_manager'
-                    domain: '@acme.post.api_domain'
-                    loader: '@acme.post.api_loader'
-                - Sir\Partner\Bundle\ApiBundle\Features\Context\PersonApiDomainContext:
-                    em: '@doctrine.orm.entity_manager'
-                    domain: '@sir.person.api_domain'
-                    loader: '@sir.person.api_loader'
-                - Acme\Lv\Bundle\ApiBundle\Features\Context\PostRouterContext:
-                    router: '@router'
-                    host: 'localhost'
-                    scheme: 'http'
-                    baseUrl: '/web/app.php'
-                    port: '9001'

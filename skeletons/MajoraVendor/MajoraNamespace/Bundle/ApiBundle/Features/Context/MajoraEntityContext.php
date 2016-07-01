@@ -3,13 +3,10 @@
 namespace MajoraVendor\MajoraNamespace\Bundle\ApiBundle\Features\Context;
 
 use Behat\Behat\Context\Context;
-use Behat\Gherkin\Node\TableNode;
 use MajoraVendor\MajoraNamespace\Component\Entity\MajoraEntity;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\HttpFoundation\Response;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Client;
 use MajoraVendor\MajoraNamespace\Component\Entity\MajoraEntityCollection;
+use MajoraVendor\MajoraNamespace\Component\Domain\MajoraEntityDomainInterface;
+use MajoraVendor\MajoraNamespace\Component\Loader\MajoraEntityLoaderInterface;
 use MajoraVendor\MajoraNamespace\Bundle\ApiBundle\Features\Context\MajoraEntityApiContext;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -20,11 +17,6 @@ class MajoraEntityContext implements Context
 {
 
     private static $totalToInsert = 3;
-
-    /**
-    * @var UrlGeneratorInterface
-    */
-    protected $router;
 
     /**
      * @var ClientInterface
@@ -41,15 +33,24 @@ class MajoraEntityContext implements Context
      */
     protected $em;
 
-    public function __construct(
-        UrlGeneratorInterface $router,
-        EntityManagerInterface $em)
-    {
-        $this->router = $router;
-        $this->em = $em;
+    /**
+     * @var MajoraEntityDomainInterface
+     */
+    protected $domain;
 
-        $this->client = new Client();
-        $this->majora_entitys = new MajoraEntityCollection();
+    /**
+     * @var MajoraEntityLoaderInterface
+     */
+    protected $loader;
+
+    public function __construct(
+        MajoraEntityLoaderInterface $domain,
+        MajoraEntityDomainInterface$loader,
+        EntityManagerInterface $em
+    ) {
+        $this->em = $em;
+        $this->domain = $domain;
+        $this->loader = $loader;
     }
 
     /**
@@ -75,7 +76,8 @@ class MajoraEntityContext implements Context
      * Trucate all table data
      * @throws \Doctrine\DBAL\DBALException
      */
-    private function truncateMajoraEntitys(){
+    private function truncateMajoraEntitys()
+    {
         $connection = $this->em->getConnection();
         $connection->query('SET FOREIGN_KEY_CHECKS=0');
         $this->em->createQuery('DELETE FROM MajoraVendor\MajoraNamespace\Component\Entity\MajoraEntity')->execute();
