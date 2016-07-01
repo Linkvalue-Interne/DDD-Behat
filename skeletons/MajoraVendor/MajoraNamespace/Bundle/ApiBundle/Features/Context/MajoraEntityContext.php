@@ -76,16 +76,15 @@ class MajoraEntityContext implements Context
      */
     public function createMajoraEntity()
     {
-        $this->currentMajoraEntity = new MajoraEntity();
-        $this->em->persist($this->currentMajoraEntity);
-        $this->em->flush();
+        $this->currentMajoraEntity = $this->domain->create(new MajoraEntity());
     }
 
     /**
      * @Then I retrieve new majora_entity id
      */
-    public function retrieveMajoraEntity()
+    public function testMajoraEntityId()
     {
+        var_dump($this->currentMajoraEntity);
         return $this->currentMajoraEntity->getId() != null;
     }
 
