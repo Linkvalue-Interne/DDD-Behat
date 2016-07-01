@@ -75,7 +75,11 @@ class PersonApiControllerContext implements Context
     }
 
     /**
+<<<<<<< HEAD
      * @Transform table:person_key, person_id
+=======
+     * @Transform table:person_key,person_id
+>>>>>>> 4087a2e001348320060f2370cca34d41af052f24
      * @Transform table:person_id
      */
     public function castPersonsTable(TableNode $personsTable)
