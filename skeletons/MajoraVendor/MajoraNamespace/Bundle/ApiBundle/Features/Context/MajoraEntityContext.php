@@ -60,9 +60,9 @@ class MajoraEntityContext implements Context
     }
 
     /**
-     * @BeforeFeature
+     * @BeforeScenario
      */
-    public static function initMajoraEntitys()
+    public function initMajoraEntitys()
     {
         $this->truncateMajoraEntitys();
         for($i=0; $i<= $this->totalToInsert; $i++){
@@ -89,9 +89,9 @@ class MajoraEntityContext implements Context
     }
 
     /**
-     * @AfterFeature
+     * @AfterScenario
      */
-    public static function terminateMajoraEntitys()
+    public function terminateMajoraEntitys()
     {
         $this->truncateMajoraEntitys();
     }

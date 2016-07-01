@@ -60,11 +60,11 @@ class Test2Context implements Context
     }
 
     /**
-     * @BeforeFeature
+     * @BeforeScenario
      */
-    public static function initTest2s()
+    public function initTest2s()
     {
-        self::truncateTest2s();
+        $this->truncateTest2s();
         for($i=0; $i<= $this->totalToInsert; $i++){
             $this->em->persist(new Test2());
         }
@@ -89,18 +89,18 @@ class Test2Context implements Context
     }
 
     /**
-     * @AfterFeature
+     * @AfterScenario
      */
-    public static function terminateTest2s()
+    public function terminateTest2s()
     {
-        self::truncateTest2s();
+        $this->truncateTest2s();
     }
 
     /**
      * Trucate all table data
      * @throws \Doctrine\DBAL\DBALException
      */
-    private static function truncateTest2s()
+    private function truncateTest2s()
     {
         $connection = $this->em->getConnection();
         $connection->query('SET FOREIGN_KEY_CHECKS=0');
