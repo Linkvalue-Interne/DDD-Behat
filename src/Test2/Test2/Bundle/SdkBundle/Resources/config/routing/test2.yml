@@ -1,0 +1,8 @@
+# @MajoraGenerator({"include_routing": {"target": "../routing.yml"}})
+# @MajoraGenerator({"include_routing": {"route": "test2_test2_sdk"}})
+# @MajoraGenerator({"include_routing": {"resource": "routing/test2.yml"}})
+# @MajoraGenerator({"include_routing": {"prefix": "/test2s"}})
+
+# generated routes
+auto_test2_test2_sdk:
+    resource: "@Test2Test2SdkBundle/Resources/config/routing/auto/auto_test2.yml"

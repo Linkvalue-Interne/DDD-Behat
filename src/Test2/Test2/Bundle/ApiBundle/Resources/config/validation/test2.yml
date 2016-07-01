@@ -1,0 +1,5 @@
+Test2\Test2\Component\Entity\Test2:
+    properties: ~
+        # example:
+        #     - NotBlank:
+        #         groups: [creation]

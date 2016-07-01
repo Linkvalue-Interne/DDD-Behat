@@ -1,0 +1,4 @@
+
+test2_test2_sdk:
+    resource: "routing/test2.yml"
+    prefix: /test2s

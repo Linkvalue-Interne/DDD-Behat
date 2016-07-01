@@ -1,0 +1,102 @@
+<?xml version="1.0" ?>
+
+<!-- @MajoraGenerator({"force_generation": true}) -->
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <!-- Test2 Api Client -->
+        <service id="test2.test2.api_client" public="false"
+            class="Majora\Framework\Api\Client\RestApiClient"
+        >
+            <argument type="service" id="majora.http.client" />
+            <argument type="service">
+                <service class="Majora\Framework\Api\Request\RestApiRequestFactory"
+                    parent="majora.http.abstract_request_factory"
+                >
+                    <call method="registerRouteMapping">
+                        <argument type="collection">
+                            <argument key="cget">test2_api_test2_collection</argument>
+                            <argument key="post">test2_api_test2_create</argument>
+                            <argument key="get">test2_api_test2_read</argument>
+                            <argument key="put">test2_api_test2_update</argument>
+                            <argument key="delete">test2_api_test2_delete</argument>
+                        </argument>
+                    </call>
+                </service>
+            </argument>
+        </service>
+
+        <!-- Test2 Api Loader -->
+        <service id="test2.test2.api_loader"
+            class="Test2\Test2\Component\Loader\Api\Test2ApiLoader"
+            parent="majora.loader.abstract" public="true" lazy="true"
+        >
+            <argument type="service" id="test2.test2.api_client" />
+            <argument type="service" id="majora.serializer" />
+            <tag name="majora.loader"
+                entityClass="Test2\Test2\Component\Entity\Test2"
+                entityCollection="Test2\Test2\Component\Entity\Test2Collection"
+            />
+        </service>
+        <service id="test2.test2.loader" alias="test2.test2.api_loader" />
+
+        <!-- Test2 abstract api action -->
+        <service id="test2.test2.abstract_api_action" parent="majora.domain.abstract_api_action" abstract="true"
+            class="Test2\Test2\Component\Action\Api\Test2\AbstractApiAction"
+        >
+            <call method="setRestApiClient"><argument type="service" id="test2.test2.api_client" /></call>
+        </service>
+
+        <!-- Test2 Api creation action -->
+        <service id="test2.test2.api_creation_action"
+            parent="test2.test2.abstract_api_action" public="false"
+            class="Test2\Test2\Component\Action\Api\Test2\CreateAction"
+        >
+            <tag name="majora.domain.action" namespace="test2.test2.api" alias="create" />
+        </service>
+
+        <!-- Test2 Api edition action -->
+        <service id="test2.test2.api_edition_action"
+            parent="test2.test2.abstract_api_action" public="false"
+            class="Test2\Test2\Component\Action\Api\Test2\UpdateAction"
+        >
+            <tag name="majora.domain.action" namespace="test2.test2.api" alias="update" />
+        </service>
+
+        <!-- Test2 Api deletion action -->
+        <service id="test2.test2.api_deletion_action"
+            parent="test2.test2.abstract_api_action" public="false"
+            class="Test2\Test2\Component\Action\Api\Test2\DeleteAction"
+        >
+            <tag name="majora.domain.action" namespace="test2.test2.api" alias="delete" />
+        </service>
+
+        <!-- Test2 Api action factory -->
+        <service id="test2.test2.api_action_factory" public="false"
+            class="Majora\Framework\Domain\Action\ActionFactory"
+        >
+            <tag name="majora.domain.action_factory" namespace="test2.test2.api" />
+        </service>
+        <service id="test2.test2.action_factory" alias="test2.test2.api_action_factory" />
+
+        <!-- Test2 Domain -->
+        <service id="test2.test2.domain" public="true"
+            class="Test2\Test2\Component\Domain\Action\Test2ActionDispatcherDomain"
+        >
+            <argument type="service" id="test2.test2.action_factory" />
+        </service>
+
+        <!-- Test2 Api Domain -->
+        <service id="test2.test2.api_domain" public="true"
+            class="Test2\Test2\Component\Domain\Action\Test2ActionDispatcherDomain"
+        >
+            <argument type="service" id="test2.test2.api_action_factory" />
+        </service>
+
+    </services>
+
+</container>
