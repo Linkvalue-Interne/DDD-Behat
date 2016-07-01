@@ -5,54 +5,27 @@ Feature: MajoraEntity Crud.
     As a user
     I need to be able to create, update, delete and retrieve majora_entity.
 
-    Background: Fixtures
-        Given I have theses majora_entitys:
-            | majora_entity_key | majora_entity_id |
-            | majora_entity_1 | 1  |
-            | majora_entity_2 | 2  |
-            | majora_entity_3 | 3  |
+    Scenario: Create
+        Given I have some majora_entitys
+        When I create a new majora_entity
+        Then I retrieve new majora_entity id
+
+    Scenario: ReadAll
+        Given I have some majora_entitys
+        When I get the majora_entitys list
+        Then I should see a list of majora_entity
 
     Scenario: Read
-        Given I get the majora_entity list
-        Then I should see theses majora_entitys:
-            | majora_entity_id |
-            | 1  |
-            | 2  |
-            | 3  |
+        Given I have created a new majora_entity
+        When I show this majora_entity by id
+        Then I should see this majora_entity
 
-    Scenario: Create
-        Given I create theses majora_entitys:
-            | majora_entity_id |
-            | 4  |
-        And I get the majora_entity list
-        Then I should see theses majora_entitys:
-            | majora_entity_id |
-            | 1  |
-            | 2  |
-            | 3  |
-            | 4  |
+    Scenario: delete
+        Given I have created a new majora_entity
+        When I delete this majora_entity
+        Then I should see the same majora_entity list that before
 
     Scenario: Update
-        Given I update the "majora_entity_2" majora_entity with theses values:
-            | majora_entity_id |
-            | 4  |
-        And I get the majora_entity list
-        Then I should see theses majora_entitys:
-            | majora_entity_id |
-            | 1  |
-            | 4  |
-            | 3  |
-        And I should not see theses majora_entitys:
-            | majora_entity_id |
-            | 2  |
-
-    Scenario: Delete
-        Given I delete the "majora_entity_2" majora_entity
-        And I get the majora_entity list
-        Then I should see theses majora_entitys:
-            | majora_entity_id |
-            | 1  |
-            | 3  |
-        And I should not see theses majora_entitys:
-            | majora_entity_id |
-            | 2  |
+        Given I have created a new majora_entity
+        When I update this majora_entity with a new id
+        Then i should see the same majora_entity with this new id value
