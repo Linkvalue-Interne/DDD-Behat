@@ -21,12 +21,18 @@ class MajoraEntityContext implements Context
     /**
      * @var ClientInterface
      */
-    protected $client;
+    private $client;
 
     /**
      * @var MajoraEntityCollection
      */
-    protected $majora_entitys;
+    private $majora_entitys;
+
+
+    /**
+     * @var MajoraEntity
+     */
+    private $currentMajoraEntity;
 
     /**
      * @var EntityManagerInterface
@@ -62,6 +68,25 @@ class MajoraEntityContext implements Context
         for($i=0; $i<= $this->totalToInsert; $i++){
             $this->em->persist(new MajoraEntity());
         }
+        $this->em->flush();
+    }
+
+    /**
+     * @When I create a new majora_entity
+     */
+    public function createMajoraEntity()
+    {
+        $this->currentMajoraEntity = new MajoraEntity();
+        $this->em->persist($this->currentMajoraEntity);
+        $this->em->flush();
+    }
+
+    /**
+     * @Then I retrieve new majora_entity id
+     */
+    public function retrieveMajoraEntity()
+    {
+        return $this->currentMajoraEntity->getId() != null;
     }
 
     /**
@@ -82,6 +107,7 @@ class MajoraEntityContext implements Context
         $connection->query('SET FOREIGN_KEY_CHECKS=0');
         $this->em->createQuery('DELETE FROM MajoraVendor\MajoraNamespace\Component\Entity\MajoraEntity')->execute();
         $connection->query('SET FOREIGN_KEY_CHECKS=1');
+        $this->em->flush();
     }
 
 }
