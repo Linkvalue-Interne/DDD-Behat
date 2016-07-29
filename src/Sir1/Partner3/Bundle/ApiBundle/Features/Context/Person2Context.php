@@ -119,7 +119,16 @@ class Person2Context implements Context
     {
         $this->domain->delete($this->currentPerson2);
     }
-    
+
+    /**
+     * @When I update this person2 with a new id
+     */
+    public function updatePerson2()
+    {
+        $this->memoryId = $this->currentPerson2->getId();
+        $this->domain->update($this->currentPerson2, array("id" => ($this->currentPerson2->getId() + 1)));
+    }
+
     /**
      * @Then I retrieve new person2 id
      */
@@ -143,7 +152,15 @@ class Person2Context implements Context
     {
         return is_null($this->em->getRepository(Person2::class)->find($this->memoryId));
     }
-    
+
+    /**
+     * @Then I should see the same person2 with this new id value
+     */
+    public function checkPerson2AsUpdated()
+    {
+         return $this->memoryId === $this->currentPerson2->getId() + 1;
+    }
+
     /**
      * @AfterScenario
      */

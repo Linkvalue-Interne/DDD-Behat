@@ -24,7 +24,7 @@ Feature: Person2 Crud.
         When I delete this person2
         Then I should not see this person2
 
-#    Scenario: Update
-#        Given I have created a new person2
-#        When I update this person2 with a new id
-#        Then I should see the same person2 with this new id value
+    Scenario: Update
+        Given I have created a new person2
+        When I update this person2 with a new id
+        Then I should see the same person2 with this new id value

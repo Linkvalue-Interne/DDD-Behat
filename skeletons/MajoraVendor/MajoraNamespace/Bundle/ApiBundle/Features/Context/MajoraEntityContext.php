@@ -127,6 +127,15 @@ class MajoraEntityContext implements Context
     }
 
     /**
+     * @When I update this person2 with a new id
+     */
+    public function updateMajoraEntity()
+    {
+        $this->memoryId = $this->currentMajoraEntity->getId();
+        $this->domain->update($this->currentMajoraEntity, array("id" => ($this->currentMajoraEntity->getId() + 1)));
+    }
+
+    /**
      * @Then I retrieve new majora_entity id
      */
     public function testMajoraEntityId()
@@ -148,6 +157,14 @@ class MajoraEntityContext implements Context
     public function checkMajoraEntityDeleted()
     {
         return is_null($this->em->getRepository(MajoraEntity::class)->find($this->memoryId));
+    }
+
+    /**
+     * @Then I should see the same majora_entity with this new id value
+     */
+    public function checkMajoraEntityAsUpdated()
+    {
+        return $this->memoryId === $this->currentMajoraEntity->getId() + 1;
     }
 
     /**
