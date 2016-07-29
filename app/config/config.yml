@@ -65,7 +65,7 @@ doctrine:
                         dir: Resources/config/doctrine
                         prefix: Sir1\Partner3\Component\Entity
                         alias: Sir1Partner3
-                        
+
                     SirPartnerDalBundle:
                         type: yml
                         dir: Resources/config/doctrine

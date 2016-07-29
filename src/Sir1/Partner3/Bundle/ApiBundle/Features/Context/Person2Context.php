@@ -65,7 +65,7 @@ class Person2Context implements Context
     public function initPerson2s()
     {
         $this->truncatePerson2s();
-        for($i=0; $i<= $this->totalToInsert; $i++){
+        for($i=0; $i<= self::$totalToInsert; $i++){
             $this->em->persist(new Person2());
         }
         $this->em->flush();
