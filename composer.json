@@ -28,7 +28,7 @@
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^3.0",
-        "majora/generator-bundle": "dev-master",
+        "majora/generator-bundle": "dev-feature/add-behat-generator",
         "behat/behat": "dev-master",
         "behat/symfony2-extension": "dev-master",
         "behat/mink-extension": "^2.1",
