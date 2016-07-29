@@ -1,0 +1,102 @@
+<?xml version="1.0" ?>
+
+<!-- @MajoraGenerator({"force_generation": true}) -->
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <!-- Entity Api Client -->
+        <service id="lv.entity.api_client" public="false"
+            class="Majora\Framework\Api\Client\RestApiClient"
+        >
+            <argument type="service" id="majora.http.client" />
+            <argument type="service">
+                <service class="Majora\Framework\Api\Request\RestApiRequestFactory"
+                    parent="majora.http.abstract_request_factory"
+                >
+                    <call method="registerRouteMapping">
+                        <argument type="collection">
+                            <argument key="cget">lv_api_entity_collection</argument>
+                            <argument key="post">lv_api_entity_create</argument>
+                            <argument key="get">lv_api_entity_read</argument>
+                            <argument key="put">lv_api_entity_update</argument>
+                            <argument key="delete">lv_api_entity_delete</argument>
+                        </argument>
+                    </call>
+                </service>
+            </argument>
+        </service>
+
+        <!-- Entity Api Loader -->
+        <service id="lv.entity.api_loader"
+            class="Lv\Example\Component\Loader\Api\EntityApiLoader"
+            parent="majora.loader.abstract" public="true" lazy="true"
+        >
+            <argument type="service" id="lv.entity.api_client" />
+            <argument type="service" id="majora.serializer" />
+            <tag name="majora.loader"
+                entityClass="Lv\Example\Component\Entity\Entity"
+                entityCollection="Lv\Example\Component\Entity\EntityCollection"
+            />
+        </service>
+        <service id="lv.entity.loader" alias="lv.entity.api_loader" />
+
+        <!-- Entity abstract api action -->
+        <service id="lv.entity.abstract_api_action" parent="majora.domain.abstract_api_action" abstract="true"
+            class="Lv\Example\Component\Action\Api\Entity\AbstractApiAction"
+        >
+            <call method="setRestApiClient"><argument type="service" id="lv.entity.api_client" /></call>
+        </service>
+
+        <!-- Entity Api creation action -->
+        <service id="lv.entity.api_creation_action"
+            parent="lv.entity.abstract_api_action" public="false"
+            class="Lv\Example\Component\Action\Api\Entity\CreateAction"
+        >
+            <tag name="majora.domain.action" namespace="lv.entity.api" alias="create" />
+        </service>
+
+        <!-- Entity Api edition action -->
+        <service id="lv.entity.api_edition_action"
+            parent="lv.entity.abstract_api_action" public="false"
+            class="Lv\Example\Component\Action\Api\Entity\UpdateAction"
+        >
+            <tag name="majora.domain.action" namespace="lv.entity.api" alias="update" />
+        </service>
+
+        <!-- Entity Api deletion action -->
+        <service id="lv.entity.api_deletion_action"
+            parent="lv.entity.abstract_api_action" public="false"
+            class="Lv\Example\Component\Action\Api\Entity\DeleteAction"
+        >
+            <tag name="majora.domain.action" namespace="lv.entity.api" alias="delete" />
+        </service>
+
+        <!-- Entity Api action factory -->
+        <service id="lv.entity.api_action_factory" public="false"
+            class="Majora\Framework\Domain\Action\ActionFactory"
+        >
+            <tag name="majora.domain.action_factory" namespace="lv.entity.api" />
+        </service>
+        <service id="lv.entity.action_factory" alias="lv.entity.api_action_factory" />
+
+        <!-- Entity Domain -->
+        <service id="lv.entity.domain" public="true"
+            class="Lv\Example\Component\Domain\Action\EntityActionDispatcherDomain"
+        >
+            <argument type="service" id="lv.entity.action_factory" />
+        </service>
+
+        <!-- Entity Api Domain -->
+        <service id="lv.entity.api_domain" public="true"
+            class="Lv\Example\Component\Domain\Action\EntityActionDispatcherDomain"
+        >
+            <argument type="service" id="lv.entity.api_action_factory" />
+        </service>
+
+    </services>
+
+</container>

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5cdf383ad2b9247c93eba68c440cd164",
-    "content-hash": "4107798a24c21254032eef520c2ef0f7",
+    "hash": "c3972cbf42f891378c9d935c8a97384f",
+    "content-hash": "4fbd5a18f391b40a50b4fd1294193e7a",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -2676,20 +2676,20 @@
         },
         {
             "name": "majora/generator-bundle",
-            "version": "dev-master",
+            "version": "dev-feature/add-behat-generator",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LinkValue/MajoraGeneratorBundle.git",
-                "reference": "73b1563455aaf76acfd77bd789479bacef53ec47"
+                "reference": "0ff9561e9bf07426213fd28eae5ef83937456ef9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LinkValue/MajoraGeneratorBundle/zipball/73b1563455aaf76acfd77bd789479bacef53ec47",
-                "reference": "73b1563455aaf76acfd77bd789479bacef53ec47",
+                "url": "https://api.github.com/repos/LinkValue/MajoraGeneratorBundle/zipball/0ff9561e9bf07426213fd28eae5ef83937456ef9",
+                "reference": "0ff9561e9bf07426213fd28eae5ef83937456ef9",
                 "shasum": ""
             },
             "require": {
-                "majora/framework-extra-bundle": ">=1.0",
+                "majora/framework-extra-bundle": "*",
                 "php": ">=5.6",
                 "sensio/generator-bundle": ">=2.7"
             },
@@ -2724,7 +2724,7 @@
                 "generator",
                 "symfony"
             ],
-            "time": "2016-03-11 08:35:35"
+            "time": "2016-07-29 16:00:48"
         },
         {
             "name": "sensio/generator-bundle",

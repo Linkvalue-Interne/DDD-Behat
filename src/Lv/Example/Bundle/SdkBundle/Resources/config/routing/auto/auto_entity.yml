@@ -1,0 +1,42 @@
+# @MajoraGenerator({"force_generation": true})
+
+lv_api_entity_collection:
+    path: /
+    defaults:
+        _controller: LvExampleApiBundle:EntityApi:cget
+    methods:
+        - GET
+
+lv_api_entity_create:
+    path: /
+    defaults:
+        _controller: LvExampleApiBundle:EntityApi:post
+    methods:
+        - POST
+
+lv_api_entity_read:
+    path: /{id}
+    defaults:
+        _controller: LvExampleApiBundle:EntityApi:get
+    requirements:
+        id: \d+
+    methods:
+        - GET
+
+lv_api_entity_update:
+    path: /{id}
+    defaults:
+        _controller: LvExampleApiBundle:EntityApi:put
+    requirements:
+        id: \d+
+    methods:
+        - PUT
+
+lv_api_entity_delete:
+    path: /{id}
+    defaults:
+        _controller: LvExampleApiBundle:EntityApi:delete
+    requirements:
+        id: \d+
+    methods:
+        - DELETE

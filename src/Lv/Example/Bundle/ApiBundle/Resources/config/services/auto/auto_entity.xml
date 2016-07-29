@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+
+<!-- @MajoraGenerator({"force_generation": true}) -->
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <!-- Entity abstract form -->
+        <service id="lv.entity.abstract_form" public="false" abstract="true"
+            class="Lv\Example\Bundle\ApiBundle\Form\Entity\AbstractType"
+        >
+            <argument type="service" id="lv.entity.domain" />
+        </service>
+
+        <!-- Entity creation form -->
+        <service id="lv.entity.creation_form"
+            class="Lv\Example\Bundle\ApiBundle\Form\Entity\CreationType"
+            parent="lv.entity.abstract_form" public="true"
+        >
+            <tag name="form.type" />
+        </service>
+
+        <!-- Entity edition form -->
+        <service id="lv.entity.edition_form"
+            class="Lv\Example\Bundle\ApiBundle\Form\Entity\EditionType"
+            parent="lv.entity.abstract_form" public="true"
+        >
+            <tag name="form.type" />
+        </service>
+
+    </services>
+
+</container>

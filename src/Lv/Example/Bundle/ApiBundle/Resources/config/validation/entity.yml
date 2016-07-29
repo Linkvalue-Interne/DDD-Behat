@@ -1,0 +1,5 @@
+Lv\Example\Component\Entity\Entity:
+    properties: ~
+        # example:
+        #     - NotBlank:
+        #         groups: [creation]
