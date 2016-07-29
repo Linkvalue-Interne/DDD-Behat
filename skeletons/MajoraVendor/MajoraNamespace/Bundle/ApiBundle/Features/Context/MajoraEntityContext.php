@@ -28,11 +28,15 @@ class MajoraEntityContext implements Context
      */
     private $majora_entitys;
 
-
     /**
      * @var MajoraEntity
      */
     private $currentMajoraEntity;
+
+    /**
+     * @var MajoraEntityCollection
+     */
+    private $currentMajoraEntitys;
 
     /**
      * @var EntityManagerInterface
@@ -89,11 +93,27 @@ class MajoraEntityContext implements Context
     }
 
     /**
+     * @When I get the majora_entitys list
+     */
+    public function getMajoraEntityList()
+    {
+        $this->currentMajoraEntitys = $this->loader->retrieveAll();
+    }
+
+    /**
      * @Then I retrieve new majora_entity id
      */
     public function testMajoraEntityId()
     {
         return $this->currentMajoraEntity->getId() != null;
+    }
+
+    /**
+     * @Then I should see a list of majora_entitys
+     */
+    public function compareListMajoraEntitys()
+    {
+        return $this->currentMajoraEntitys === $this->majora_entitys;
     }
 
     /**
