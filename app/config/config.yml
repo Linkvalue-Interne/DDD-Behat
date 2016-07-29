@@ -60,12 +60,6 @@ doctrine:
         entity_managers:
             default:
                 mappings:
-                    Test2Test2DalBundle:
-                        type: yml
-                        dir: Resources/config/doctrine
-                        prefix: Test2\Test2\Component\Entity
-                        alias: Test2Test2
-                        
                     SirPartnerDalBundle:
                         type: yml
                         dir: Resources/config/doctrine

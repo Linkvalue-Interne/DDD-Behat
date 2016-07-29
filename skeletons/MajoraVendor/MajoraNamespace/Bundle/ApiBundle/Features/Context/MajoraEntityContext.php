@@ -50,8 +50,8 @@ class MajoraEntityContext implements Context
     protected $loader;
 
     public function __construct(
-        MajoraEntityLoaderInterface $domain,
         MajoraEntityDomainInterface$loader,
+        MajoraEntityLoaderInterface $domain,
         EntityManagerInterface $em
     ) {
         $this->em = $em;
