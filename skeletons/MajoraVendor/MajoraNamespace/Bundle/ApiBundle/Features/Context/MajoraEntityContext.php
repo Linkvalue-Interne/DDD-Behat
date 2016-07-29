@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Defines application features from the specific context.
+ * @MajoraGenerator({"register_behat": {"target": "behat.yml", "context": "MajoraVendor\\MajoraNamespace\\Bundle\\ApiBundle\\Features\\Context\\MajoraEntityContext", "path": "%paths.base%/src/MajoraVendor/MajoraNamespace/Bundle/ApiBundle/Features", "domain": "@MajoraVendor.MajoraEntity.domain", "loader": "@MajoraVendor.MajoraEntity.loader"}})
  */
 class MajoraEntityContext implements Context
 {
