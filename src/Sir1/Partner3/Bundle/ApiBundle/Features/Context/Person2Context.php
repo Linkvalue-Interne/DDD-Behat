@@ -36,6 +36,8 @@ class Person2Context implements Context
 
     private $currentPerson2s;
 
+    private $memoryId;
+
     /**
      * @var EntityManagerInterface
      */
@@ -75,11 +77,23 @@ class Person2Context implements Context
 
     /**
      * @Given I have some person2s
-     *
      */
     public function retrieveSomePerson2s()
     {
         $this->person2s = $this->em->getRepository(Person2::class)->findAll();
+    }
+
+    /**
+     * @Given I have created a new person2
+     */
+    public function insertPerson2()
+    {
+        $this->currentPerson2 = new Person2();
+        $this->em->getRepository(Person2::class)->persist($this->currentPerson2);
+        $this->em->flush();
+        $this->em->refresh($this->currentPerson2);
+
+        $this->memoryId = $this->currentPerson2->getId();
     }
 
     /**
@@ -99,6 +113,14 @@ class Person2Context implements Context
     }
 
     /**
+     * @When I delete this Person2
+     */
+    public function deletePerson2()
+    {
+        $this->domain->delete($this->currentPerson2);
+    }
+    
+    /**
      * @Then I retrieve new person2 id
      */
     public function testPerson2Id()
@@ -114,6 +136,14 @@ class Person2Context implements Context
         return $this->currentPerson2s === $this->person2s;
     }
 
+    /**
+     * @Then I should not see this person2
+     */
+    public function checkPerson2Deleted()
+    {
+        return is_null($this->em->getRepository(Person2::class)->find($this->memoryId));
+    }
+    
     /**
      * @AfterScenario
      */

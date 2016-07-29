@@ -39,6 +39,11 @@ class MajoraEntityContext implements Context
     private $currentMajoraEntitys;
 
     /**
+     * @var int
+     */
+    private $memoryId;
+
+    /**
      * @var EntityManagerInterface
      */
     protected $em;
@@ -85,6 +90,19 @@ class MajoraEntityContext implements Context
     }
 
     /**
+     * @Given I have created a new majora_entity
+     */
+    public function insertMajoraEntity()
+    {
+        $this->currentMajoraEntity = new MajoraEntity();
+        $this->em->getRepository(MajoraEntity::class)->persist($this->currentMajoraEntity);
+        $this->em->flush();
+        $this->em->refresh($this->currentMajoraEntity);
+
+        $this->memoryId = $this->currentMajoraEntity->getId();
+    }
+
+    /**
      * @When I create a new majora_entity
      */
     public function createMajoraEntity()
@@ -101,6 +119,14 @@ class MajoraEntityContext implements Context
     }
 
     /**
+     * @When I delete this majora_entity
+     */
+    public function deleteMajoraEntity()
+    {
+        $this->domain->delete($this->currentMajoraEntity);
+    }
+
+    /**
      * @Then I retrieve new majora_entity id
      */
     public function testMajoraEntityId()
@@ -114,6 +140,14 @@ class MajoraEntityContext implements Context
     public function compareListMajoraEntitys()
     {
         return $this->currentMajoraEntitys === $this->majora_entitys;
+    }
+
+    /**
+     * @Then I should not see this majora_entity
+     */
+    public function checkMajoraEntityDeleted()
+    {
+        return is_null($this->em->getRepository(MajoraEntity::class)->find($this->memoryId));
     }
 
     /**
