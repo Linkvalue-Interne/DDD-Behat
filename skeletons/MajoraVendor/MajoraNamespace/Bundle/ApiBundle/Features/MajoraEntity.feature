@@ -14,10 +14,10 @@ Feature: MajoraEntity Crud.
         When I get the majora_entitys list
         Then I should see a list of majora_entity
 
-#    Scenario: Read
-#        Given I have created a new majora_entity
-#        When I show this majora_entity by id
-#        Then I should see this majora_entity
+    Scenario: Read
+        Given I have created a new majora_entity
+        When I get this majora_entity by id
+        Then I should see this majora_entity
 
     Scenario: delete
         Given I have created a new majora_entity

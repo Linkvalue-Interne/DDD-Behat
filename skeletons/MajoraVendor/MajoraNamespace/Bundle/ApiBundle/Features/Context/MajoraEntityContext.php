@@ -34,6 +34,11 @@ class MajoraEntityContext implements Context
     private $currentMajoraEntity;
 
     /**
+     * @var MajoraEntity
+     */
+    private $loadedMajoraEntity;
+
+    /**
      * @var MajoraEntityCollection
      */
     private $currentMajoraEntitys;
@@ -81,7 +86,7 @@ class MajoraEntityContext implements Context
     }
 
     /**
-     * @Given I have some majora_entitiys
+     * @Given I have some majora_entitys
      *
      */
     public function retrieveSomeMajoraEntitys()
@@ -119,6 +124,14 @@ class MajoraEntityContext implements Context
     }
 
     /**
+     * @When I get this majora_entity by id
+     */
+    public function getMajoraEntity()
+    {
+        $this->loadedMajoraEntity = $this->em->getRepository(MajoraEntity::class)->find($this->memoryId);
+    }
+
+    /**
      * @When I delete this majora_entity
      */
     public function deleteMajoraEntity()
@@ -149,6 +162,14 @@ class MajoraEntityContext implements Context
     public function compareListMajoraEntitys()
     {
         return $this->currentMajoraEntitys === $this->majora_entitys;
+    }
+
+    /**
+     * @Then I should see this majora_entity
+     */
+    public function compareMajoraEntity()
+    {
+        return $this->loadedMajoraEntity === $this->currentMajoraEntity;
     }
 
     /**
