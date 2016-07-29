@@ -34,6 +34,11 @@ class MajoraEntityContext implements Context
     private $currentMajoraEntity;
 
     /**
+     * @var MajoraEntity
+     */
+    private $loadedMajoraEntity;
+
+    /**
      * @var MajoraEntityCollection
      */
     private $currentMajoraEntitys;
@@ -81,7 +86,7 @@ class MajoraEntityContext implements Context
     }
 
     /**
-     * @Given I have some majora_entitiys
+     * @Given I have some majora_entitys
      *
      */
     public function retrieveSomeMajoraEntitys()
@@ -119,11 +124,28 @@ class MajoraEntityContext implements Context
     }
 
     /**
+     * @When I get this majora_entity by id
+     */
+    public function getMajoraEntity()
+    {
+        $this->loadedMajoraEntity = $this->em->getRepository(MajoraEntity::class)->find($this->memoryId);
+    }
+
+    /**
      * @When I delete this majora_entity
      */
     public function deleteMajoraEntity()
     {
         $this->domain->delete($this->currentMajoraEntity);
+    }
+
+    /**
+     * @When I update this majora_entity with a new id
+     */
+    public function updateMajoraEntity()
+    {
+        $this->memoryId = $this->currentMajoraEntity->getId();
+        $this->domain->update($this->currentMajoraEntity, array("id" => ($this->currentMajoraEntity->getId() + 1)));
     }
 
     /**
@@ -143,11 +165,27 @@ class MajoraEntityContext implements Context
     }
 
     /**
+     * @Then I should see this majora_entity
+     */
+    public function compareMajoraEntity()
+    {
+        return $this->loadedMajoraEntity === $this->currentMajoraEntity;
+    }
+
+    /**
      * @Then I should not see this majora_entity
      */
     public function checkMajoraEntityDeleted()
     {
         return is_null($this->em->getRepository(MajoraEntity::class)->find($this->memoryId));
+    }
+
+    /**
+     * @Then I should see the same majora_entity with this new id value
+     */
+    public function checkMajoraEntityAsUpdated()
+    {
+        return $this->memoryId === $this->currentMajoraEntity->getId() + 1;
     }
 
     /**

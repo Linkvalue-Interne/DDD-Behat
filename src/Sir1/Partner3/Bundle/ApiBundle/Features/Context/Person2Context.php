@@ -28,14 +28,24 @@ class Person2Context implements Context
      */
     private $person2s;
 
-
     /**
      * @var Person2
      */
     private $currentPerson2;
 
+    /**
+     * @var Person2
+     */
+    private $loadedPerson2;
+
+    /**
+     * @var Person2Collection
+     */
     private $currentPerson2s;
 
+    /**
+     * @var int
+     */
     private $memoryId;
 
     /**
@@ -77,6 +87,7 @@ class Person2Context implements Context
 
     /**
      * @Given I have some person2s
+     *
      */
     public function retrieveSomePerson2s()
     {
@@ -113,13 +124,30 @@ class Person2Context implements Context
     }
 
     /**
-     * @When I delete this Person2
+     * @When I get this person2 by id
+     */
+    public function getPerson2()
+    {
+        $this->loadedPerson2 = $this->em->getRepository(Person2::class)->find($this->memoryId);
+    }
+
+    /**
+     * @When I delete this person2
      */
     public function deletePerson2()
     {
         $this->domain->delete($this->currentPerson2);
     }
-    
+
+    /**
+     * @When I update this person2 with a new id
+     */
+    public function updatePerson2()
+    {
+        $this->memoryId = $this->currentPerson2->getId();
+        $this->domain->update($this->currentPerson2, array("id" => ($this->currentPerson2->getId() + 1)));
+    }
+
     /**
      * @Then I retrieve new person2 id
      */
@@ -129,11 +157,19 @@ class Person2Context implements Context
     }
 
     /**
-     * @Then I should see a list of person2
+     * @Then I should see a list of person2s
      */
     public function compareListPerson2s()
     {
         return $this->currentPerson2s === $this->person2s;
+    }
+
+    /**
+     * @Then I should see this person2
+     */
+    public function comparePerson2()
+    {
+        return $this->loadedPerson2 === $this->currentPerson2;
     }
 
     /**
@@ -143,7 +179,15 @@ class Person2Context implements Context
     {
         return is_null($this->em->getRepository(Person2::class)->find($this->memoryId));
     }
-    
+
+    /**
+     * @Then I should see the same person2 with this new id value
+     */
+    public function checkPerson2AsUpdated()
+    {
+        return $this->memoryId === $this->currentPerson2->getId() + 1;
+    }
+
     /**
      * @AfterScenario
      */
