@@ -65,7 +65,7 @@ class MajoraEntityContext implements Context
     public function initMajoraEntitys()
     {
         $this->truncateMajoraEntitys();
-        for($i=0; $i<= $this->totalToInsert; $i++){
+        for($i=0; $i<= self::$totalToInsert; $i++){
             $this->em->persist(new MajoraEntity());
         }
         $this->em->flush();
