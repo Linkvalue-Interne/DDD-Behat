@@ -60,11 +60,11 @@ doctrine:
         entity_managers:
             default:
                 mappings:
-                    Test2Test2DalBundle:
+                    Sir1Partner3DalBundle:
                         type: yml
                         dir: Resources/config/doctrine
-                        prefix: Test2\Test2\Component\Entity
-                        alias: Test2Test2
+                        prefix: Sir1\Partner3\Component\Entity
+                        alias: Sir1Partner3
                         
                     SirPartnerDalBundle:
                         type: yml

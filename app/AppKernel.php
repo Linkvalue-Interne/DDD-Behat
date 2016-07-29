@@ -23,9 +23,9 @@ class AppKernel extends Kernel
             new Sir\Partner\Bundle\ApiBundle\SirPartnerApiBundle(),
             new Sir\Partner\Bundle\DalBundle\SirPartnerDalBundle(),
             new Sir\Partner\Bundle\SdkBundle\SirPartnerSdkBundle(),
-            new Test2\Test2\Bundle\ApiBundle\Test2Test2ApiBundle(),
-            new Test2\Test2\Bundle\DalBundle\Test2Test2DalBundle(),
-            new Test2\Test2\Bundle\SdkBundle\Test2Test2SdkBundle(),
+            new Sir1\Partner3\Bundle\ApiBundle\Sir1Partner3ApiBundle(),
+            new Sir1\Partner3\Bundle\DalBundle\Sir1Partner3DalBundle(),
+            new Sir1\Partner3\Bundle\SdkBundle\Sir1Partner3SdkBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
