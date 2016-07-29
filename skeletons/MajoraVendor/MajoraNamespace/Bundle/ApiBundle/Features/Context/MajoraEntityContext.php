@@ -72,6 +72,15 @@ class MajoraEntityContext implements Context
     }
 
     /**
+     * @Given I have some majora_entitiys
+     *
+     */
+    public function retrieveSomeMajoraEntitys()
+    {
+        $this->majora_entitys = $this->em->getRepository(MajoraEntity::class)->findAll();
+    }
+
+    /**
      * @When I create a new majora_entity
      */
     public function createMajoraEntity()
@@ -84,7 +93,6 @@ class MajoraEntityContext implements Context
      */
     public function testMajoraEntityId()
     {
-        var_dump($this->currentMajoraEntity);
         return $this->currentMajoraEntity->getId() != null;
     }
 
