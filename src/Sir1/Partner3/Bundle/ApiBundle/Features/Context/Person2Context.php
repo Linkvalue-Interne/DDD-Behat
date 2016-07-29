@@ -34,6 +34,8 @@ class Person2Context implements Context
      */
     private $currentPerson2;
 
+    private $currentPerson2s;
+
     /**
      * @var EntityManagerInterface
      */
@@ -72,6 +74,15 @@ class Person2Context implements Context
     }
 
     /**
+     * @Given I have some person2s
+     *
+     */
+    public function retrieveSomePerson2s()
+    {
+        $this->person2s = $this->em->getRepository(Person2::class)->findAll();
+    }
+
+    /**
      * @When I create a new person2
      */
     public function createPerson2()
@@ -80,12 +91,27 @@ class Person2Context implements Context
     }
 
     /**
+     * @When I get the person2s list
+     */
+    public function getPerson2List()
+    {
+        $this->currentPerson2s = $this->loader->retrieveAll();
+    }
+
+    /**
      * @Then I retrieve new person2 id
      */
     public function testPerson2Id()
     {
-        var_dump($this->currentPerson2);
         return $this->currentPerson2->getId() != null;
+    }
+
+    /**
+     * @Then I should see a list of person2
+     */
+    public function compareListPerson2s()
+    {
+        return $this->currentPerson2s === $this->person2s;
     }
 
     /**

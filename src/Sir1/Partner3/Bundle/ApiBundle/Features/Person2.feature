@@ -9,16 +9,16 @@ Feature: Person2 Crud.
         When I create a new person2
         Then I retrieve new person2 id
 
-#    Scenario: ReadAll
-#         Given I have some person2s
-#        When I get the person2s list
-#        Then I should see a list of person2
-#
-#    Scenario: Read
-#        Given I have created a new person2
-#        When I show this person2 by id
-#        Then I should see this person2
-#
+    Scenario: ReadAll
+        Given I have some person2s
+        When I get the person2s list
+        Then I should see a list of person2
+
+    Scenario: Read
+        Given I have created a new person2
+        When I show this person2 by id
+        Then I should see this person2
+
 #    Scenario: delete
 #        Given I have created a new person2
 #        When I delete this person2
