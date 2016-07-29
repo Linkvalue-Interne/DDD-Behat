@@ -1,19 +1,2 @@
 imports:
-    - app/config/parameters.yml
-
-default:
-    autoload:
-        '': %paths.base%/src
-    extensions:
-        Behat\Symfony2Extension: ~
-    suites:
-        dal_domain:
-            type: symfony_bundle
-            bundle: LvExampleDalBundle
-            paths:
-                - %paths.base%/src/Lv/Example/Bundle/ApiBundle/Features
-            contexts:
-                - Lv\Example\Bundle\ApiBundle\Features\Context\EntityContext:
-                    domain: '@lv.entity.domain'
-                    loader: '@Lv.entity.loader'
-                    em: '@doctrine.orm.entity_manager'
+    - app/config/behat.yml
