@@ -22,7 +22,7 @@ Feature: MajoraEntity Crud.
     Scenario: delete
         Given I have created a new majora_entity
         When I delete this majora_entity
-        Then I should not see this majora_entity in the list
+        Then I should not see this majora_entity
 
     Scenario: Update
         Given I have created a new majora_entity
