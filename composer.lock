@@ -2680,12 +2680,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/LinkValue/MajoraGeneratorBundle.git",
-                "reference": "9571e962426be7417e7116a45d455448cc78bdf7"
+                "reference": "0ff9561e9bf07426213fd28eae5ef83937456ef9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LinkValue/MajoraGeneratorBundle/zipball/9571e962426be7417e7116a45d455448cc78bdf7",
-                "reference": "9571e962426be7417e7116a45d455448cc78bdf7",
+                "url": "https://api.github.com/repos/LinkValue/MajoraGeneratorBundle/zipball/0ff9561e9bf07426213fd28eae5ef83937456ef9",
+                "reference": "0ff9561e9bf07426213fd28eae5ef83937456ef9",
                 "shasum": ""
             },
             "require": {
@@ -2724,7 +2724,7 @@
                 "generator",
                 "symfony"
             ],
-            "time": "2016-07-29 15:50:31"
+            "time": "2016-07-29 16:00:48"
         },
         {
             "name": "sensio/generator-bundle",
