@@ -17,15 +17,9 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Majora\Bundle\FrameworkExtraBundle\MajoraFrameworkExtraBundle($this),
-            new Acme\Lv\Bundle\ApiBundle\AcmeLvApiBundle(),
-            new Acme\Lv\Bundle\DalBundle\AcmeLvDalBundle(),
-            new Acme\Lv\Bundle\SdkBundle\AcmeLvSdkBundle(),
-            new Sir\Partner\Bundle\ApiBundle\SirPartnerApiBundle(),
-            new Sir\Partner\Bundle\DalBundle\SirPartnerDalBundle(),
-            new Sir\Partner\Bundle\SdkBundle\SirPartnerSdkBundle(),
-            new Sir1\Partner3\Bundle\ApiBundle\Sir1Partner3ApiBundle(),
-            new Sir1\Partner3\Bundle\DalBundle\Sir1Partner3DalBundle(),
-            new Sir1\Partner3\Bundle\SdkBundle\Sir1Partner3SdkBundle(),
+            new Lv\Example\Bundle\ApiBundle\LvExampleApiBundle(),
+            new Lv\Example\Bundle\SdkBundle\LvExampleSdkBundle(),
+            new Lv\Example\Bundle\DalBundle\LvExampleDalBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

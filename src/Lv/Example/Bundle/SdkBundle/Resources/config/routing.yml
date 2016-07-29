@@ -1,0 +1,4 @@
+
+lv_entity_sdk:
+    resource: "routing/entity.yml"
+    prefix: /entitys

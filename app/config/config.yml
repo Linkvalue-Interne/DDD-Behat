@@ -60,23 +60,11 @@ doctrine:
         entity_managers:
             default:
                 mappings:
-                    Sir1Partner3DalBundle:
+                    LvExampleDalBundle:
                         type: yml
                         dir: Resources/config/doctrine
-                        prefix: Sir1\Partner3\Component\Entity
-                        alias: Sir1Partner3
-
-                    SirPartnerDalBundle:
-                        type: yml
-                        dir: Resources/config/doctrine
-                        prefix: Sir\Partner\Component\Entity
-                        alias: SirPartner
-
-                    AcmeLvDalBundle:
-                        type: yml
-                        dir: Resources/config/doctrine
-                        prefix: Acme\Lv\Component\Entity
-                        alias: AcmeLv
+                        prefix: Lv\Example\Component\Entity
+                        alias: LvExample
 
 # Swiftmailer Configuration
 swiftmailer:

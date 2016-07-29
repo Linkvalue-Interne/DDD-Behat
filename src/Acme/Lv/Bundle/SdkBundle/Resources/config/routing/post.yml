@@ -1,8 +1,0 @@
-# @MajoraGenerator({"include_routing": {"target": "../routing.yml"}})
-# @MajoraGenerator({"include_routing": {"route": "acme_post_sdk"}})
-# @MajoraGenerator({"include_routing": {"resource": "routing/post.yml"}})
-# @MajoraGenerator({"include_routing": {"prefix": "/posts"}})
-
-# generated routes
-auto_acme_post_sdk:
-    resource: "@AcmeLvSdkBundle/Resources/config/routing/auto/auto_post.yml"

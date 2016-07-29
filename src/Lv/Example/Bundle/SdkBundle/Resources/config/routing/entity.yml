@@ -1,0 +1,8 @@
+# @MajoraGenerator({"include_routing": {"target": "../routing.yml"}})
+# @MajoraGenerator({"include_routing": {"route": "lv_entity_sdk"}})
+# @MajoraGenerator({"include_routing": {"resource": "routing/entity.yml"}})
+# @MajoraGenerator({"include_routing": {"prefix": "/entitys"}})
+
+# generated routes
+auto_lv_entity_sdk:
+    resource: "@LvExampleSdkBundle/Resources/config/routing/auto/auto_entity.yml"

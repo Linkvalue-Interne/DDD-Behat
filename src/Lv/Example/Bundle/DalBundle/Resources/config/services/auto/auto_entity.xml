@@ -1,0 +1,104 @@
+<?xml version="1.0" ?>
+
+<!-- @MajoraGenerator({"force_generation": true}) -->
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <!-- Entity abstract dal action -->
+        <service id="lv.entity.abstract_dal_action" parent="majora.domain.abstract_action" abstract="true"
+            class="Lv\Example\Component\Action\Dal\Entity\AbstractDalAction"
+        />
+
+        <!-- Entity Dal creation action -->
+        <service id="lv.entity.dal_creation_action" public="false"
+            parent="lv.entity.abstract_dal_action"
+            class="Lv\Example\Component\Action\Dal\Entity\CreateAction"
+        >
+            <tag name="majora.domain.action" namespace="lv.entity.dal" alias="create" />
+        </service>
+
+        <!-- Entity Dal edition action -->
+        <service id="lv.entity.dal_edition_action"  public="false"
+            parent="lv.entity.abstract_dal_action"
+            class="Lv\Example\Component\Action\Dal\Entity\UpdateAction"
+        >
+            <tag name="majora.domain.action" namespace="lv.entity.dal" alias="update" />
+        </service>
+
+        <!-- Entity Dal deletion action -->
+        <service id="lv.entity.dal_deletion_action" public="false"
+            parent="lv.entity.abstract_dal_action"
+            class="Lv\Example\Component\Action\Dal\Entity\DeleteAction"
+        >
+            <tag name="majora.domain.action" namespace="lv.entity.dal" alias="delete" />
+        </service>
+
+        <!-- Entity Dal action factory -->
+        <service id="lv.entity.dal_action_factory" public="false"
+            class="Majora\Framework\Domain\Action\ActionFactory"
+        >
+            <tag name="majora.domain.action_factory" namespace="lv.entity.dal" />
+            <tag name="majora.alias" alias="lv.entity.action_factory" />
+        </service>
+
+        <!-- Entity Orm Loader -->
+        <service id="example.entity.orm_loader"
+            class="Lv\Example\Component\Loader\Doctrine\EntityDoctrineLoader"
+            parent="majora.loader.abstract"
+            public="true" lazy="true"
+        >
+            <argument type="service" id="example.entity.orm_repository" />
+            <tag name="majora.loader"
+                repository="example.entity.orm_repository"
+                entityClass="Lv\Example\Component\Entity\Entity"
+                entityCollection="Lv\Example\Component\Entity\EntityCollection"
+            />
+            <tag name="majora.alias" alias="lv.entity.loader" />
+        </service>
+
+        <!-- Entity Orm Repository -->
+        <service id="example.entity.orm_repository"
+            class="Lv\Example\Component\Repository\Doctrine\EntityDoctrineRepository"
+            parent="majora.doctrine_repository.abstract"
+            public="false"
+        >
+            <factory service="doctrine" method="getRepository" />
+            <argument>LvExample:Entity</argument>
+            <argument>default</argument>
+            <tag name="majora.alias" alias="lv.entity.repository" />
+        </service>
+
+        <!-- Entity Graph Loader -->
+        <service id="lv.entity.graph_loader"
+            class="Lv\Example\Component\Loader\Graph\EntityGraphLoader"
+            parent="majora.loader.abstract"
+            public="false" lazy="true"
+        >
+            <tag name="majora.loader"
+                entityClass="Lv\Example\Component\Entity\Entity"
+                entityCollection="Lv\Example\Component\Entity\EntityCollection"
+            />
+        </service>
+
+        <!-- Entity Graph Repository -->
+        <service id="lv.entity.graph_repository"
+            class="Lv\Example\Component\Repository\Graph\EntityGraphRepository"
+            parent="majora.graph_repository.abstract"
+            public="false" lazy="true"
+        />
+
+        <!-- Entity Persistence Listener -->
+        <service id="lv.entity.persistence_listener" public="true"
+            class="Lv\Example\Bundle\DalBundle\Persistence\EntityPersistenceListener"
+        >
+            <tag name="kernel.event_subscriber" />
+            <argument type="service" id="lv.entity.repository" />
+        </service>
+
+    </services>
+
+</container>

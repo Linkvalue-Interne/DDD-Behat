@@ -1,0 +1,58 @@
+# @MajoraGenerator({"register_doctrine_em": {"target": "/config/config.yml"}})
+# @MajoraGenerator({"register_doctrine_em": {"em": "default"}})
+# @MajoraGenerator({"register_doctrine_em": {"prefix": "Lv\\Example\\Component\\Entity"}})
+# @MajoraGenerator({"register_doctrine_em": {"bundle": "LvExampleDalBundle"}})
+# @MajoraGenerator({"register_doctrine_em": {"alias": "LvExample"}})
+
+Lv\Example\Component\Entity\Entity:
+    type: entity
+    repositoryClass: Lv\Example\Component\Repository\Doctrine\EntityDoctrineRepository
+    table: lv_example_entity
+    actAs:
+        Timestampable: ~
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+
+        # your other Entity properties here
+
+        createdAt:
+            type: datetime
+            column: created_at
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            column: updated_at
+            gedmo:
+                timestampable:
+                    on: update
+
+    # manyToOne:
+    #     example:
+    #         targetEntity: Example
+    #         inversedBy: entitys
+    #         joinColumn:
+    #             name: example_id
+    #             referencedColumnName: id
+
+    # oneToMany:
+    #     examples:
+    #         targetEntity: Example
+    #         mappedBy: entity
+    #         cascade: ['persist', 'remove']
+
+    # manyToMany:
+    #     examples:
+    #         targetEntity: Example
+    #         joinTable:
+    #             name: lv_example_entity_example
+    #             joinColumns:
+    #                 entity_id:
+    #                     referencedColumnName: id
+    #             inverseJoinColumns:
+    #                 example_id:
+    #                     referencedColumnName: id

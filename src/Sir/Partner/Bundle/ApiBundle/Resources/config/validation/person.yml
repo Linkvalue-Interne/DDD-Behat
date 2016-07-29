@@ -1,5 +1,0 @@
-Sir\Partner\Component\Entity\Person:
-    properties: ~
-        # example:
-        #     - NotBlank:
-        #         groups: [creation]

@@ -9,12 +9,11 @@ default:
     suites:
         dal_domain:
             type: symfony_bundle
-            bundle: Sir1Partner3DalBundle
+            bundle: LvExampleDalBundle
             paths:
-                #- %paths.base%/src/Acme/Lv/Bundle/ApiBundle/Features
-                - %paths.base%/src/Sir1/Partner3/Bundle/ApiBundle/Features
+                - %paths.base%/src/Lv/Example/Bundle/ApiBundle/Features
             contexts:
-                - Sir1\Partner3\Bundle\ApiBundle\Features\Context\Person2Context:
-                    domain: '@sir1.person2.domain'
-                    loader: '@sir1.person2.loader'
+                - Lv\Example\Bundle\ApiBundle\Features\Context\EntityContext:
+                    domain: '@lv.entity.domain'
+                    loader: '@Lv.entity.loader'
                     em: '@doctrine.orm.entity_manager'
